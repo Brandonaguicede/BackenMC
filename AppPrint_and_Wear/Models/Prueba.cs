@@ -2,5 +2,6 @@
 {
     public class Prueba
     {
+        string nombre { get; set; }
     }
 }

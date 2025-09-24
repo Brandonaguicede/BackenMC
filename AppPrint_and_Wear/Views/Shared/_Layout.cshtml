@@ -2,24 +2,61 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <
+    <title>@ViewData["Title"] - Print & Wear</title>
+
+    
 
     <link rel="stylesheet" href="~/css/LandingPage.css" asp-append-version="true" />
-    @* otras hojas de estilo *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    @RenderSection("HeadContent", required: false)
 </head>
 <body>
-    <header>
-        @* nav / header *@
+    
+    <header class="site-header">
+        <div class="logo-titulo">
+            <img src="~/Imagenes/Logo.png" alt="Logo Print & Wear" class="logo" />
+            <h1>Print & Wear</h1>
+        </div>
+        <h2>“Tu camisa ideal en un clic”</h2>
+        <nav aria-label="NavegaciónPrincipal">
+            <ul class="cta-buttons">
+                <li><a href="#sobre-empresa">Sobre nuestra empresa</a></li>
+                <li><a href="#ventajas">Ventajas</a></li>
+                <li><a href="#destacado">Destacado</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto">Contactar</a></li>
+            </ul>
+        </nav>
     </header>
 
+    <!-- Contenido principal -->
     <main role="main" class="container">
         @RenderBody()
     </main>
 
-    @* scripts globales opcionales *@
+    <!-- Footer global -->
+    <footer>
+        <p>&copy; @DateTime.Now.Year Print & Wear - Todos los derechos reservados</p>
+        <a href="#" target="_blank" rel="noopener">Políticas de Privacidad</a> |
+        <a href="#" target="_blank" rel="noopener">Términos y Condiciones</a>
+        <div class="social-footer">
+            <a href="https://www.instagram.com/print.andwear" target="_blank" rel="noopener">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+        <div class="metodos-pago">
+            <img src="~/Imagenes/VisaLogo.png" alt="Visa">
+            <img src="~/Imagenes/MastercardLogo.png" alt="Mastercard">
+            <img src="~/Imagenes/PaypalLogo.png" alt="PayPal">
+        </div>
+    </footer>
+
+    
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @* ⬇️ Las secciones de scripts de las vistas se inyectan aquí *@
+  
     @RenderSection("Scripts", required: false)
 </body>
 </html>

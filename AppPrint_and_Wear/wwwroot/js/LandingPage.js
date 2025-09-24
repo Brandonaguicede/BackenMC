@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
-
     // ===== Formulario =====
     const form = document.getElementById("formContacto");
     const box = document.getElementById("confirmacion");
 
     if (form) {
-        form.addEventListener("submit", e => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
-            const website = document.getElementById("website");
-            if (website && website.value) return; 
 
-            const nombre = document.getElementById("nombre").value.trim();
-            const correo = document.getElementById("correo").value.trim();
-            const telefono = document.getElementById("telefono").value.trim();
-            const mensaje = document.getElementById("mensaje").value.trim();
+            // Honeypot
+            const website = document.getElementById("website");
+            if (website && website.value) return;
+
+            const nombre = document.getElementById("nombre")?.value.trim();
+            const correo = document.getElementById("correo")?.value.trim();
+            const telefono = document.getElementById("telefono")?.value.trim();
+            const mensaje = document.getElementById("mensaje")?.value.trim();
 
             if (!nombre || !correo || !telefono || !mensaje) {
                 mostrarConfirmacion("⚠️ Por favor, complete todos los campos.", "error");
@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!box) return;
         box.textContent = msg;
         box.className = tipo === "error" ? "mensaje error" : "mensaje ok";
-        box.style.display = "block";
-        setTimeout(() => { box.style.display = "none"; }, 4000);
+        box.hidden = false;
+        setTimeout(() => { box.hidden = true; }, 4000);
     }
 
     // ===== Carrusel =====
@@ -51,7 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnRight = document.querySelector(".carrusel-btn.right");
 
     if (carrusel && btnLeft && btnRight) {
-        const itemGap = 20;
+        const GAP_FALLBACK = 20;
+
+        const firstItemWidth = () => {
+            const firstItem = carrusel.querySelector(".carrusel-item");
+            return firstItem ? firstItem.offsetWidth : 300;
+        };
+
+        const getGap = () => {
+            // Intenta leer gap real del CSS
+            const cs = getComputedStyle(carrusel);
+            const gap = parseFloat(cs.columnGap || cs.gap || GAP_FALLBACK);
+            return isNaN(gap) ? GAP_FALLBACK : gap;
+        };
 
         const actualizarBotones = () => {
             const maxScroll = carrusel.scrollWidth - carrusel.clientWidth;
@@ -59,22 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
             btnRight.disabled = carrusel.scrollLeft >= maxScroll - 1;
         };
 
+        const step = () => firstItemWidth() + getGap();
+
         btnRight.addEventListener("click", () => {
-            const firstItem = carrusel.querySelector('.carrusel-item');
-            if (!firstItem) return;
-            carrusel.scrollBy({ left: firstItem.offsetWidth + itemGap, behavior: 'smooth' });
-            setTimeout(actualizarBotones, 600);
+            carrusel.scrollBy({ left: step(), behavior: "smooth" });
+            setTimeout(actualizarBotones, 350);
         });
 
         btnLeft.addEventListener("click", () => {
-            const firstItem = carrusel.querySelector('.carrusel-item');
-            if (!firstItem) return;
-            carrusel.scrollBy({ left: -(firstItem.offsetWidth + itemGap), behavior: 'smooth' });
-            setTimeout(actualizarBotones, 600);
+            carrusel.scrollBy({ left: -step(), behavior: "smooth" });
+            setTimeout(actualizarBotones, 350);
         });
 
-        carrusel.addEventListener('scroll', actualizarBotones);
-        window.addEventListener('resize', actualizarBotones);
+        carrusel.addEventListener("scroll", actualizarBotones);
+        window.addEventListener("resize", actualizarBotones);
         actualizarBotones();
     }
 
@@ -87,38 +97,57 @@ document.addEventListener("DOMContentLoaded", () => {
     const tallaOpciones = document.getElementById("talla-opciones");
     const cerrar = document.querySelector(".modal .cerrar");
 
-    document.querySelectorAll(".btn-detalles").forEach(boton => {
-        boton.addEventListener("click", e => {
-            e.preventDefault();
-            const producto = e.target.closest(".carrusel-item");
-            if (!producto) return;
+    const abrirModal = (producto) => {
+        if (!modal) return;
 
-            modalNombre.textContent = producto.dataset.nombre;
-            precioMonto.textContent = producto.dataset.precio;
-            modalInfo.textContent = producto.dataset.detalles;
+        if (modalNombre) modalNombre.textContent = producto?.dataset?.nombre || "";
+        if (precioMonto) precioMonto.textContent = producto?.dataset?.precio || "";
+        if (modalInfo) modalInfo.textContent = producto?.dataset?.detalles || "";
 
+        if (colorOpciones) {
             colorOpciones.innerHTML = "";
-            (producto.dataset.colores || "").split(",").forEach(color => {
-                const span = document.createElement("span");
-                span.className = "color-circle";
-                span.style.backgroundColor = color;
-                span.title = color;
-                colorOpciones.appendChild(span);
-            });
+            (producto?.dataset?.colores || "")
+                .split(",")
+                .map(c => c.trim())
+                .filter(Boolean)
+                .forEach(color => {
+                    const span = document.createElement("span");
+                    // Usa tu clase actual; si tu CSS espera .color-chip, cámbiala aquí
+                    span.className = "color-circle";
+                    span.style.backgroundColor = color;
+                    span.title = color;
+                    colorOpciones.appendChild(span);
+                });
+        }
 
+        if (tallaOpciones) {
             tallaOpciones.innerHTML = "";
-            (producto.dataset.tallas || "").split(",").forEach(talla => {
-                const span = document.createElement("span");
-                span.className = "talla-item";
-                span.textContent = talla;
-                tallaOpciones.appendChild(span);
-            });
+            (producto?.dataset?.tallas || "")
+                .split(",")
+                .map(t => t.trim())
+                .filter(Boolean)
+                .forEach(talla => {
+                    const span = document.createElement("span");
+                    // Igual que arriba, ajusta si tu CSS usa .talla-chip
+                    span.className = "talla-item";
+                    span.textContent = talla;
+                    tallaOpciones.appendChild(span);
+                });
+        }
 
-            modal.style.display = "block";
+        modal.style.display = "block";
+    };
+
+    document.querySelectorAll(".btn-detalles").forEach((boton) => {
+        boton.addEventListener("click", (e) => {
+            e.preventDefault();
+            const producto = e.currentTarget.closest(".carrusel-item");
+            if (producto) abrirModal(producto);
         });
     });
 
-    cerrar.addEventListener("click", () => { modal.style.display = "none"; });
-    window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-
+    cerrar?.addEventListener("click", () => { if (modal) modal.style.display = "none"; });
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    });
 });

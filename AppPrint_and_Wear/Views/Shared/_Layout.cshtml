@@ -1,8 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="utf-8"2/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <
+
     <title>@ViewData["Title"] - Print & Wear</title>
 
     
@@ -13,11 +15,20 @@
     @RenderSection("HeadContent", required: false)
 </head>
 <body>
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div id="mensaje-exito" class="mensaje-exito">
+            @TempData["MensajeExito"]
+        </div>
+    }
     
     <header class="site-header">
+          <!-- Botón para abrir el modal de registro -->
+        <button id="btn-registrarse" class="btn-flotante">Registrarse</button>
         <div class="logo-titulo">
             <img src="~/Imagenes/Logo.png" alt="Logo Print & Wear" class="logo" />
             <h1>Print & Wear</h1>
+
         </div>
         <h2>“Tu camisa ideal en un clic”</h2>
         <nav aria-label="NavegaciónPrincipal">
@@ -29,6 +40,7 @@
                 <li><a href="#contacto">Contactar</a></li>
             </ul>
         </nav>
+      
     </header>
 
     <!-- Contenido principal -->

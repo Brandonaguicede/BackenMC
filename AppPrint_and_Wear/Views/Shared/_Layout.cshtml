@@ -1,8 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <
+
+    <meta charset="utf-8"2/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+
     <title>@ViewData["Title"] - Print & Wear</title>
 
     
@@ -12,12 +14,32 @@
 
     @RenderSection("HeadContent", required: false)
 </head>
-<body>
+<body class="@(User.Identity.IsAuthenticated ? "logeado" : "")">
+
+    @if (TempData["MensajeError"] != null)
+    {
+        <div id="mensaje-error" class="mensaje-error">
+            @TempData["MensajeError"]
+        </div>
+    }
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div id="mensaje-exito" class="mensaje-exito">
+            @TempData["MensajeExito"]
+        </div>
+    }
+
     
     <header class="site-header">
+        <div class="btn-flotantes">
+            <button id="btn-registrarse" class="btn-flotante">Registrarse</button>
+            <button id="btn-login" class="btn-flotante">Iniciar sesión</button>
+        </div>
+
         <div class="logo-titulo">
             <img src="~/Imagenes/Logo.png" alt="Logo Print & Wear" class="logo" />
             <h1>Print & Wear</h1>
+
         </div>
         <h2>“Tu camisa ideal en un clic”</h2>
         <nav aria-label="NavegaciónPrincipal">
@@ -29,6 +51,7 @@
                 <li><a href="#contacto">Contactar</a></li>
             </ul>
         </nav>
+      
     </header>
 
     <!-- Contenido principal -->

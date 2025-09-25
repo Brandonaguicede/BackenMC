@@ -7,7 +7,7 @@ namespace AppPrint_and_Wear.Models
     {
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
-        public string Contraceña { get; set;}
+        public string Contraseña { get; set;}
         public int Telefono { get; set; }
         public string Correo { get; set; }
         public string Direccion {  get; set; }

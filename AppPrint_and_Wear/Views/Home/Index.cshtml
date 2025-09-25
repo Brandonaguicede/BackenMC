@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="ventajas reveal" id="ventajas">
+    <div class="ventajas" id="ventajas">
         <h3>Ventajas</h3>
         <div class="ventaja-grid">
             <div class="ventaja">
@@ -50,9 +50,8 @@
 <section id="destacado">
     <h2>Productos Destacados</h2>
 
-    <div class="carrusel-container">
+   <div class="carrusel-container" >
 
-        <div class="carrusel-container">
             <button class="carrusel-btn left">&#10094;</button>
 
             
@@ -269,7 +268,6 @@
        
         <div class="ver-catalogo">
             <button type="button">Ver catálogo completo</button>
-            </a>
         </div>
  
 </section>
@@ -320,7 +318,6 @@
 
 <section id="contacto">
     <h2>Contacto</h2>
-    <h2>Contacto</h2>
 
     <div id="confirmacion" class="confirmacion" role="status" aria-live="polite" hidden></div>
 
@@ -358,7 +355,58 @@
     </div>
 
 </section>
+<!-- Modal de registro de cliente -->
+<div id="modal-registro" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-registro">&times;</span>
+        <h3>Registro de Cliente</h3>
+        <div id="mensaje-registro" class="mensaje-flotante"></div>
+
+        <form asp-controller="Clientes" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <input type="text" name="Nombre" placeholder="Nombre" required />
+            <input type="text" name="Apellidos" placeholder="Apellidos" required />
+            <input type="email" name="Correo" placeholder="Correo" required />
+            <input type="tel" name="Telefono" placeholder="Teléfono" required />
+            <input type="password" name="Contraseña" placeholder="Contraseña" required />
+            <input type="text" name="Direccion" placeholder="Dirección" />
+            <input type="date" name="FechaNacimiento" placeholder="Fecha de Nacimiento" />
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de inicio de sesión -->
+<div id="modal-login" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-login">&times;</span>
+        <h2>Iniciar Sesión</h2>
+        <form id="form-login" method="post" action="/Clientes/Login">
+            <input type="email" name="Correo" placeholder="Correo electrónico" required />
+            <input type="password" name="Contraseña" placeholder="Contraseña" required />
+            <button type="submit">Entrar</button>
+            <div id="mensaje-login" style="display:none; margin-top:10px; font-weight:bold;"></div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const mensajes = ['mensaje-exito', 'mensaje-error'];
+
+            mensajes.forEach(id => {
+                const mensaje = document.getElementById(id);
+                if (mensaje) {
+                    // Mostrar mensaje
+                    mensaje.classList.add('mostrar');
+                    // Ocultar después de 4 segundos
+                    setTimeout(() => {
+                        mensaje.classList.remove('mostrar');
+                    }, 4000);
+                }
+            });
+        });
+    </script>
     <script src="~/js/LandingPage.js" defer asp-append-version="true"></script>
 }

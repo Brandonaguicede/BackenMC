@@ -776,19 +776,18 @@ footer {
 
 
 
-
-
-/* Modal flotante */
+/* ===========================
+   MODALES (Registro y Login)
+   =========================== */
 .modal {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0;
-    top: 0;
+    inset: 0; /* top, left, right, bottom: 0 */
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.5);
+    overflow: auto;
 }
 
 .modal-contenido {
@@ -799,52 +798,137 @@ footer {
     width: 90%;
     max-width: 500px;
     position: relative;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    animation: fadeIn 0.3s ease;
 }
 
-.cerrar-registro {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal input,
+.modal button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Botones generales (sin color fijo) */
+.modal button {
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Botón registro dentro del modal */
+.btn-modal-registro {
+    background-color: #128C7E; /* verde */
+    color: white;
+}
+
+    .btn-modal-registro:hover {
+        background-color: #0f7a66;
+    }
+
+/* Botón login dentro del modal */
+.btn-modal-login {
+    background-color: #E67E22; /* naranja */
+    color: white;
+}
+
+    .btn-modal-login:hover {
+        background-color: #CA6F1E;
+    }
+
+
+
+/* Botón cerrar (X) */
+.cerrar-registro,
+.cerrar-login {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 1.5rem;
     cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
 }
 
-.modal input, .modal button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 1rem;
-}
-/* Botón de registro estilo solo texto */
-.btn-flotante {
+    .cerrar-registro:hover,
+    .cerrar-login:hover {
+        color: #128C7E;
+    }
+
+
+
+
+
+/* ===========================
+   BOTONES FLOTANTES
+   =========================== */
+.btn-flotantes {
     position: absolute;
     top: 15px;
-    left: 15px;
+    left: 15px; /* posición del grupo */
     z-index: 1010;
-    /* Estilos estéticos */
-    padding: 5px 10px;
+    display: flex;
+    gap: 5px; /* separación entre los botones */
+}
+
+/* Estilo base de los botones */
+.btn-flotante {
+    padding: 6px 12px;
     font-size: 1rem;
     font-weight: 600;
-    color: #128C7E;
-    background: transparent;
     border: none;
     cursor: pointer;
+    background: transparent;
     transition: color 0.3s, transform 0.2s;
 }
 
-    .btn-flotante:hover {
+/* Registrarse (verde tipo WhatsApp) */
+#btn-registrarse {
+    color: #128C7E;
+}
+
+    #btn-registrarse:hover {
         color: #0f7a66;
         transform: translateY(-2px);
     }
 
+/* Iniciar sesión (naranja) */
+#btn-login {
+    color: #E67E22;
+}
 
-.mensaje-exito {
+    #btn-login:hover {
+        color: #CA6F1E;
+        transform: translateY(-2px);
+    }
+
+
+/* ===========================
+   MENSAJES EMERGENTES
+   =========================== */
+.mensaje-exito,
+.mensaje-error {
     position: fixed;
-    top: 20px; 
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%) translateY(-20px); 
-    background-color: #128C7E;
+    transform: translateX(-50%) translateY(-20px);
     color: white;
     padding: 15px 25px;
     border-radius: 8px;
@@ -855,7 +939,28 @@ footer {
     transition: opacity 0.5s, transform 0.5s;
 }
 
-    .mensaje-exito.mostrar {
+/* Verde éxito */
+.mensaje-exito {
+    background-color: #128C7E;
+}
+
+/* Rojo error */
+.mensaje-error {
+    background-color: #E74C3C;
+}
+
+    /* Mostrar con animación */
+    .mensaje-exito.mostrar,
+    .mensaje-error.mostrar {
         opacity: 1;
-        transform: translateX(-50%) translateY(0); /* se desliza hacia su posición */
+        transform: translateX(-50%) translateY(0);
     }
+
+
+
+/* Oculta los botones de registro y login cuando el usuario ya está logeado */
+body.logeado #btn-registrarse,
+body.logeado #btn-login {
+    display: none !important;
+}
+

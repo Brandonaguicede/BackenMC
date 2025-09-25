@@ -52,23 +52,60 @@ namespace AppPrint_and_Wear.Controllers
         // POST: Clientes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Clientes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Carrito_De_Compra,Nombre,Apellidos,Contraseña,Telefono,Correo,Direccion,FechaNacimiento")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
+                // Validar si ya existe un cliente con ese correo
+                var existe = await _context.Clientes.AnyAsync(c => c.Correo == cliente.Correo);
+
+                if (existe)
+                {
+                    TempData["MensajeError"] = "El correo ya está registrado. Por favor, inicie sesión.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // Si no existe, registramos al cliente
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
 
-                // Guardamos mensaje de éxito
-                TempData["MensajeExito"] = "¡Registro exitoso! Bienvenido a Print & Wear.";
-
-                // Redirige a la misma página o al Index
+                TempData["MensajeExito"] = "¡Registro exitoso! Ahora inicia sesión.";
                 return RedirectToAction("Index", "Home");
             }
+
             return View(cliente);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string correo, string contraseña)
+        {
+            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(contraseña))
+            {
+                return Json(new { success = false, message = "Por favor complete ambos campos." });
+            }
+
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Correo == correo);
+
+            if (cliente == null)
+                return Json(new { success = false, message = "El correo no está registrado. Por favor, regístrese." });
+
+            if (cliente.Contraseña != contraseña)
+                return Json(new { success = false, message = "Contraseña incorrecta." });
+
+            // Aquí inicias sesión, ejemplo: 
+            // await SignInAsync(cliente);
+
+            return Json(new { success = true, message = $"¡Bienvenido, {cliente.Nombre}!" });
+        }
+
+
+
+
 
 
         // GET: Clientes/Edit/5

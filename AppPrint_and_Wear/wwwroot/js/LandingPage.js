@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // ===================================
     // LÓGICA DEL FORMULARIO DE CONTACTO
     // ===================================
@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
     if (formContacto) {
         formContacto.addEventListener("submit", (e) => {
             e.preventDefault();
-
             const website = document.getElementById("website");
             if (website && website.value) return;
 
@@ -59,31 +58,26 @@ document.addEventListener("DOMContentLoaded", function() {
             const firstItem = carrusel.querySelector(".carrusel-item");
             return firstItem ? firstItem.offsetWidth : 300;
         };
-
         const getGap = () => {
             const cs = getComputedStyle(carrusel);
             const gap = parseFloat(cs.columnGap || cs.gap || GAP_FALLBACK);
             return isNaN(gap) ? GAP_FALLBACK : gap;
         };
-
         const actualizarBotones = () => {
             const maxScroll = carrusel.scrollWidth - carrusel.clientWidth;
             btnLeft.disabled = carrusel.scrollLeft <= 0;
             btnRight.disabled = carrusel.scrollLeft >= maxScroll - 1;
         };
-
         const step = () => firstItemWidth() + getGap();
 
         btnRight.addEventListener("click", () => {
             carrusel.scrollBy({ left: step(), behavior: "smooth" });
             setTimeout(actualizarBotones, 350);
         });
-
         btnLeft.addEventListener("click", () => {
             carrusel.scrollBy({ left: -step(), behavior: "smooth" });
             setTimeout(actualizarBotones, 350);
         });
-
         carrusel.addEventListener("scroll", actualizarBotones);
         window.addEventListener("resize", actualizarBotones);
         actualizarBotones();
@@ -102,30 +96,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const abrirModalDetalles = (producto) => {
         if (!modalDetalles) return;
-
         if (modalNombre) modalNombre.textContent = producto?.dataset?.nombre || "";
         if (precioMonto) precioMonto.textContent = producto?.dataset?.precio || "";
         if (modalInfo) modalInfo.textContent = producto?.dataset?.detalles || "";
 
         if (colorOpciones) {
             colorOpciones.innerHTML = "";
-            (producto?.dataset?.colores || "").split(",").map(c => c.trim()).filter(Boolean).forEach(color => {
-                const span = document.createElement("span");
-                span.className = "color-circle";
-                span.style.backgroundColor = color;
-                span.title = color;
-                colorOpciones.appendChild(span);
-            });
+            (producto?.dataset?.colores || "").split(",").map(c => c.trim()).filter(Boolean)
+                .forEach(color => {
+                    const span = document.createElement("span");
+                    span.className = "color-circle";
+                    span.style.backgroundColor = color;
+                    span.title = color;
+                    colorOpciones.appendChild(span);
+                });
         }
 
         if (tallaOpciones) {
             tallaOpciones.innerHTML = "";
-            (producto?.dataset?.tallas || "").split(",").map(t => t.trim()).filter(Boolean).forEach(talla => {
-                const span = document.createElement("span");
-                span.className = "talla-item";
-                span.textContent = talla;
-                tallaOpciones.appendChild(span);
-            });
+            (producto?.dataset?.tallas || "").split(",").map(t => t.trim()).filter(Boolean)
+                .forEach(talla => {
+                    const span = document.createElement("span");
+                    span.className = "talla-item";
+                    span.textContent = talla;
+                    tallaOpciones.appendChild(span);
+                });
         }
         modalDetalles.style.display = "block";
     };
@@ -145,13 +140,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     window.addEventListener("click", (e) => {
-        if (e.target === modalDetalles) {
-            modalDetalles.style.display = "none";
-        }
+        if (e.target === modalDetalles) modalDetalles.style.display = "none";
     });
-    
+
     // =========================================
-    // LÓGICA DEL MODAL DE REGISTRO DE CLIENTES
+    // MODAL DE REGISTRO CON VALIDACIÓN
     // =========================================
     const btnRegistro = document.getElementById("btn-registrarse");
     const modalRegistro = document.getElementById("modal-registro");
@@ -159,27 +152,43 @@ document.addEventListener("DOMContentLoaded", function() {
     const formRegistro = document.getElementById("form-registro");
     const mensajeRegistro = document.getElementById("mensaje-registro");
 
+    function ocultarBotonesFlotantes() {
+        document.querySelectorAll("#btn-registrarse, #btn-login")
+            .forEach(btn => btn.style.display = "none");
+    }
+
+    function validarCorreo(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+
     if (btnRegistro) {
-        btnRegistro.addEventListener("click", () => {
-            modalRegistro.style.display = "block";
-        });
+        btnRegistro.addEventListener("click", () => modalRegistro.style.display = "block");
     }
 
     if (cerrarRegistro) {
-        cerrarRegistro.addEventListener("click", () => {
-            modalRegistro.style.display = "none";
-        });
+        cerrarRegistro.addEventListener("click", () => modalRegistro.style.display = "none");
     }
 
     window.addEventListener("click", (event) => {
-        if (event.target === modalRegistro) {
-            modalRegistro.style.display = "none";
-        }
+        if (event.target === modalRegistro) modalRegistro.style.display = "none";
     });
 
     if (formRegistro) {
-        formRegistro.addEventListener("submit", function(event) {
+        formRegistro.addEventListener("submit", function (event) {
             event.preventDefault();
+
+            const correo = formRegistro.querySelector("#registro-correo")?.value.trim();
+            const telefono = formRegistro.querySelector("#registro-telefono")?.value.trim();
+
+            if (!validarCorreo(correo)) {
+                mensajeRegistro.textContent = "⚠️ El correo no es válido";
+                mensajeRegistro.style.color = "red";
+                mensajeRegistro.style.display = "block";
+                return;
+            }
+
 
             const formData = new FormData(formRegistro);
 
@@ -190,28 +199,66 @@ document.addEventListener("DOMContentLoaded", function() {
                     'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+                .then(response => response.json())
+                .then(data => {
                     mensajeRegistro.textContent = data.message;
-                    mensajeRegistro.style.color = "green";
-                    formRegistro.reset(); 
-                } else {
-                    mensajeRegistro.textContent = data.message;
+                    mensajeRegistro.style.color = data.success ? "green" : "red";
+                    mensajeRegistro.style.display = "block";
+
+                    if (data.success) {
+                        formRegistro.reset();
+                        ocultarBotonesFlotantes();
+                    }
+
+                    setTimeout(() => mensajeRegistro.style.display = "none", 5000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    mensajeRegistro.textContent = "Ocurrió un error inesperado al conectar con el servidor.";
                     mensajeRegistro.style.color = "red";
-                }
-                
-                mensajeRegistro.style.display = "block";
-                setTimeout(() => {
-                    mensajeRegistro.style.display = "none";
-                }, 5000);
+                    mensajeRegistro.style.display = "block";
+                });
+        });
+    }
+
+    // =========================================
+    // MODAL DE LOGIN DE CLIENTES
+    // =========================================
+    const btnLogin = document.getElementById("btn-login");
+    const modalLogin = document.getElementById("modal-login");
+    const cerrarLogin = document.querySelector(".cerrar-login");
+    const formLogin = document.getElementById("form-login");
+    const mensajeLogin = document.getElementById("mensaje-login");
+
+    if (btnLogin) btnLogin.addEventListener("click", () => modalLogin.style.display = "block");
+    if (cerrarLogin) cerrarLogin.addEventListener("click", () => modalLogin.style.display = "none");
+    window.addEventListener("click", (event) => { if (event.target === modalLogin) modalLogin.style.display = "none"; });
+
+    if (formLogin) {
+        formLogin.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(formLogin);
+
+            fetch(formLogin.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                mensajeRegistro.textContent = "Ocurrió un error inesperado al conectar con el servidor.";
-                mensajeRegistro.style.color = "red";
-                mensajeRegistro.style.display = "block";
-            });
+                .then(response => response.json())
+                .then(data => {
+                    mensajeLogin.textContent = data.message;
+                    mensajeLogin.style.color = data.success ? "green" : "red";
+                    mensajeLogin.style.display = "block";
+
+                    if (data.success) ocultarBotonesFlotantes();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    mensajeLogin.textContent = "Ocurrió un error inesperado al conectar con el servidor.";
+                    mensajeLogin.style.color = "red";
+                    mensajeLogin.style.display = "block";
+                });
         });
     }
 });

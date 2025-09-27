@@ -1,0 +1,59 @@
+﻿@model AppPrint_and_Wear.Models.Envio
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Envio</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EnvioId" />
+            <div class="form-group">
+                <label asp-for="Direccion_De_Envio" class="control-label"></label>
+                <input asp-for="Direccion_De_Envio" class="form-control" />
+                <span asp-validation-for="Direccion_De_Envio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippingDate" class="control-label"></label>
+                <input asp-for="ShippingDate" class="form-control" />
+                <span asp-validation-for="ShippingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tiempo_Estimado" class="control-label"></label>
+                <input asp-for="Tiempo_Estimado" class="form-control" />
+                <span asp-validation-for="Tiempo_Estimado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Numero_De_Rastreo" class="control-label"></label>
+                <input asp-for="Numero_De_Rastreo" class="form-control" />
+                <span asp-validation-for="Numero_De_Rastreo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Carrito_De_CompraId" class="control-label"></label>
+                <select asp-for="Carrito_De_CompraId" class="form-control" asp-items="ViewBag.Carrito_De_CompraId"></select>
+                <span asp-validation-for="Carrito_De_CompraId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AppPrint_and_Wear.Models.Metodo_De_Pago>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Metodo_Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero_Tarjeta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CVV)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Metodo_Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numero_Tarjeta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpirationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CVV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.ClienteId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Metodo_De_PagoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Metodo_De_PagoId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Metodo_De_PagoId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

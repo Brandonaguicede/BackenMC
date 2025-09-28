@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AppPrint_and_Wear.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace AppPrint_and_Wear.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contraceña = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefono = table.Column<int>(type: "int", nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -39,7 +39,7 @@ namespace AppPrint_and_Wear.Migrations
                     Carrito_De_Compra = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contraceña = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefono = table.Column<int>(type: "int", nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -51,19 +51,34 @@ namespace AppPrint_and_Wear.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Productos",
+                name: "Personalizaciones",
                 columns: table => new
                 {
-                    ProductoId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descriccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Precio = table.Column<double>(type: "float", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false)
+                    CamisaId = table.Column<int>(type: "int", nullable: false),
+                    TextoEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagenEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PosicionEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Productos", x => x.ProductoId);
+                    table.PrimaryKey("PK_Personalizaciones", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Productos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Talla = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Material = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Productos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +98,7 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,7 +122,7 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,14 +144,13 @@ namespace AppPrint_and_Wear.Migrations
                         name: "FK_CartItems_Carrito_De_Compras_Carrito_De_CompraId",
                         column: x => x.Carrito_De_CompraId,
                         principalTable: "Carrito_De_Compras",
-                        principalColumn: "Carrito_De_CompraId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Carrito_De_CompraId");
                     table.ForeignKey(
                         name: "FK_CartItems_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
-                        principalColumn: "ProductoId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,7 +174,7 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.Carrito_De_CompraId,
                         principalTable: "Carrito_De_Compras",
                         principalColumn: "Carrito_De_CompraId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -205,6 +219,9 @@ namespace AppPrint_and_Wear.Migrations
 
             migrationBuilder.DropTable(
                 name: "Metodo_De_Pagos");
+
+            migrationBuilder.DropTable(
+                name: "Personalizaciones");
 
             migrationBuilder.DropTable(
                 name: "Productos");

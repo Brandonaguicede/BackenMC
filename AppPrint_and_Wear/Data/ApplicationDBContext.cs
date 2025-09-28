@@ -5,7 +5,7 @@ namespace AppPrint_and_Wear.Data
     public class ApplicationDBContext : DbContext
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
-            : base(options)
+ : base(options)
         {
         }
         public DbSet<Administrador> Administradores { get; set; }
@@ -16,13 +16,11 @@ namespace AppPrint_and_Wear.Data
         public DbSet<Metodo_De_Pago> Metodo_De_Pagos { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Desactivar CASCADE DELETE globalmente funciona para todas las entidades para evitar conflictos
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-        }
+        public DbSet<Personalizacion> Personalizaciones { get; set; }
+
+
+
+
+
     }
 }

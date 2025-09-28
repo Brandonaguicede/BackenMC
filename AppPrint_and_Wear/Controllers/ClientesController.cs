@@ -79,16 +79,21 @@ namespace AppPrint_and_Wear.Controllers
             return View(cliente);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string correo, string contraseña)
         {
-            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(contraseña))
+            string empresaCorreo = "empresa@printwear.com";
+            string empresaContraseña = "Empresa123";
+
+            // Login de la empresa
+            if (correo == empresaCorreo && contraseña == empresaContraseña)
             {
-                return Json(new { success = false, message = "Por favor complete ambos campos." });
+                // Redirigir al Home/Index de MVC
+                return Json(new { success = true, redirectUrl = Url.Action("Index", "HomeEmpresa") });
             }
 
+            // Login de clientes
             var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Correo == correo);
 
             if (cliente == null)
@@ -97,11 +102,11 @@ namespace AppPrint_and_Wear.Controllers
             if (cliente.Contraseña != contraseña)
                 return Json(new { success = false, message = "Contraseña incorrecta." });
 
-            // Aquí inicias sesión, ejemplo: 
-            // await SignInAsync(cliente);
-
+            // Login exitoso del cliente
             return Json(new { success = true, message = $"¡Bienvenido, {cliente.Nombre}!" });
         }
+
+
 
 
 
@@ -196,5 +201,7 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Clientes.Any(e => e.ClienteId == id);
         }
+
+       
     }
 }

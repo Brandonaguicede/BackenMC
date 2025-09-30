@@ -230,9 +230,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const formLogin = document.getElementById("form-login");
     const mensajeLogin = document.getElementById("mensaje-login");
 
+    // Abrir modal
     if (btnLogin) btnLogin.addEventListener("click", () => modalLogin.style.display = "block");
+    // Cerrar modal
     if (cerrarLogin) cerrarLogin.addEventListener("click", () => modalLogin.style.display = "none");
-    window.addEventListener("click", (event) => { if (event.target === modalLogin) modalLogin.style.display = "none"; });
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener("click", (event) => {
+        if (event.target === modalLogin) modalLogin.style.display = "none";
+    });
 
     if (formLogin) {
         formLogin.addEventListener("submit", function (event) {
@@ -243,22 +248,41 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(formLogin.action, {
                 method: 'POST',
                 body: formData,
-                headers: { 'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value }
+                headers: {
+                    'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value
+                }
             })
                 .then(response => response.json())
                 .then(data => {
-                    mensajeLogin.textContent = data.message;
-                    mensajeLogin.style.color = data.success ? "green" : "red";
-                    mensajeLogin.style.display = "block";
+                    // Si hay redirección (empresa)
+                    if (data.success && data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                        return;
+                    }
 
-                    if (data.success) ocultarBotonesFlotantes();
+                    // Mostrar mensaje en modal
+                    if (mensajeLogin) {
+                        mensajeLogin.textContent = data.message;
+                        mensajeLogin.style.color = data.success ? "green" : "red";
+                        mensajeLogin.style.display = "block";
+                    }
+
+                    // Ocultar botones flotantes si login exitoso cliente
+                    if (data.success && !data.redirectUrl) {
+                        if (typeof ocultarBotonesFlotantes === "function") {
+                            ocultarBotonesFlotantes();
+                        }
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    mensajeLogin.textContent = "Ocurrió un error inesperado al conectar con el servidor.";
-                    mensajeLogin.style.color = "red";
-                    mensajeLogin.style.display = "block";
+                    if (mensajeLogin) {
+                        mensajeLogin.textContent = "Ocurrió un error inesperado al conectar con el servidor.";
+                        mensajeLogin.style.color = "red";
+                        mensajeLogin.style.display = "block";
+                    }
                 });
         });
     }
+
 });

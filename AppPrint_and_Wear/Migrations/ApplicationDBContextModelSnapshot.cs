@@ -214,27 +214,49 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Personalizacion", b =>
                 {
-                    b.Property<int>("ProductoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descriccion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Precio")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Stock")
+                    b.Property<int>("CamisaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductoId");
+                    b.Property<string>("ImagenEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosicionEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextoEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Personalizaciones");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Material")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Talla")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Productos");
                 });
@@ -244,7 +266,7 @@ namespace AppPrint_and_Wear.Migrations
                     b.HasOne("AppPrint_and_Wear.Models.Cliente", "Cliente")
                         .WithOne("Carrito")
                         .HasForeignKey("AppPrint_and_Wear.Models.Carrito_De_Compra", "ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -254,13 +276,12 @@ namespace AppPrint_and_Wear.Migrations
                 {
                     b.HasOne("AppPrint_and_Wear.Models.Carrito_De_Compra", "Carrito_De_Compra")
                         .WithMany("CartItems")
-                        .HasForeignKey("Carrito_De_CompraId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Carrito_De_CompraId");
 
                     b.HasOne("AppPrint_and_Wear.Models.Producto", "Productos")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Carrito_De_Compra");
@@ -273,7 +294,7 @@ namespace AppPrint_and_Wear.Migrations
                     b.HasOne("AppPrint_and_Wear.Models.Carrito_De_Compra", "Carrito")
                         .WithOne("Envio")
                         .HasForeignKey("AppPrint_and_Wear.Models.Envio", "Carrito_De_CompraId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Carrito");
@@ -284,7 +305,7 @@ namespace AppPrint_and_Wear.Migrations
                     b.HasOne("AppPrint_and_Wear.Models.Cliente", "Cliente")
                         .WithMany("Metodo_De_Pagos")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -302,11 +323,6 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Carrito");
 
                     b.Navigation("Metodo_De_Pagos");
-                });
-
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
-                {
-                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,13 +4,11 @@
 
     <meta charset="utf-8"2/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
-
     <title>@ViewData["Title"] - Print & Wear</title>
-
-    
-
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/LandingPage.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/AppPrint_and_Wear.styles.css" asp-append-version="true" />
 
     @RenderSection("HeadContent", required: false)
 </head>
@@ -30,18 +28,16 @@
     }
 
     
-    <header class="site-header">
+    <header class="site-header border-bottom border-white pb-3">
         <div class="btn-flotantes">
             <button id="btn-registrarse" class="btn-flotante">Registrarse</button>
             <button id="btn-login" class="btn-flotante">Iniciar sesión</button>
         </div>
-
         <div class="logo-titulo">
             <img src="~/Imagenes/Logo.png" alt="Logo Print & Wear" class="logo" />
             <h1>Print & Wear</h1>
-
         </div>
-        <h2>“Tu camisa ideal en un clic”</h2>
+        <h2>"Tu camisa ideal en un clic"</h2>
         <nav aria-label="NavegaciónPrincipal" class="menu-principal">
             <div class="dropdown">
                 <button class="dropbtn">Menú</button>
@@ -54,9 +50,6 @@
                 </ul>
             </div>
         </nav>
-
-      
-      
     </header>
 
     <!-- Contenido principal -->
@@ -84,6 +77,9 @@
     
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
   
     @RenderSection("Scripts", required: false)
 </body>

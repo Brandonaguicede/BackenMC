@@ -70,35 +70,16 @@ namespace AppPrint_and_Wear.Migrations
                 name: "Productos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Talla = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Material = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descriccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Precio = table.Column<double>(type: "float", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Productos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Carrito_De_Compras",
-                columns: table => new
-                {
-                    Carrito_De_CompraId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Total = table.Column<double>(type: "float", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carrito_De_Compras", x => x.Carrito_De_CompraId);
-                    table.ForeignKey(
-                        name: "FK_Carrito_De_Compras_Clientes_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Clientes",
-                        principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Productos", x => x.ProductoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,7 +103,34 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carrito_De_Compras",
+                columns: table => new
+                {
+                    Carrito_De_CompraId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    Metodo_De_PagoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carrito_De_Compras", x => x.Carrito_De_CompraId);
+                    table.ForeignKey(
+                        name: "FK_Carrito_De_Compras_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "ClienteId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Carrito_De_Compras_Metodo_De_Pagos_Metodo_De_PagoId",
+                        column: x => x.Metodo_De_PagoId,
+                        principalTable: "Metodo_De_Pagos",
+                        principalColumn: "Metodo_De_PagoId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -144,13 +152,14 @@ namespace AppPrint_and_Wear.Migrations
                         name: "FK_CartItems_Carrito_De_Compras_Carrito_De_CompraId",
                         column: x => x.Carrito_De_CompraId,
                         principalTable: "Carrito_De_Compras",
-                        principalColumn: "Carrito_De_CompraId");
+                        principalColumn: "Carrito_De_CompraId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CartItems_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProductoId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,13 +183,64 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.Carrito_De_CompraId,
                         principalTable: "Carrito_De_Compras",
                         principalColumn: "Carrito_De_CompraId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Facturas",
+                columns: table => new
+                {
+                    FacturaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    Carrito_De_CompraId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Facturas", x => x.FacturaId);
+                    table.ForeignKey(
+                        name: "FK_Facturas_Carrito_De_Compras_Carrito_De_CompraId",
+                        column: x => x.Carrito_De_CompraId,
+                        principalTable: "Carrito_De_Compras",
+                        principalColumn: "Carrito_De_CompraId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DetalleFacturas",
+                columns: table => new
+                {
+                    DetalleFacturaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<double>(type: "float", nullable: false),
+                    Subtotal = table.Column<double>(type: "float", nullable: false),
+                    FacturaId = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetalleFacturas", x => x.DetalleFacturaId);
+                    table.ForeignKey(
+                        name: "FK_DetalleFacturas_Facturas_FacturaId",
+                        column: x => x.FacturaId,
+                        principalTable: "Facturas",
+                        principalColumn: "FacturaId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carrito_De_Compras_ClienteId",
                 table: "Carrito_De_Compras",
                 column: "ClienteId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carrito_De_Compras_Metodo_De_PagoId",
+                table: "Carrito_De_Compras",
+                column: "Metodo_De_PagoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -194,10 +254,20 @@ namespace AppPrint_and_Wear.Migrations
                 column: "ProductoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DetalleFacturas_FacturaId",
+                table: "DetalleFacturas",
+                column: "FacturaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Envios_Carrito_De_CompraId",
                 table: "Envios",
                 column: "Carrito_De_CompraId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Facturas_Carrito_De_CompraId",
+                table: "Facturas",
+                column: "Carrito_De_CompraId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Metodo_De_Pagos_ClienteId",
@@ -215,10 +285,10 @@ namespace AppPrint_and_Wear.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "Envios");
+                name: "DetalleFacturas");
 
             migrationBuilder.DropTable(
-                name: "Metodo_De_Pagos");
+                name: "Envios");
 
             migrationBuilder.DropTable(
                 name: "Personalizaciones");
@@ -227,7 +297,13 @@ namespace AppPrint_and_Wear.Migrations
                 name: "Productos");
 
             migrationBuilder.DropTable(
+                name: "Facturas");
+
+            migrationBuilder.DropTable(
                 name: "Carrito_De_Compras");
+
+            migrationBuilder.DropTable(
+                name: "Metodo_De_Pagos");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

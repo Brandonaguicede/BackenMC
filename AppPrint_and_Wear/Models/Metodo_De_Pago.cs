@@ -12,5 +12,6 @@
         //Relaciones
         public int ClienteId{ get; set; }
         public Cliente Cliente { get; set; } // Propiedad de navegación
+        public Carrito_De_Compra Carrito_De_Compra { get; set; } // Propiedad de navegación
     }
 }

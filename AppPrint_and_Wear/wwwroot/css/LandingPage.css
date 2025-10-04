@@ -494,28 +494,69 @@ section {
     }
 }
 
-/* ========== ver catalogo (para mas adelante) ========== */
-.ver-catalogo {
+/* ========== ver catalogo  ========== */
+.btn-personalizar {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     margin-top: 30px;
 }
 
-    .ver-catalogo button {
-        background: #a2a09f;
-        color: #fff;
-        border-radius: 25px;
-        border: none;
+    .btn-personalizar a {
+        position: relative;
+        display: inline-block;
         padding: 12px 28px;
         font-weight: bold;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        background: #a2a09f;
         cursor: pointer;
-        transition: background 0.2s;
+        z-index: 0;
+        overflow: hidden;
+        transition: background 0.2s, color 0.2s;
     }
 
-        .ver-catalogo button:hover {
-            background: #d3cc3a;
+        .btn-personalizar a::before {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            bottom: -3px;
+            right: -3px;
+            background: conic-gradient( red, orange, yellow, green, blue, indigo, violet, red );
+            border-radius: 30px;
+            z-index: -2;
+            animation: girar 4s linear infinite;
         }
+
+        .btn-personalizar a::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            bottom: 2px;
+            right: 2px;
+            background: #a2a09f;
+            border-radius: 25px;
+            z-index: -1;
+        }
+
+        .btn-personalizar a:hover {
+            color: #000;
+            background: #d3cc3a; 
+        }
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 /* ========== comentarios ========== */
 .testimonios-grid {
@@ -962,5 +1003,70 @@ footer {
 body.logeado #btn-registrarse,
 body.logeado #btn-login {
     display: none !important;
+}
+
+/* Contenedor del menú en la esquina superior derecha */
+.menu-principal {
+    position: absolute; /* Lo coloca encima */
+    top: 15px; /* Distancia desde arriba */
+    right: 20px; /* Pegado a la derecha */
+    z-index: 1000; /* Siempre visible */
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Botón del menú */
+.dropbtn {
+    background-color: transparent; /* Botón transparente */
+    color: #008CBA; /* Texto azul */
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+    .dropbtn:hover {
+        color: #005f73; /* Azul más oscuro al pasar el mouse */
+    }
+
+/* Contenido desplegable */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Alineado a la derecha */
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+    /* Enlaces */
+    .dropdown-content li a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        transition: background 0.2s ease;
+    }
+
+        .dropdown-content li a:hover {
+            background-color: #f0f0f0;
+        }
+
+/* Mostrar al pasar */
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 

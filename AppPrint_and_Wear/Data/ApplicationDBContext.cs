@@ -18,9 +18,7 @@ namespace AppPrint_and_Wear.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Metodo_De_Pago> Metodo_De_Pagos { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Personalizacion> Personalizaciones { get; set; }
-        public DbSet<Factura> Facturas { get; set; }
-        public DbSet <DetalleFactura> DetalleFacturas { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

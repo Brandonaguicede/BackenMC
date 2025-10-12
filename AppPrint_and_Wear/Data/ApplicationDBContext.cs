@@ -1,5 +1,7 @@
 ﻿using AppPrint_and_Wear.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
 namespace AppPrint_and_Wear.Data
 {
     public class ApplicationDBContext : DbContext
@@ -8,6 +10,7 @@ namespace AppPrint_and_Wear.Data
             : base(options)
         {
         }
+
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Carrito_De_Compra> Carrito_De_Compras { get; set; }
@@ -15,13 +18,19 @@ namespace AppPrint_and_Wear.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Metodo_De_Pago> Metodo_De_Pagos { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Personalizacion> Personalizaciones { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet <DetalleFactura> DetalleFacturas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Desactivar CASCADE DELETE globalmente funciona para todas las entidades para evitar conflictos
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            base.OnModelCreating(modelBuilder);
+
+            // Evita cascada automática en todas las relaciones
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+                         .SelectMany(e => e.GetForeignKeys()))
             {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
     }

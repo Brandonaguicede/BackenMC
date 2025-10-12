@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250924235827_inicial")]
+    [Migration("20250929051029_inicial")]
     partial class inicial
     {
         /// <inheritdoc />
@@ -70,12 +70,18 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Metodo_De_PagoId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("Carrito_De_CompraId");
 
                     b.HasIndex("ClienteId")
+                        .IsUnique();
+
+                    b.HasIndex("Metodo_De_PagoId")
                         .IsUnique();
 
                     b.ToTable("Carrito_De_Compras");
@@ -150,6 +156,39 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
+                {
+                    b.Property<int>("DetalleFacturaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetalleFacturaId"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("PrecioUnitario")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("DetalleFacturaId");
+
+                    b.HasIndex("FacturaId");
+
+                    b.ToTable("DetalleFacturas");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Envio", b =>
                 {
                     b.Property<int>("EnvioId")
@@ -182,6 +221,30 @@ namespace AppPrint_and_Wear.Migrations
                         .IsUnique();
 
                     b.ToTable("Envios");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Factura", b =>
+                {
+                    b.Property<int>("FacturaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FacturaId"));
+
+                    b.Property<int>("Carrito_De_CompraId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.HasKey("FacturaId");
+
+                    b.HasIndex("Carrito_De_CompraId");
+
+                    b.ToTable("Facturas");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
@@ -217,6 +280,31 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Personalizacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CamisaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagenEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosicionEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextoEstampado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Personalizaciones");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
                 {
                     b.Property<int>("ProductoId")
@@ -250,7 +338,15 @@ namespace AppPrint_and_Wear.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("AppPrint_and_Wear.Models.Metodo_De_Pago", "Metodo_De_Pago")
+                        .WithOne("Carrito_De_Compra")
+                        .HasForeignKey("AppPrint_and_Wear.Models.Carrito_De_Compra", "Metodo_De_PagoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("Metodo_De_Pago");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.CartItem", b =>
@@ -271,6 +367,17 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Productos");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
+                {
+                    b.HasOne("AppPrint_and_Wear.Models.Factura", "Factura")
+                        .WithMany("Detalle_Facturas")
+                        .HasForeignKey("FacturaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Envio", b =>
                 {
                     b.HasOne("AppPrint_and_Wear.Models.Carrito_De_Compra", "Carrito")
@@ -280,6 +387,17 @@ namespace AppPrint_and_Wear.Migrations
                         .IsRequired();
 
                     b.Navigation("Carrito");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Factura", b =>
+                {
+                    b.HasOne("AppPrint_and_Wear.Models.Carrito_De_Compra", "Carrito_De_Compra")
+                        .WithMany()
+                        .HasForeignKey("Carrito_De_CompraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Carrito_De_Compra");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
@@ -305,6 +423,16 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Carrito");
 
                     b.Navigation("Metodo_De_Pagos");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Factura", b =>
+                {
+                    b.Navigation("Detalle_Facturas");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
+                {
+                    b.Navigation("Carrito_De_Compra");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>

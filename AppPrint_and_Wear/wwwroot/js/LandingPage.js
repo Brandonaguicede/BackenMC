@@ -283,6 +283,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 });
         });
+        // =========================================
+// ANIMACIÓN DE ENTRADA (REVEAL / FADE-UP)
+// =========================================
+const revelarElementos = () => {
+    const elementos = document.querySelectorAll(".reveal");
+    const alturaVentana = window.innerHeight;
+
+    elementos.forEach((el, index) => {
+        const distanciaTop = el.getBoundingClientRect().top;
+
+        if (distanciaTop < alturaVentana - 80) {
+            // Agregamos retardo progresivo para efecto elegante
+            el.style.transitionDelay = `${index * 0.05}s`;
+            el.classList.add("active");
+        }
+    });
+};
+
+// Se ejecuta al cargar y al hacer scroll
+window.addEventListener("scroll", revelarElementos);
+window.addEventListener("load", revelarElementos);
+
     }
 
 });
+ 

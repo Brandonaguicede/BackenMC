@@ -314,95 +314,124 @@ section {
         color: #666;
     }
 
-/* ========== CARRUSEL ========== */
+/* ========== CARRUSEL ESTÉTICO ========== */
 .carrusel-container {
     position: relative;
     width: 100%;
     max-width: 1200px;
-    margin: 30px auto;
-    padding: 10px 0;
+    margin: 40px auto;
+    padding: 20px 0;
+    background: linear-gradient(135deg, #fffef6, #fff9ed, #fffdf3);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
+/* Contenedor interno con desplazamiento suave */
 .carrusel {
     display: flex;
-    gap: 20px;
+    gap: 25px;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
+    padding: 10px 20px;
 }
 
+.carrusel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Tarjeta individual */
 .carrusel-item {
-    flex: 0 0 20%;
-    padding: 14px;
-    text-align: center;
+    flex: 0 0 230px;
     background: #fff;
-    margin: 5px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid #eee;
-    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+    text-align: center;
+    padding: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    cursor: pointer;
 }
 
-    .carrusel-item:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        border-color: #ebbd49c7;
-    }
+.carrusel-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-color: #e6c73f;
+}
 
-    .carrusel-item img {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
+/* Imagen del producto */
+.carrusel-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
 
-    .carrusel-item h3 {
-        margin: 8px 0;
-        color: #222;
-        font-size: 1rem;
-        font-weight: 600;
-    }
+.carrusel-item:hover img {
+    transform: scale(1.05);
+}
 
-    .carrusel-item p {
-        font-size: 0.85rem;
-        color: #555;
-        margin-bottom: 10px;
-    }
+/* Nombre y precio */
+.carrusel-item h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2a2a2a;
+    margin-bottom: 6px;
+}
 
+.carrusel-item p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.carrusel-item .precio {
+    color: #a2a09f;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Flechas del carrusel */
 .carrusel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
-    background: #f5f5f5;
-    color: #7ac943;
-    border: 1px solid #ddd;
-    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    background: #fff;
+    border: 2px solid #f2f2f2;
+    color: #a2a09f;
+    font-size: 1.6rem;
     cursor: pointer;
     border-radius: 50%;
     z-index: 10;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-    .carrusel-btn:hover {
-        background: #eaeaea;
-        color: #00bcd4;
-    }
+.carrusel-btn:hover {
+    background: #a2a09f;
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
 
-    .carrusel-btn.left {
-        left: 12px;
-    }
+.carrusel-btn.left {
+    left: 10px;
+}
 
-    .carrusel-btn.right {
-        right: 12px;
-    }
+.carrusel-btn.right {
+    right: 10px;
+}
 
-/* ========== BOTONES DE PRODUCTO ========== */
+/* ========== BOTONES DE PRODUCTO  ========== */
 .botones-producto {
     display: flex;
     justify-content: center;
@@ -414,148 +443,246 @@ section {
 .btn-detalles {
     background: #a2a09f;
     color: #fff;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
     padding: 8px 14px;
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
-    .btn-comprar:hover,
-    .btn-detalles:hover {
-        background: #e6c73f;
+.btn-comprar:hover {
+    background: #e6c73f;
+    color: #222;
+    transform: translateY(-2px);
+}
+
+.btn-detalles {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-detalles:hover {
+    background: #ffe5c6;
+    color: #111;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carrusel-item {
+        flex: 0 0 80%;
     }
 
-/* ========== MODAL ========== */
+    .carrusel-btn {
+        display: none;
+    }
+}
+
+/* ========== MODAL DETALLES PRODUCTO (ESTÉTICO Y MODERNO) ========== */
 .modal {
     display: none;
     position: fixed;
+    inset: 0;
     z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease forwards;
 }
 
+/* Contenedor del modal */
 .modal-contenido {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     position: relative;
-    animation: fadeIn 0.3s ease-out;
+    background: #fff;
+    color: #111;
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 520px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: modalPop 0.35s ease-out;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
 
-    .modal-contenido h3 {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #222;
-        margin: 0 0 10px;
-    }
-
-    .modal-contenido p {
-        font-size: 1rem;
-        color: #444;
-        margin: 0 0 15px;
-    }
-
+/* Botón cerrar */
 .modal .cerrar {
-    color: #888;
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 32px;
-    font-weight: 300;
+    top: 18px;
+    right: 20px;
+    font-size: 1.6rem;
+    color: #555;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
 }
 
     .modal .cerrar:hover {
-        color: #efc15d;
+        color: #000;
         transform: rotate(90deg);
     }
 
-.opciones-producto {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    margin-top: 25px;
-    flex-wrap: wrap;
+/* Imagen del producto */
+.modal-imagen {
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background: #f8f8f8;
+    padding: 10px;
 }
 
+/* Nombre del producto */
+#modal-nombre {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+/* Precio */
+#precio-monto {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+/* Descripción */
+#modal-info {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 25px;
+}
+
+/* Línea divisora */
+.modal-divider {
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+}
+
+/* Subtítulos */
 .colores-disponibles,
 .tallas-disponibles {
+    font-weight: 700;
     font-size: 1rem;
-    font-weight: 600;
-    color: #222;
-    text-align: left;
+    margin-bottom: 8px;
+    color: #000;
 }
 
-.color-opciones,
-.talla-opciones {
-    margin-top: 10px;
+/* Opciones de color */
+.color-opciones {
     display: flex;
-    gap: 12px;
-    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
     flex-wrap: wrap;
 }
 
 .color-circle {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    display: inline-block;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 1px #ccc inset;
     cursor: pointer;
-    border: 2px solid #ccc;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    transition: all 0.25s ease;
 }
 
-    .color-circle:hover,
-    .color-circle.seleccionado {
+    .color-circle:hover {
         transform: scale(1.1);
-        box-shadow: 0 0 8px rgba(0,0,0,0.4);
-        border-color: #222;
+        border-color: #111;
     }
 
-.talla {
-    padding: 6px 12px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    background: #f9f9f9;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+/* Opciones de talla */
+.talla-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
-    .talla:hover,
-    .talla.seleccionado {
-        transform: scale(1.05);
-        box-shadow: 0 0 8px rgba(0,0,0,0.3);
-        border-color: #222;
-        background: #e6e6e6;
+.talla-item {
+    padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fafafa;
+    color: #111;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .talla-item:hover {
+        background: #111;
+        color: #fff;
     }
 
+/* Botón principal */
+.btn-modal-comprar {
+    width: 100%;
+    background: linear-gradient(90deg, #111, #333);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    transition: all 0.3s ease;
+}
 
-@keyframes fadeIn {
+    .btn-modal-comprar:hover {
+        background: linear-gradient(90deg, #222, #000);
+        transform: scale(1.02);
+    }
+
+/* Animaciones */
+@keyframes modalPop {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.95) translateY(15px);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateY(0);
     }
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .modal-contenido {
+        padding: 25px;
+    }
+
+    #modal-nombre {
+        font-size: 1.3rem;
+    }
+
+    .btn-modal-comprar {
+        font-size: 0.9rem;
+    }
+}
+
+
 
 /* ========== ver catalogo  ========== */
 .btn-personalizar {

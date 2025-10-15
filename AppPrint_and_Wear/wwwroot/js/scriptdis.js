@@ -35,7 +35,23 @@ document.querySelectorAll('.color-option').forEach(option => {
         }
     });
 });
-    
+// 🧼 Botón para borrar color y volver al default (blanco)
+const btnResetColor = document.getElementById("btnResetColor");
+if (btnResetColor) {
+    btnResetColor.addEventListener("click", () => {
+        // Quitar selección activa
+        document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+
+        // Restablecer imágenes base
+        const defaultFront = "/imagenes/blanco.jpg";
+        const defaultBack = "/imagenes/blancotras.jpg";
+        document.getElementById('front-shirt-img').src = defaultFront;
+        document.getElementById('back-shirt-img').src = defaultBack;
+
+        console.log("Color restablecido al predeterminado.");
+    });
+}
+
 
 function rgbToHex(rgb) {
     if (!rgb) return "";
@@ -332,6 +348,138 @@ function makeResizable(element, resizer) {
         document.removeEventListener('mouseup', stopResize);
     }
 }
+document.querySelectorAll('.color-option').forEach(option => {
+    option.addEventListener('click', function () {
+        document.querySelectorAll('.color-option').forEach(opt => {
+            opt.classList.remove('active');
+        });
+        this.classList.add('active');
+        const color = this.style.backgroundColor;
+        const hexColor = rgbToHex(color).toLowerCase();
+
+        if (shirtImages[hexColor]) {
+            document.getElementById('front-shirt-img').src = shirtImages[hexColor].front;
+            document.getElementById('back-shirt-img').src = shirtImages[hexColor].back;
+        } else {
+            console.log("Color no encontrado:", hexColor);
+        }
+    });
+});
+
+// =====================================
+// 🔧 BOTONES DE LA BARRA INFERIOR
+// =====================================
+
+// Variables globales para historial
+let historyStack = [];
+let redoStack = [];
+
+// Guardar estado actual
+function saveSnapshot() {
+    const front = document.getElementById('front-content-inner').innerHTML;
+    const back = document.getElementById('back-content-inner').innerHTML;
+    historyStack.push({ front, back });
+    redoStack = [];
+    if (historyStack.length > 20) historyStack.shift(); // limitar tamaño
+}
+
+// Restaurar un estado previo
+function restoreSnapshot(snapshot) {
+    if (!snapshot) return;
+    document.getElementById('front-content-inner').innerHTML = snapshot.front;
+    document.getElementById('back-content-inner').innerHTML = snapshot.back;
+}
+
+// ==========================
+// 🔍 ZOOM
+// ==========================
+let zoomed = false;
+const btnZoom = document.getElementById('btnZoom');
+if (btnZoom) {
+    btnZoom.addEventListener('click', () => {
+        const previewPanel = document.querySelector('.preview-panel');
+        if (!previewPanel) return;
+
+        zoomed = !zoomed;
+        previewPanel.style.transition = 'transform 0.3s ease';
+        previewPanel.style.transformOrigin = 'center center';
+        previewPanel.style.transform = zoomed ? 'scale(1.3)' : 'scale(1)';
+        btnZoom.innerHTML = zoomed
+            ? '<i class="fa fa-search-minus"></i> Restaurar Zoom'
+            : '<i class="fa fa-search-plus"></i> Zoom';
+    });
+}
+
+// ==========================
+// ↩️ DESHACER
+// ==========================
+const btnUndo = document.getElementById('btnUndo');
+if (btnUndo) {
+    btnUndo.addEventListener('click', () => {
+        if (historyStack.length > 1) {
+            const current = historyStack.pop();
+            redoStack.push(current);
+            const last = historyStack[historyStack.length - 1];
+            restoreSnapshot(last);
+            console.log("↩️ Deshacer ejecutado");
+        } else {
+            console.log("⚠️ No hay más pasos para deshacer");
+        }
+    });
+}
+
+// ==========================
+// ↪️ REHACER
+// ==========================
+const btnRedo = document.getElementById('btnRedo');
+if (btnRedo) {
+    btnRedo.addEventListener('click', () => {
+        if (redoStack.length > 0) {
+            const redoAction = redoStack.pop();
+            historyStack.push(redoAction);
+            restoreSnapshot(redoAction);
+            console.log("↪️ Rehacer ejecutado");
+        } else {
+            console.log("⚠️ No hay pasos para rehacer");
+        }
+    });
+}
+
+// ==========================
+// 👁️ PREVIO
+// ==========================
+const btnPreview = document.getElementById('btnPreview');
+if (btnPreview) {
+    btnPreview.addEventListener('click', () => {
+        const overlays = document.querySelectorAll('.design-area-overlay');
+        overlays.forEach(o => o.classList.toggle('ocultar-overlay'));
+        const active = overlays[0].classList.contains('ocultar-overlay');
+        btnPreview.innerHTML = active
+            ? '<i class="fa fa-eye-slash"></i> Mostrar guías'
+            : '<i class="fa fa-eye"></i> Previo';
+        console.log("👁️ Vista previa alternada");
+    });
+}
+
+// ==========================
+// 🧩 SELECCIONAR TODO
+// ==========================
+const btnSelectAll = document.getElementById('btnSelectAll');
+if (btnSelectAll) {
+    btnSelectAll.addEventListener('click', () => {
+        const elementos = document.querySelectorAll('.arrastrable-escalable');
+        elementos.forEach(e => e.classList.add('seleccionado'));
+        setTimeout(() => {
+            elementos.forEach(e => e.classList.remove('seleccionado'));
+        }, 1200);
+        console.log("🧩 Todos los elementos seleccionados");
+    });
+}
+
+// Guardar automáticamente tras cada acción
+document.addEventListener('mouseup', saveSnapshot);
+document.addEventListener('keyup', saveSnapshot);
+
 
 
 

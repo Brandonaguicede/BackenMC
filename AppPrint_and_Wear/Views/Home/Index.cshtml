@@ -3,48 +3,19 @@
 }
 
 <!-- Secciones principales del landing -->
-<section id="sobre-empresa">
-    <h2>Sobre la Empresa</h2>
-    <section>
-        <p class="texto-empresa">
-            Los estudiantes de la Universidad Nacional pensaron en la moda y la creatividad, con el fin de ofrecer prendas que fueran más allá de lo usual. Observamos que muchas personas buscaban vestir con algo que representara su identidad y gustos, donde el mercado no ofrece estas opciones de moda y de calidad. Con esa necesidad, decidimos desarrollar esta empresa donde el cliente puede diseñar a su gusto el estilo único.
-        </p>
-    </section>
-
-    <div class="sobre-empresa">
-        <div>
-            <h3>Misión</h3>
-            <p>
-                Ofrecer camisetas y camisas de calidad premium en donde se refleje la identidad, creatividad y estilo único de cada cliente. Nuestro objetivo es transformar la ropa de diario en una pieza única, combinando diseños de alta calidad, materiales de la más alta calidad y un servicio confiable, para que todos puedan lucirlos con autenticidad y confianza.
-            </p>
-        </div>
-
-        <div>
-            <h3>Visión</h3>
-            <p>
-                Ser la empresa líder en camisas personalizadas reconocida por la innovación, creatividad y calidad en cada diseño, convirtiéndonos en la primera opción para todo el que busca dar a conocer su estilo e identidad a través de la moda. Anhelamos expandir nuestra marca a nivel nacional e internacional, inculcando a cada uno de nuestros clientes a vestir con su estilo favorito.
-            </p>
-        </div>
+<section id="banner">
+    <picture>
+        <source media="(max-width: 550px)" srcset="https://image.made-in-china.com/202f0j00NvJhlLBWlTfm/Heavy-Solid-Color-Cotton-Round-Neck-Short-Sleeve-T-Shirt.webp">
+        <img class="responsive-image" src="https://image.made-in-china.com/202f0j00NvJhlLBWlTfm/Heavy-Solid-Color-Cotton-Round-Neck-Short-Sleeve-T-Shirt.webp" alt="Personalizar" width="504" height="473">
+    </picture>
+    <div class="col-sm-12 col-md-7" style="padding: 25px;">
+        <h2 class="h_portada">Personaliza tu estilo</h2>
+        <h3 class="h_portada">Crea productos personalizados para regalar o para tu negocio</h3>
+        <p class="h_portada">Desde una sola copia y a todo color, con precios especiales para grandes producciones</p>
+        <a class="btn btn-default btn_pst_port" href="~/pages/disenar-ahora.html" aria-label="Diseñar ahora">
+            <span style="color: #ffffff;">Diseñar ahora <i style="font-weight: bold;" class="fa fa-angle-right fa_animation"></i></span>
+        </a>
     </div>
-
-    <div class="ventajas" id="ventajas">
-        <h3>Ventajas</h3>
-        <div class="ventaja-grid">
-            <div class="ventaja">
-                <h4>🎨 Personalización total</h4>
-                <p>Brindamos un servicio personalizado...</p>
-            </div>
-            <div class="ventaja">
-                <h4>💎 Calidad premium</h4>
-                <p>La calidad de nuestras camisas...</p>
-            </div>
-            <div class="ventaja">
-                <h4>✅ Servicio confiable</h4>
-                <p>Contamos con un servicio optimizado...</p>
-            </div>
-        </div>
-    </div>
-
 </section>
 
 <section id="destacado">
@@ -320,7 +291,49 @@
     </div>
  
 </section>
+<section id="sobre-empresa">
+    <h2>Sobre la Empresa</h2>
+    <section>
+        <p class="texto-empresa">
+            Los estudiantes de la Universidad Nacional pensaron en la moda y la creatividad, con el fin de ofrecer prendas que fueran más allá de lo usual. Observamos que muchas personas buscaban vestir con algo que representara su identidad y gustos, donde el mercado no ofrece estas opciones de moda y de calidad. Con esa necesidad, decidimos desarrollar esta empresa donde el cliente puede diseñar a su gusto el estilo único.
+        </p>
+    </section>
 
+    <div class="sobre-empresa">
+        <div>
+            <h3>Misión</h3>
+            <p>
+                Ofrecer camisetas y camisas de calidad premium en donde se refleje la identidad, creatividad y estilo único de cada cliente. Nuestro objetivo es transformar la ropa de diario en una pieza única, combinando diseños de alta calidad, materiales de la más alta calidad y un servicio confiable, para que todos puedan lucirlos con autenticidad y confianza.
+            </p>
+        </div>
+
+        <div>
+            <h3>Visión</h3>
+            <p>
+                Ser la empresa líder en camisas personalizadas reconocida por la innovación, creatividad y calidad en cada diseño, convirtiéndonos en la primera opción para todo el que busca dar a conocer su estilo e identidad a través de la moda. Anhelamos expandir nuestra marca a nivel nacional e internacional, inculcando a cada uno de nuestros clientes a vestir con su estilo favorito.
+            </p>
+        </div>
+    </div>
+
+    <div class="ventajas" id="ventajas">
+        <h3>Ventajas</h3>
+        <div class="ventaja-grid">
+            <div class="ventaja">
+                <h4>🎨 Personalización total</h4>
+                <p>Brindamos un servicio personalizado...</p>
+            </div>
+            <div class="ventaja">
+                <h4>💎 Calidad premium</h4>
+                <p>La calidad de nuestras camisas...</p>
+            </div>
+            <div class="ventaja">
+                <h4>✅ Servicio confiable</h4>
+                <p>Contamos con un servicio optimizado...</p>
+            </div>
+        </div>
+    </div>
+
+</section>
 <section id="contacto">
     <h2>Contacto</h2>
 
@@ -413,5 +426,6 @@
             });
         });
     </script>
+    <script src="script.js"></script>
     <script src="~/js/LandingPage.js" defer asp-append-version="true"></script>
 }

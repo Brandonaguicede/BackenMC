@@ -91,9 +91,72 @@ header {
         .header-links a:active {
             color: #128C7E;
         }
+/*prueba banner*/
+#banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 80px;
+    background: linear-gradient(70deg, #feffe7, #e6fbf1, #ebf9fd);
+    margin-bottom: 40px;
+    max-width: 1600px; /* ← Más ancho máximo */
+    margin-left: auto;
+    margin-right: auto;
+}
 
+    #banner picture {
+        flex: 1;
+        max-width: 50%;
+    }
 
+    #banner .col-sm-12.col-md-7 {
+        flex: 1;
+        padding: 25px;
+    }
 
+.h_portada {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+    .h_portada:first-child {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .h_portada:nth-child(2) {
+        font-size: 1.5rem;
+        color: #555;
+    }
+
+    .h_portada:last-child {
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+.btn_pst_port {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+    .btn_pst_port:hover {
+        background-color: #0056b3;
+    }
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/*prueba banner*/
+      
 
 /* Botones CTA a la derecha */
 .cta-buttons {

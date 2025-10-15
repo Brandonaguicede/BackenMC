@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseñar Ahora - Personaliza tu producto</title>
+    <link rel="stylesheet" href="css/diseno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="main-content">
+        <!-- Panel izquierdo - Herramientas -->
+        <div class="tools-panel">
+            <div class="section">
+                <div class="tool-button active" data-tool="text">T- Añadir texto</div>
+                <div class="tool-button" id="add-image-btn">Añadir imagen</div>
+                <input type="file" id="image-upload" accept="image/*" style="display:none;">
+
+                <div class="text-editor active" id="text-editor">
+                    <input type="text" class="text-input" placeholder="Escribe tu texto aquí..." id="design-text">
+                    <div class="font-controls">
+                        <select id="font-family">
+                            <option>Arial</option>
+                            <option>Times New Roman</option>
+                            <option>Courier New</option>
+                        </select>
+                        <input type="color" id="text-color" value="#000000">
+                    </div>
+                    <button class="tool-button" onclick="addTextToDesign()">Aplicar texto</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Editar Clipart</div>
+                <div class="tool-button">Rotar</div>
+                <div class="tool-button">Borrar color</div>
+            </div>
+
+            <div class="section">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="layers">
+                    <label for="layers">Capas</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista previa central -->
+        <div class="preview-panel">
+            <div class="view-selector">
+                <button class="view-button active" data-view="front">Frente</button>
+                <button class="view-button" data-view="back">Espalda</button>
+            </div>
+
+            <div class="design-area-container">
+                <div class="design-area">
+                    <!-- Vista frontal -->
+                    <div id="front-view" class="lawView active">
+                        <div class="product-design">
+                            <img class="modelImage" id="front-shirt-img" src="https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-42a85a01149658649434771290110639919.jpg" alt="Camiseta Frente">
+                            <div class="design-area-overlay front">
+                                <div class="content-inner" id="front-content-inner">Área de diseño frontal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vista trasera -->
+                    <div id="back-view" class="lawView">
+                        <div class="product-design">
+                            <img class="modelImage" id="back-shirt-img" src="https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-421b3ac5149658293155344928010112072.jpg" alt="Camiseta Espalda">
+                            <div class="design-area-overlay back">
+                                <div class="content-inner" id="back-content-inner">Área de diseño trasera</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Panel derecho - Opciones -->
+        <div class="options-panel">
+            <div class="section">
+                <div class="section-title">Color</div>
+                <div class="color-options">
+                    <div class="color-option active" style="background-color: #3498db;"></div>
+                    <div class="color-option" style="background-color: #ff0000;"></div>
+                    <div class="color-option" style="background-color: #194f29;"></div>
+                    <div class="color-option" style="background-color: #f1c40f;"></div>
+                    <div class="color-option" style="background-color: #9b59b6;"></div>
+                    <div class="color-option" style="background-color: #1abc9c;"></div>
+                    <div class="color-option" style="background-color: #000000;"></div>
+                    <div class="color-option" style="background-color: #e67e22;"></div>
+                    <div class="color-option" style="background-color: #ffffff;"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Tallas</div>
+                <div class="size-options">
+                    <div class="size-option active">S</div>
+                    <div class="size-option">M</div>
+                    <div class="size-option">L</div>
+                    <div class="size-option">XL</div>
+                    <div class="size-option">XXL</div>
+                </div>
+                <div class="size-arrow">↑</div>
+            </div>
+
+            <button class="add-to-cart">Añadir al carrito</button>
+
+            <div class="product-info">
+                <a href="#">Info del producto</a>
+                <a href="#">Guía de tallas</a>
+            </div>
+
+            <div class="change-product">
+                <button>Cambiar producto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de herramientas inferior -->
+    <div class="bottom-tools">
+        <div class="zoom-controls">
+            <button class="tool-btn">Zoom</button>
+            <button class="tool-btn">Deshacer</button>
+            <button class="tool-btn">Rehacer</button>
+            <button class="tool-btn">Previo</button>
+            <button class="tool-btn">Seleccionar todo</button>
+        </div>
+    </div>
+    
+
+    <script src="js/scriptdis.js"></script>
+</body>
+</html>

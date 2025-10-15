@@ -13,44 +13,7 @@ document.querySelectorAll('.view-button').forEach(button => {
         document.getElementById(view + '-view').classList.add('active');
     });
 });
-const shirtImages = {
-    "#3498db": {
-        front: "/imagenes/azulFront.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-9185f3ec149658293335791620510169032.jpg" //azul
-    },
-    "#ff0000": {
-        front: "/imagenes/redFront.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-97f081d3149658293546028289311086456.jpg" //rojo
-    },
-    "#194f29": {
-        front: "/imagenes/VerdeOsFront.jpg", //verde
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-10787834149658293774111254010514196.jpg"
-    },
-    "#f1c40f": {
-        front: "/imagenes/amarilloFront.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-39cec6d414965829304972392161077508.jpg" //amarillo
-    },
-    "#9b59b6": {
-        front: "/imagenes/moradoFront.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-6d0c9328149658293640392635210986806.jpg" //morado
-    },
-    "#1abc9c": {
-        front: "/imagenes/VerdeFront.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-1e5186bc149658293650939966010101862.jpg" //turquesa
-    },
-    "#000000": {
-        front: "/imagenes/negro.jpg",
-        back: "/imagenes/negrotras.jpg" //negro
-    },
-    "#e67e22": {
-        front: "/imagenes/naranjaFron.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-33b3214d149658293523773788910288604.jpg" //naranja
-    },
-    "#ffffff": {
-        front: "/imagenes/blanco.jpg",
-        back: "https://www.positivos.com/tshirtecommerce/uploaded/Productos/camisetas_corta/dg-designer-421b3ac5149658293155344928010112072.jpg" //blanco
-    }
-}; 
+ 
 
 // Funcionalidad de selección de colores
 document.querySelectorAll('.color-option').forEach(option => {
@@ -64,8 +27,8 @@ document.querySelectorAll('.color-option').forEach(option => {
         const hexColor = rgbToHex(color).toLowerCase();
 
         if (shirtImages[hexColor]) {
-            document.getElementById('front-shirt-img').src = shirtImages[hexColor].front;
-            document.getElementById('back-shirt-img').src = shirtImages[hexColor].back;
+            document.getElementById('front-shirt').src = shirtImages[hexColor].front;
+            document.getElementById('back-shirt').src = shirtImages[hexColor].back;
         } else {
             // Opcional: para depuración
             console.log("Color no encontrado:", hexColor);
@@ -517,3 +480,510 @@ if (btnSelectAll) {
 document.addEventListener('mouseup', saveSnapshot);
 document.addEventListener('keyup', saveSnapshot);
 
+
+
+
+
+
+
+
+
+// ==========================================================
+//  SISTEMA DE PERSONALIZACIÓN DE CAMISETAS - HOMBRE Y MUJER
+// ==========================================================
+
+const productStyles = [
+    // ================= Hombre =================
+    {
+        id: 1,
+        name: "Camiseta Básica Hombre",
+        type: "basica-hombre",
+        colors: {
+            // Lime
+            "#b4d334": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Lime/front/500.png?decache=637411205149570000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Lime/back/500.png?decache=637411205149570000"
+            },
+            // Red
+            "#c0392b": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Red/front/500.png?decache=637411207460830000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Red/back/500.png?decache=637411207460830000"
+            },
+            // Black
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Black/front/500.png?decache=637411201611730000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Black/back/500.png?decache=637411201611730000"
+            },
+            // Orange
+            "#f39c12": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Orange/front/500.png?decache=637411205149570000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Orange/back/500.png?decache=637411205149570000"
+            },
+            // Daisy 
+            "#f7dc6f": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Daisy/front/500.png?decache=637413825674170000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Daisy/back/500.png?decache=637413825674170000"
+            },
+            // Sapphire 
+            "#1e90ff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Sapphire/front/500.png?decache=637411207460830000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Sapphire/back/500.png?decache=637411207460830000"
+            },
+            // White 
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/White/front/500.png?decache=637411207460830000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/White/back/500.png?decache=637411207460830000"
+            },
+            // Azalea
+            "#ff66b2": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8000/Azalea/front/500.png?decache=637411201611730000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8000/Azalea/back/500.png?decache=637411201611730000"
+            }
+           
+        }
+
+    },
+    {
+        id: 2,
+        name: "Camiseta Cuello V Hombre",
+        type: "cuello-v-hombre",
+        colors: {
+            // Envy 
+            "#2e8b57": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/6040/Envy/front/500.png?decache=637357660432470000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/6040/Envy/back/500.png?decache=637357660432470000"
+            },
+            // Vintage Red 
+            "#b22222": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Red/front/500.png?decache=637357662401200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Red/back/500.png?decache=637357662401200000"
+            },
+            // Vintage negro
+            "#2f2f2f": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Black/front/500.png?decache=637357662401200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Black/back/500.png?decache=637357662401200000"
+            },
+            // Vintage Royal
+            "#4169e1": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Royal/front/500.png?decache=637357662401200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/6040/Vintage_Royal/back/500.png?decache=637357662401200000"
+            }
+        }
+
+    },
+    {
+        id: 3,
+        name: "Camiseta Manga Larga Hombre",
+        type: "manga-larga-hombre",
+        colors: {
+            // Rojo
+            "#ff0000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/True_Red/front/500.png?decache=637354048421530000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/True_Red/back/500.png?decache=637354048421530000"
+            },
+            // Negro
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Black/front/500.png?decache=637354047277200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Black/back/500.png?decache=637354047277200000"
+            },
+            // Fuscia 
+            "#ff1493": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Neon_Pink/front/500.png?decache=637354047277200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Neon_Pink/back/500.png?decache=637354047277200000"
+            },
+            // Gold
+            "#ffd700": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Gold/front/500.png?decache=637354047277200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Gold/back/500.png?decache=637354047277200000"
+            },
+            // Verde Lima 
+            "#32cd32": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Lime_Shock/front/500.png?decache=637354047277200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/ST350LS/Lime_Shock/back/500.png?decache=637354047277200000"
+            }
+        }
+
+    },
+    {
+        id: 4,
+        name: "Polo Clásico Hombre",
+        type: "polo-hombre",
+        colors: {
+            // Blanco
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8800/White/front/500.png?decache=638459986732330000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8800/White/back/500.png?decache=638459986732330000"
+            },
+            // Negro
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8800/Black/front/500.png?decache=638459986732330000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8800/Black/back/500.png?decache=638459986732330000"
+            },
+            // Rojo
+            "#ff0000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8800/Red/front/500.png?decache=638459986732330000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8800/Red/back/500.png?decache=638459986732330000"
+            },
+            // Azul (Royal)
+            "#4169e1": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/8800/Royal/front/500.png?decache=638459986732330000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/8800/Royal/back/500.png?decache=638459986732330000"
+            }
+        }
+
+    },
+
+    // ================= Mujer =================
+    {
+        id: 5,
+        name: "Camiseta Básica Mujer",
+        type: "basica-mujer",
+        colors: {
+            // Rosa claro 
+            "#ffb6c1": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2000L/Light_Pink/front/500.png?decache=",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2000L/Light_Pink/back/500.png?decache="
+            },
+            // Blanco 
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2000L/White/front/500.png?decache=",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2000L/White/back/500.png?decache="
+            },
+            // Fucsia 
+            "#ff1493": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2000L/Heliconia/front/500.png?decache=",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2000L/Heliconia/back/500.png?decache="
+            },
+            // Celeste claro 
+            "#add8e6": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2000L/Light_Blue/front/500.png?decache=",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2000L/Light_Blue/back/500.png?decache="
+            },
+            // Negro 
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2000L/Black/front/500.png?decache=",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2000L/Black/back/500.png?decache="
+            }
+        }
+
+    },
+    {
+        id: 6,
+        name: "Camiseta Cuello V Mujer",
+        type: "cuello-v-mujer",
+        colors: {
+            // Banana Cream 
+            "#fff59d": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/1540/Banana_Cream/front/500.png?decache=636686566188070000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/1540/Banana_Cream/back/500.png?decache=636686566188070000"
+            },
+            // Blanca
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/1540/White/front/500.png?decache=636686566188070000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/1540/White/back/500.png?decache=636686566188070000"
+            },
+            // Rosa Fucsia 
+            "#e30b5c": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/1540/Raspberry/front/500.png?decache=636686566188070000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/1540/Raspberry/back/500.png?decache=636686566188070000"
+            },
+            // Negra
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/1540/Black/front/500.png?decache=636686566188070000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/1540/Black/back/500.png?decache=636686566188070000"
+            },
+            // Roja
+            "#ff0000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/1540/Red/front/500.png?decache=636686566188070000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/1540/Red/back/500.png?decache=636686566188070000"
+            }
+        }
+
+    },
+    {
+        id: 7,
+        name: "Camiseta Manga Larga Mujer",
+        type: "manga-larga-mujer",
+        colors: {
+            // Negro
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Black/front/500.png?decache=638407054010770000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Black/back/500.png?decache=638407054010770000"
+            },
+            // Rojo
+            "#ff0000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Red/front/500.png?decache=638407054010770000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Red/back/500.png?decache=638407054010770000"
+            },
+            // Blanco
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/3911NL/White/front/500.png?decache=638407054010770000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/3911NL/White/back/500.png?decache=638407054010770000"
+            },
+            // Rosa Ahumado / Desert Pink
+            "#f1c0b0": { 
+                front: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Desert_Pink/front/500.png?decache=638407054010770000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/3911NL/Desert_Pink/back/500.png?decache=638407054010770000"
+            }
+        }
+
+    },
+    {
+        id: 8,
+        name: "Polo Clásico Mujer",
+        type: "polo-mujer",
+        colors: {
+            // Blanco
+            "#ffffff": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/White/front/500.png?decache=637435398933100000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/White/back/500.png?decache=637435398933100000"
+            },
+            // Rojo vino
+            "#800000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/Red/front/500.png?decache=637435397708130000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/Red/back/500.png?decache=637435397708130000"
+            },
+            // Negro
+            "#000000": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/Black/front/500.png?decache=637435392047200000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/Black/back/500.png?decache=637435392047200000"
+            },
+            // Rosado claro
+            "#ffb6c1": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/Light_Pink/front/500.png?decache=637435393542030000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/Light_Pink/back/500.png?decache=637435393542030000"
+            },
+            // Verde menta
+            "#98ff98": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/Mint_Green/front/500.png?decache=637435394888400000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/Mint_Green/back/500.png?decache=637435394888400000"
+            },
+            // Celeste claro
+            "#add8e6": {
+                front: "https://cdn.inksoft.com/images/products/2570/products/2515/Light_Blue/front/500.png?decache=637435393542030000",
+                back: "https://cdn.inksoft.com/images/products/2570/products/2515/Light_Blue/back/500.png?decache=637435393542030000"
+            }
+        }
+
+    }
+];
+
+
+
+// ----------------------------------------------------------
+// FUNCIONALIDAD PRINCIPAL
+// ----------------------------------------------------------
+
+// Estado actual
+let currentProductIndex = 0;
+let currentProduct = productStyles[0];
+
+// Inicializar cuando cargue la página
+document.addEventListener('DOMContentLoaded', function () {
+    initializeProductChanger();
+    updateProductDisplay();
+});
+
+// =====================
+// CAMBIO DE PRODUCTO
+// =====================
+function initializeProductChanger() {
+    const changeProductBtn = document.querySelector('.change-product button');
+    if (changeProductBtn) {
+        changeProductBtn.addEventListener('click', showProductSelector);
+    }
+}
+
+function showProductSelector() {
+    const modal = document.createElement('div');
+    modal.className = 'product-selector-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: fadeIn 0.3s ease;
+    `;
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        animation: slideUp 0.3s ease;
+    `;
+
+    let html = `
+        <h2 style="margin-bottom: 20px; color: #2c3e50; font-size: 24px;">Selecciona un estilo de producto</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+    `;
+
+    productStyles.forEach((product, index) => {
+        const isActive = index === currentProductIndex;
+        html += `
+            <div class="product-card" data-index="${index}" style="
+                border: 3px solid ${isActive ? '#3498db' : '#e9ecef'};
+                border-radius: 10px;
+                padding: 15px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: ${isActive ? '#f0f8ff' : 'white'};
+            ">
+                <img src="${Object.values(product.colors)[0].front}" 
+                     style="width: 100%; height: 150px; object-fit: contain; margin-bottom: 10px;"
+                     alt="${product.name}">
+                <h3 style="font-size: 16px; color: #2c3e50; margin: 10px 0;">${product.name}</h3>
+                ${isActive ? '<div style="color: #3498db; font-weight: 600; font-size: 12px;">✓ Actualmente seleccionado</div>' : ''}
+            </div>
+        `;
+    });
+
+    html += `</div>
+        <button id="close-modal" style="
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        ">Cerrar</button>
+    `;
+
+    modalContent.innerHTML = html;
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .product-card:hover {
+            border-color: #3498db !important;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const index = parseInt(this.dataset.index);
+            changeProduct(index);
+            modal.remove();
+        });
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+        modal.remove();
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
+
+function changeProduct(index) {
+    currentProductIndex = index;
+    currentProduct = productStyles[index];
+    updateProductDisplay();
+    showNotification(`Cambiado a: ${currentProduct.name}`);
+}
+
+function updateProductDisplay() {
+    const activeColor = document.querySelector('.color-option.active');
+    const colorHex = activeColor ? rgbToHex(activeColor.style.backgroundColor).toLowerCase() : '#3498db';
+    updateShirtImages(colorHex);
+    mostrarColores(currentProduct.id); // <- agrega esto
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #2ecc71;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        z-index: 10000;
+        animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+
+
+
+function updateShirtImages(colorHex) {
+    const imgFront = document.querySelector('#shirt-front');
+    const imgBack = document.querySelector('#shirt-back');
+
+    if (!imgFront || !imgBack) return;
+
+    const colorSet = currentProduct.colors[colorHex] || Object.values(currentProduct.colors)[0];
+    imgFront.src = colorSet.front;
+    imgBack.src = colorSet.back;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initializeProductChanger();
+    updateProductDisplay();
+    mostrarColores(currentProduct.id); // <- esto genera los circulitos
+});
+
+// Función que muestra los circulitos de colores de la camiseta activa
+function mostrarColores(camisetaId) {
+    const camiseta = productStyles.find(p => p.id === camisetaId);
+    const container = document.querySelector('#color-options');
+    container.innerHTML = ''; // Limpiar colores anteriores
+
+    for (const color in camiseta.colors) {
+        const div = document.createElement('div');
+        div.classList.add('color-option');
+        div.dataset.color = color;
+        div.style.backgroundColor = color; // esto crea el color visual
+
+        div.addEventListener('click', () => {
+            // Cambia la imagen de la camiseta
+            document.querySelector('#shirt-front').src = camiseta.colors[color].front;
+            document.querySelector('#shirt-back').src = camiseta.colors[color].back;
+
+            // Marca el circulito como activo
+            document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
+            div.classList.add('active');
+        });
+
+        container.appendChild(div);
+    }
+
+    // Selecciona automáticamente el primer color
+    const primerColor = Object.keys(camiseta.colors)[0];
+    document.querySelector('#shirt-front').src = camiseta.colors[primerColor].front;
+    document.querySelector('#shirt-back').src = camiseta.colors[primerColor].back;
+    container.querySelector('.color-option').classList.add('active');
+}

@@ -1,53 +1,43 @@
-﻿@model IEnumerable<AppPrint_and_Wear.Models.Producto>
+﻿@model List<AppPrint_and_Wear.Models.Producto>
 
-@{
-    ViewData["Title"] = "Index";
+<section class="productos">
+    <h2>Productos Destacados</h2>
+
+    <div class="carrusel">
+        <button class="flecha izquierda">❮</button>
+
+        <div class="contenedor-cards" id="cardsContainer">
+            @foreach (var producto in Model)
+            {
+                <div class="card">
+                    <img src="@producto." alt="@producto.Nombre" />
+                    <h3>@producto.Nombre</h3>
+                    <p class="precio">₡@producto.Precio</p>
+                    <div class="botones">
+                        <button class="btn-comprar">Comprar</button>
+                        <button class="btn-detalles">Detalles</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="flecha derecha">❯</button>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        const contenedor = document.getElementById('cardsContainer');
+        const btnIzq = document.querySelector('.izquierda');
+        const btnDer = document.querySelector('.derecha');
+
+        btnIzq.addEventListener('click', () => {
+            contenedor.scrollBy({ left: -250, behavior: 'smooth' });
+        });
+
+        btnDer.addEventListener('click', () => {
+            contenedor.scrollBy({ left: 250, behavior: 'smooth' });
+        });
+    </script>
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descriccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descriccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductoId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>

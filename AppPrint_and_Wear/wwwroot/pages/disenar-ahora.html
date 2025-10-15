@@ -33,7 +33,11 @@
             <div class="section">
                 <div class="section-title">Editar Clipart</div>
                 <div class="tool-button">Rotar</div>
-                <div class="tool-button">Borrar color</div>
+
+                <!-- ✅ Botón funcional para borrar color -->
+                <button id="btnResetColor" class="reset-color-btn">
+                    <i class="fa fa-refresh"></i> Borrar color
+                </button>
             </div>
 
             <div class="section">
@@ -122,13 +126,17 @@
     <!-- Barra de herramientas inferior -->
     <div class="bottom-tools">
         <div class="zoom-controls">
-            <button class="tool-btn">Zoom</button>
-            <button class="tool-btn">Deshacer</button>
-            <button class="tool-btn">Rehacer</button>
-            <button class="tool-btn">Previo</button>
-            <button class="tool-btn">Seleccionar todo</button>
-        </div>
+    <div class="zoom-controls">
+        <button class="tool-btn" id="btnZoom"><i class="fa fa-search-plus"></i> Zoom</button>
+        <button class="tool-btn" id="btnUndo"><i class="fa fa-undo"></i> Deshacer</button>
+        <button class="tool-btn" id="btnRedo"><i class="fa fa-repeat"></i> Rehacer</button>
+        <button class="tool-btn" id="btnPreview"><i class="fa fa-eye"></i> Previo</button>
+        <button class="tool-btn" id="btnSelectAll"><i class="fa fa-object-group"></i> Seleccionar todo</button>
     </div>
+</div>
+
+        </div>
+   
     
 
     <script src="../js/scriptdis.js"></script>

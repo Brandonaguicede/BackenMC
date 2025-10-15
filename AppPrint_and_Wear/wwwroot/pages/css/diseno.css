@@ -1,76 +1,545 @@
-﻿body {
-    font-family: Arial, sans-serif;
+﻿* {
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
     padding: 20px;
 }
 
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
 .header {
+    background: #2c3e50;
+    color: white;
+    padding: 20px 30px;
     text-align: center;
-    padding: 40px 0;
-    background-color: #fff;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.design-area {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .header h1 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+.main-content {
+    display: flex;
+    min-height: 700px;
 }
 
-.product-preview {
+/* Panel izquierdo - Herramientas */
+.tools-panel {
     width: 300px;
-    height: 300px;
-    border: 1px dashed #ccc;
-    margin: 0 auto 20px;
+    background: #f8f9fa;
+    border-right: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tool-button {
+    width: 100%;
+    padding: 12px 15px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .tool-button:hover {
+        border-color: #3498db;
+        background: #f8f9ff;
+    }
+
+    .tool-button.active {
+        border-color: #3498db;
+        background: #3498db;
+        color: white;
+    }
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+    .input-group label {
+        display: block;
+        font-size: 12px;
+        color: #6c757d;
+        margin-bottom: 5px;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .checkbox-group input {
+        margin-right: 8px;
+    }
+
+    .checkbox-group label {
+        font-size: 14px;
+        color: #2c3e50;
+    }
+
+/* Vista previa de la camiseta */
+.preview-panel {
+    flex: 1;
+    padding: 20px;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.view-button {
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+    .view-button.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+
+.design-area-container {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.tools {
+.design-area {
+    position: relative;
+    width: 400px;
+    height: 480px;
+}
+
+.lawView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+    .lawView.active {
+        display: block;
+    }
+
+.product-design {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.modelImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.design-area-overlay {
+    position: absolute;
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.1);
+    z-index: 200;
+    cursor: move;
+}
+
+    .design-area-overlay.front {
+        width: 222px;
+        height: 310px;
+        left: 89px;
+        top: 85px;
+    }
+
+    .design-area-overlay.back {
+        width: 188px;
+        height: 255px;
+        left: 106px;
+        top: 112px;
+    }
+
+.content-inner {
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    position: relative;
+}
+
+/* Panel derecho - Opciones */
+.options-panel {
+    width: 300px;
+    background: #f8f9fa;
+    border-left: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+.color-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-.tool {
-    padding: 10px 15px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 4px;
+.color-option {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
     cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
 }
 
-    .tool:hover {
-        background-color: #e0e0e0;
+    .color-option:hover {
+        transform: scale(1.1);
     }
 
-.actions {
+    .color-option.active {
+        border-color: #2c3e50;
+        transform: scale(1.1);
+    }
+
+.size-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.size-option {
+    padding: 12px 5px;
     text-align: center;
-    margin-top: 30px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-    .btn-primary:hover {
-        background-color: #0069d9;
+    .size-option:hover {
+        border-color: #3498db;
     }
+
+    .size-option.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+
+.size-arrow {
+    text-align: center;
+    font-size: 18px;
+    color: #3498db;
+    margin: 5px 0;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 15px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 15px;
+}
+
+    .add-to-cart:hover {
+        background: #c0392b;
+    }
+
+.product-info {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+    .product-info a {
+        color: #3498db;
+        text-decoration: none;
+        font-size: 14px;
+        margin: 0 10px;
+    }
+
+        .product-info a:hover {
+            text-decoration: underline;
+        }
+
+.change-product {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .change-product button {
+        background: none;
+        border: 2px solid #3498db;
+        color: #3498db;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .change-product button:hover {
+            background: #3498db;
+            color: white;
+        }
+
+/* Barra de herramientas inferior */
+.bottom-tools {
+    background: white;
+    border-top: 1px solid #e9ecef;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.zoom-controls, .edit-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.tool-btn {
+    padding: 8px 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+    .tool-btn:hover {
+        background: #f8f9fa;
+        border-color: #3498db;
+    }
+
+.saved-designs {
+    background: #f8f9fa;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .saved-designs p {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+.text-editor {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    display: none;
+}
+
+    .text-editor.active {
+        display: block;
+    }
+
+.text-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.font-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+    .font-controls select, .font-controls input {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+    }
+.product-design {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* La imagen de la camiseta debe estar detrás */
+.modelImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 1; /* Detrás del área de diseño */
+}
+
+/* Área de diseño - solo el contenedor, no el contenido */
+.design-area-overlay {
+    position: absolute;
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.1);
+    z-index: 100; /* Por encima de la camiseta */
+    pointer-events: none; /* IMPORTANTE: No captura eventos del mouse */
+}
+
+    .design-area-overlay.front {
+        width: 222px;
+        height: 310px;
+        left: 89px;
+        top: 85px;
+    }
+
+    .design-area-overlay.back {
+        width: 188px;
+        height: 255px;
+        left: 106px;
+        top: 112px;
+    }
+
+/* El contenido interno SÍ debe capturar eventos */
+.content-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    position: relative;
+    pointer-events: auto; /* Permite eventos en el área de contenido */
+    cursor: default;
+}
+
+.resizer-handle {
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: #3498db !important;
+    border: 2px solid white !important;
+    border-radius: 2px !important;
+    right: -8px !important;
+    bottom: -8px !important;
+    cursor: se-resize !important;
+    z-index: 1000 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    pointer-events: auto !important;
+}
+.image-wrapper {
+    position: absolute !important;
+    border: 1px dashed transparent;
+    transition: border-color 0.3s ease;
+}
+
+    .image-wrapper:hover {
+        border-color: #3498db;
+    }
+
+.arrastrable-escalable {
+    position: absolute !important;
+    z-index: 200 !important; /* Por encima del área de diseño */
+    cursor: move;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.arrastrable-escalable:hover {
+    border-color: #3498db;
+}
+.texto-arrastrable {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    max-width: 200px;
+    word-wrap: break-word;
+}
+.imagen-arrastrable {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+.content-inner > div:not(.arrastrable-escalable) {
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}

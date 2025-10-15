@@ -19,6 +19,10 @@ namespace AppPrint_and_Wear.Data
         public DbSet<Metodo_De_Pago> Metodo_De_Pagos { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Personalizacion> Personalizaciones { get; set; }
+
+
+
+        //no aparecen esas malditas 
         public DbSet<Factura> Facturas { get; set; }
         public DbSet <DetalleFactura> DetalleFacturas { get; set; }
 

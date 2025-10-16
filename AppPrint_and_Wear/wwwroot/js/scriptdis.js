@@ -35,20 +35,74 @@ document.querySelectorAll('.color-option').forEach(option => {
         }
     });
 });
-// 🧼 Botón para borrar color y volver al default (blanco)
+// 🧼 BOTÓN DE BORRAR (versión fluida con animaciones suaves)
 const btnResetColor = document.getElementById("btnResetColor");
+
 if (btnResetColor) {
     btnResetColor.addEventListener("click", () => {
-        // Quitar selección activa
+        console.log("🧽 Limpiando vista actual con efecto fluido...");
+
+        // Detectar vista activa
+        const activeView = document.querySelector('.lawView.active');
+        const isFront = activeView && activeView.id === 'front-view';
+
+        // Quitar selección de color
         document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
 
-        // Restablecer imágenes base
-        const defaultFront = "/imagenes/blanco.jpg";
-        const defaultBack = "/imagenes/blancotras.jpg";
-        document.getElementById('front-shirt-img').src = defaultFront;
-        document.getElementById('back-shirt-img').src = defaultBack;
+        // Color base (blanco o color por defecto)
+        const defaultColor = "#ffffff";
+        const colorSet = currentProduct.colors[defaultColor] || Object.values(currentProduct.colors)[0];
 
-        console.log("Color restablecido al predeterminado.");
+        // Referencias a imágenes
+        const frontImg = document.getElementById('shirt-front');
+        const backImg = document.getElementById('shirt-back');
+
+        // 🌫️ Animación suave tipo “fluido”
+        [frontImg, backImg].forEach(img => {
+            if (img) {
+                img.style.transition = "opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease";
+                img.style.opacity = "0";
+                img.style.transform = "scale(1.05)";
+                img.style.filter = "blur(5px)";
+            }
+        });
+
+        // Cambiar imágenes después de la transición
+        setTimeout(() => {
+            if (frontImg && colorSet.front) frontImg.src = colorSet.front;
+            if (backImg && colorSet.back) backImg.src = colorSet.back;
+
+            [frontImg, backImg].forEach(img => {
+                if (img) {
+                    img.style.opacity = "1";
+                    img.style.transform = "scale(1)";
+                    img.style.filter = "blur(0)";
+                }
+            });
+        }, 500);
+
+        // 🧹 Limpiar área activa
+        const content = isFront
+            ? document.getElementById('front-content-inner')
+            : document.getElementById('back-content-inner');
+
+        if (content) {
+            content.classList.add('cleaning-fluid');
+            setTimeout(() => {
+                content.querySelectorAll('.arrastrable-escalable, img').forEach(e => e.remove());
+                content.textContent = '';
+                content.classList.remove('cleaning-fluid');
+            }, 600);
+        }
+
+        // Limpiar historial
+        historyStack = [];
+        redoStack = [];
+        saveSnapshot();
+
+        // ✅ Notificación suave
+        showNotification?.("✨ Diseño limpiado con fluidez elegante");
+        console.log("✅ Limpieza completada con animación fluida.");
     });
 }
 
@@ -365,120 +419,100 @@ document.querySelectorAll('.color-option').forEach(option => {
         }
     });
 });
+// ===========================================
+// 🧩 BOTONES INFERIORES - FUNCIONALIDAD COMPLETA
+// ===========================================
 
-// =====================================
-// 🔧 BOTONES DE LA BARRA INFERIOR
-// =====================================
+// 🎯 1️⃣ ZOOM
+let zoomLevel = 1;
+const zoomBtn = document.getElementById("btnZoom");
+const designArea = document.querySelector(".design-area");
 
-// Variables globales para historial
-let historyStack = [];
-let redoStack = [];
-
-// Guardar estado actual
-function saveSnapshot() {
-    const front = document.getElementById('front-content-inner').innerHTML;
-    const back = document.getElementById('back-content-inner').innerHTML;
-    historyStack.push({ front, back });
-    redoStack = [];
-    if (historyStack.length > 20) historyStack.shift(); // limitar tamaño
-}
-
-// Restaurar un estado previo
-function restoreSnapshot(snapshot) {
-    if (!snapshot) return;
-    document.getElementById('front-content-inner').innerHTML = snapshot.front;
-    document.getElementById('back-content-inner').innerHTML = snapshot.back;
-}
-
-// ==========================
-// 🔍 ZOOM
-// ==========================
-let zoomed = false;
-const btnZoom = document.getElementById('btnZoom');
-if (btnZoom) {
-    btnZoom.addEventListener('click', () => {
-        const previewPanel = document.querySelector('.preview-panel');
-        if (!previewPanel) return;
-
-        zoomed = !zoomed;
-        previewPanel.style.transition = 'transform 0.3s ease';
-        previewPanel.style.transformOrigin = 'center center';
-        previewPanel.style.transform = zoomed ? 'scale(1.3)' : 'scale(1)';
-        btnZoom.innerHTML = zoomed
-            ? '<i class="fa fa-search-minus"></i> Restaurar Zoom'
-            : '<i class="fa fa-search-plus"></i> Zoom';
+if (zoomBtn && designArea) {
+    zoomBtn.addEventListener("click", () => {
+        zoomLevel += 0.2;
+        if (zoomLevel > 1.6) zoomLevel = 1; // vuelve al tamaño normal
+        designArea.style.transform = `scale(${zoomLevel})`;
+        designArea.style.transition = "transform 0.4s ease";
+        zoomBtn.classList.add("zoom-pulse");
+        setTimeout(() => zoomBtn.classList.remove("zoom-pulse"), 300);
     });
 }
 
-// ==========================
-// ↩️ DESHACER
-// ==========================
-const btnUndo = document.getElementById('btnUndo');
-if (btnUndo) {
-    btnUndo.addEventListener('click', () => {
-        if (historyStack.length > 1) {
-            const current = historyStack.pop();
-            redoStack.push(current);
-            const last = historyStack[historyStack.length - 1];
-            restoreSnapshot(last);
-            console.log("↩️ Deshacer ejecutado");
-        } else {
-            console.log("⚠️ No hay más pasos para deshacer");
-        }
+// 🎯 2️⃣ DESHACER (ya está en tu código, aquí solo visual extra)
+const undoBtn = document.getElementById("btnUndo");
+if (undoBtn) {
+    undoBtn.addEventListener("mouseenter", () => undoBtn.classList.add("btn-hover"));
+    undoBtn.addEventListener("mouseleave", () => undoBtn.classList.remove("btn-hover"));
+}
+
+// 🎯 3️⃣ REHACER (ya está también, solo efecto visual)
+const redoBtn = document.getElementById("btnRedo");
+if (redoBtn) {
+    redoBtn.addEventListener("mouseenter", () => redoBtn.classList.add("btn-hover"));
+    redoBtn.addEventListener("mouseleave", () => redoBtn.classList.remove("btn-hover"));
+}
+
+// 🎯 BOTÓN DE PREVIO — Vista previa real con animación y cierre fluido
+const previewBtn = document.getElementById("btnPreview");
+if (previewBtn) {
+    previewBtn.addEventListener("click", () => {
+        // Crea el modal principal
+        const preview = document.createElement("div");
+        preview.className = "preview-modal";
+
+        preview.innerHTML = `
+            <div class="preview-box">
+                <span class="close-preview">&times;</span>
+                <h2>Vista previa del diseño</h2>
+                <div class="preview-content">
+                    <div class="preview-item animate-preview">
+                        <h3>Frente</h3>
+                        <div class="mockup-area">
+                            <img src="${document.getElementById('shirt-front').src}" class="mockup-img" alt="Frente">
+                            <div class="mockup-overlay">
+                                ${document.getElementById('front-content-inner').innerHTML}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-item animate-preview">
+                        <h3>Espalda</h3>
+                        <div class="mockup-area">
+                            <img src="${document.getElementById('shirt-back').src}" class="mockup-img" alt="Espalda">
+                            <div class="mockup-overlay">
+                                ${document.getElementById('back-content-inner').innerHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(preview);
+
+        // Botón para cerrar con animación
+        const closeBtn = preview.querySelector(".close-preview");
+        closeBtn.addEventListener("click", () => {
+            preview.classList.add("fade-out");
+            setTimeout(() => preview.remove(), 400);
+        });
     });
 }
 
-// ==========================
-// ↪️ REHACER
-// ==========================
-const btnRedo = document.getElementById('btnRedo');
-if (btnRedo) {
-    btnRedo.addEventListener('click', () => {
-        if (redoStack.length > 0) {
-            const redoAction = redoStack.pop();
-            historyStack.push(redoAction);
-            restoreSnapshot(redoAction);
-            console.log("↪️ Rehacer ejecutado");
-        } else {
-            console.log("⚠️ No hay pasos para rehacer");
-        }
+// 🎯 5️⃣ SELECCIONAR TODO
+const selectAllBtn = document.getElementById("btnSelectAll");
+if (selectAllBtn) {
+    selectAllBtn.addEventListener("click", () => {
+        document.querySelectorAll(".arrastrable-escalable").forEach(el => {
+            el.classList.add("selected-rotate");
+        });
+
+        selectAllBtn.classList.add("select-flash");
+        setTimeout(() => selectAllBtn.classList.remove("select-flash"), 300);
+
+        console.log("🖱️ Todos los elementos seleccionados");
     });
 }
-
-// ==========================
-// 👁️ PREVIO
-// ==========================
-const btnPreview = document.getElementById('btnPreview');
-if (btnPreview) {
-    btnPreview.addEventListener('click', () => {
-        const overlays = document.querySelectorAll('.design-area-overlay');
-        overlays.forEach(o => o.classList.toggle('ocultar-overlay'));
-        const active = overlays[0].classList.contains('ocultar-overlay');
-        btnPreview.innerHTML = active
-            ? '<i class="fa fa-eye-slash"></i> Mostrar guías'
-            : '<i class="fa fa-eye"></i> Previo';
-        console.log("👁️ Vista previa alternada");
-    });
-}
-
-// ==========================
-// 🧩 SELECCIONAR TODO
-// ==========================
-const btnSelectAll = document.getElementById('btnSelectAll');
-if (btnSelectAll) {
-    btnSelectAll.addEventListener('click', () => {
-        const elementos = document.querySelectorAll('.arrastrable-escalable');
-        elementos.forEach(e => e.classList.add('seleccionado'));
-        setTimeout(() => {
-            elementos.forEach(e => e.classList.remove('seleccionado'));
-        }, 1200);
-        console.log("🧩 Todos los elementos seleccionados");
-    });
-}
-
-// Guardar automáticamente tras cada acción
-document.addEventListener('mouseup', saveSnapshot);
-document.addEventListener('keyup', saveSnapshot);
 
 
 
@@ -986,4 +1020,99 @@ function mostrarColores(camisetaId) {
     document.querySelector('#shirt-front').src = camiseta.colors[primerColor].front;
     document.querySelector('#shirt-back').src = camiseta.colors[primerColor].back;
     container.querySelector('.color-option').classList.add('active');
+}
+// 📏 Modal Guía de Tallas
+document.addEventListener('DOMContentLoaded', () => {
+    const modalTallas = document.getElementById('modalTallas');
+    const closeTallas = document.getElementById('closeTallas');
+    const links = document.querySelectorAll('.product-info a');
+    const guiaLink = Array.from(links).find(link => link.textContent.includes('Guía de tallas'));
+
+    if (guiaLink && modalTallas && closeTallas) {
+        guiaLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalTallas.style.display = 'flex';
+            modalTallas.classList.add('open');
+        });
+
+        closeTallas.addEventListener('click', () => {
+            modalTallas.style.display = 'none';
+        });
+
+        // Cerrar al hacer clic fuera del contenido
+        window.addEventListener('click', (e) => {
+            if (e.target === modalTallas) {
+                modalTallas.style.display = 'none';
+            }
+        });
+    }
+});
+// 🧴 Modal de Información del Producto
+document.addEventListener('DOMContentLoaded', () => {
+    const modalInfo = document.getElementById('modalInfo');
+    const closeInfo = document.getElementById('closeInfo');
+    const links = document.querySelectorAll('.product-info a');
+    const infoLink = Array.from(links).find(link => link.textContent.includes('Info del producto'));
+
+    if (infoLink && modalInfo && closeInfo) {
+        infoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalInfo.style.display = 'flex';
+            modalInfo.classList.add('open');
+        });
+
+        closeInfo.addEventListener('click', () => {
+            modalInfo.style.display = 'none';
+        });
+
+        // Cerrar haciendo clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === modalInfo) {
+                modalInfo.style.display = 'none';
+            }
+        });
+    }
+});
+
+// 🔄 ROTAR ELEMENTOS SELECCIONADOS ============================
+
+// Variable para guardar el elemento actualmente seleccionado
+let selectedElement = null;
+
+// Detectar clic sobre elementos arrastrables
+document.addEventListener('click', function (e) {
+    const target = e.target.closest('.arrastrable-escalable');
+    if (target) {
+        // Deseleccionar otros
+        document.querySelectorAll('.arrastrable-escalable').forEach(el => el.classList.remove('selected-rotate'));
+        // Seleccionar el clicado
+        selectedElement = target;
+        selectedElement.classList.add('selected-rotate');
+    }
+});
+
+// Botón de rotar
+const rotateBtn = Array.from(document.querySelectorAll('.tool-button'))
+    .find(btn => btn.textContent.trim() === "Rotar");
+
+if (rotateBtn) {
+    rotateBtn.addEventListener('click', () => {
+        if (!selectedElement) {
+            alert("Selecciona un elemento (texto o imagen) para rotar.");
+            return;
+        }
+
+        // Leer ángulo actual y aumentar 15°
+        let currentRotation = parseFloat(selectedElement.getAttribute('data-rotation') || "0");
+        currentRotation += 15; // rota de 15° en 15° por clic
+
+        // Aplicar rotación con animación suave
+        selectedElement.style.transition = "transform 0.3s ease";
+        selectedElement.style.transform = `rotate(${currentRotation}deg)`;
+        selectedElement.setAttribute('data-rotation', currentRotation);
+
+        // Efecto visual breve de "rotación activa"
+        selectedElement.classList.add('rotating');
+        setTimeout(() => selectedElement.classList.remove('rotating'), 300);
+    });
 }

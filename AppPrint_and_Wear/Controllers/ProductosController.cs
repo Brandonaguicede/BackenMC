@@ -153,5 +153,11 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Productos.Any(e => e.ProductoId == id);
         }
+
+        public IActionResult Diseno()
+        {
+            return View();
+        }
+
     }
 }

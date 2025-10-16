@@ -102,10 +102,109 @@
 
         <button class="add-to-cart">Añadir al carrito</button>
 
-        <div class="product-info">
-            <a href="#">Info del producto</a>
-            <a href="#">Guía de tallas</a>
+
+       <div class="product-info">
+    <a href="#" id="product-info-btn">Info del producto</a>
+    <a href="#" id="size-guide-btn">Guía de tallas</a>
+</div>
+
+        <!-- 🧾 Modal Guía de Tallas -->
+        <div id="modalTallas" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close-modal" id="closeTallas">&times;</span>
+                <h2>Guía de tallas para camisetas y chaquetas de hombre</h2>
+                <table class="tabla-tallas">
+                    <thead>
+                        <tr>
+                            <th>Talla</th>
+                            <th>Pecho</th>
+                            <th>Cintura</th>
+                            <th>Cadera</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>XS</td><td>82 - 87 cm</td><td>71 - 75 cm</td><td>82 - 86 cm</td></tr>
+                        <tr><td>S</td><td>88 - 94 cm</td><td>76 - 82 cm</td><td>87 - 93 cm</td></tr>
+                        <tr><td>M</td><td>95 - 102 cm</td><td>83 - 90 cm</td><td>94 - 101 cm</td></tr>
+                        <tr><td>L</td><td>103 - 111 cm</td><td>91 - 99 cm</td><td>102 - 110 cm</td></tr>
+                        <tr><td>XL</td><td>112 - 121 cm</td><td>100 - 109 cm</td><td>111 - 119 cm</td></tr>
+                        <tr><td>2XL</td><td>122 - 132 cm</td><td>110 - 121 cm</td><td>120 - 128 cm</td></tr>
+                        <tr><td>3XL</td><td>133 - 144 cm</td><td>122 - 134 cm</td><td>129 - 138 cm</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Cómo encontrar tu talla</h3>
+                <p>
+                    Para saber cuál es tu talla, mide el contorno de tu pecho, cintura y cadera con una cinta métrica.
+                    Luego compara tus medidas con la tabla anterior para encontrar la más adecuada.
+                </p>
+            </div>
+
         </div>
+        <!-- 🧴 Modal de Información del Producto - Estilo Tienda -->
+        <div id="modalInfo" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close-modal" id="closeInfo">&times;</span>
+
+                <div class="modal-header">
+                    <h2>Información del Producto</h2>
+                    <p class="subtitle">Calidad, diseño y personalización en cada prenda</p>
+                </div>
+
+                <div class="info-section">
+                    <h3>👕 Descripción</h3>
+                    <p>
+                        Camiseta diseñada para quienes buscan <strong>comodidad y estilo personalizado</strong>.
+                        Fabricada con materiales suaves, resistentes y pensada para acompañarte tanto en el día a día como en tus actividades deportivas o creativas.
+                    </p>
+                </div>
+
+                <div class="info-section">
+                    <h3>🧵 Material y confección</h3>
+                    <p>
+                        - 100% algodón peinado premium (190 g/m²)<br>
+                        - Costuras reforzadas en cuello y mangas<br>
+                        - Cuello redondo de doble capa para mayor durabilidad
+                    </p>
+                </div>
+
+                <div class="info-section">
+                    <h3>🎨 Personalización</h3>
+                    <p>
+                        Personaliza tu prenda con texto, imágenes o logotipos.
+                        Cada diseño se imprime con tecnología <strong>DTF y vinil textil premium</strong>, garantizando colores vivos y resistencia al lavado.
+                    </p>
+                </div>
+
+                <div class="info-section">
+                    <h3>🌿 Responsabilidad</h3>
+                    <p>
+                        Comprometidos con el medio ambiente 🌎.
+                        Utilizamos tintas ecológicas y materiales reciclables en el proceso de producción.
+                    </p>
+                </div>
+
+                <div class="info-section">
+                    <h3>🧼 Cuidados del producto</h3>
+                    <ul>
+                        <li>Lavar a máquina con agua fría (máx. 30 °C).</li>
+                        <li>No usar blanqueadores.</li>
+                        <li>Planchar del revés, evitando el área del diseño.</li>
+                        <li>No secar a altas temperaturas.</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h3>📦 Detalles</h3>
+                    <ul>
+                        <li>Corte unisex “Regular Fit”.</li>
+                        <li>Hecha con materiales nacionales.</li>
+                        <li>Garantía de satisfacción y cambio sin costo en los primeros 7 días.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
 
         <div class="change-product">
             <button id="change-product-btn">Cambiar producto</button>

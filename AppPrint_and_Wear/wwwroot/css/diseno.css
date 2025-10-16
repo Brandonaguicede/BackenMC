@@ -543,24 +543,476 @@ body {
     cursor: default;
     user-select: none;
 }
-/* ========== BOTÓN BORRAR COLOR ========== */
+/* 🧼 BOTÓN "BORRAR COLOR" CON EFECTO FLUIDO */
 .reset-color-btn {
-    display: block;
-    width: 100%;
-    padding: 10px 14px;
-    margin-top: 10px;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
     border: none;
-    border-radius: 6px;
-    background: #ff4d4d;
     color: #fff;
     font-weight: 600;
-    text-align: center;
+    border-radius: 10px;
+    padding: 10px 16px;
+    width: 100%;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
     .reset-color-btn:hover {
-        background: #e63b3b;
-        transform: translateY(-2px);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #ff6b6b, #c0392b);
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
     }
+
+    .reset-color-btn:active {
+        transform: scale(0.97);
+        filter: brightness(0.95);
+    }
+
+/* 💧 Efecto de onda cuando se limpia */
+@keyframes limpiarBoton {
+    0% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 25px 8px rgba(231, 76, 60, 0.4);
+        transform: scale(1.1);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+        transform: scale(1);
+    }
+}
+
+.reset-color-btn.cleaning {
+    animation: limpiarBoton 0.6s ease-out;
+}
+/* ===============================
+   🧾 Modal Guía de Tallas
+   =============================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    animation: modalFadeIn 0.4s ease forwards;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px 40px;
+    width: 80%;
+    max-width: 720px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: modalPopIn 0.45s ease forwards;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 26px;
+    color: #333;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+    .close-modal:hover {
+        color: #e74c3c;
+        transform: scale(1.2);
+    }
+
+.modal-content h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.tabla-tallas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+    .tabla-tallas th,
+    .tabla-tallas td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .tabla-tallas th {
+        background-color: #f4f4f4;
+        font-weight: 600;
+    }
+
+    .tabla-tallas tr:nth-child(even) {
+        background-color: #fafafa;
+    }
+
+.modal-content h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.modal-content p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* ✨ Animaciones suaves */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalPopIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* 📘 Estilos extra para el modal de información */
+.info-section {
+    margin-bottom: 18px;
+    border-left: 4px solid #3498db;
+    padding-left: 12px;
+}
+
+    .info-section h3 {
+        margin-bottom: 6px;
+        color: #2c3e50;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .info-section p,
+    .info-section ul {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .info-section ul {
+        margin-left: 18px;
+        list-style: disc;
+    }
+/* 🔄 Estilo para el elemento seleccionado */
+.selected-rotate {
+    outline: 2px dashed #3498db;
+    outline-offset: 3px;
+    animation: pulseOutline 1.5s infinite ease-in-out;
+}
+
+/* ✨ efecto de rotación activa */
+.rotating {
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+}
+
+/* 🌀 Pulso del borde al seleccionar */
+@keyframes pulseOutline {
+    0% {
+        outline-color: rgba(52, 152, 219, 1);
+    }
+
+    50% {
+        outline-color: rgba(52, 152, 219, 0.3);
+    }
+
+    100% {
+        outline-color: rgba(52, 152, 219, 1);
+    }
+}
+/* 🌟 Efectos generales de botones inferiores */
+.tool-btn {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+    .tool-btn:hover {
+        background-color: #3498db;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+/* 🔍 Zoom pulse effect */
+.zoom-pulse {
+    animation: zoomPulse 0.3s ease;
+}
+
+@keyframes zoomPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ✨ Botón hover */
+.btn-hover {
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+}
+
+/* 🖼️ Vista previa modal */
+.preview-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.4s ease;
+}
+
+.preview-box {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    max-width: 800px;
+    width: 90%;
+    animation: slideUp 0.4s ease;
+}
+
+    .preview-box h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+.preview-content {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.preview-item {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 10px;
+    width: 45%;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.close-preview {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+}
+
+/* ✨ Select All flash */
+.select-flash {
+    animation: selectFlash 0.3s ease;
+}
+
+@keyframes selectFlash {
+    0% {
+        background-color: #3498db;
+        color: white;
+    }
+
+    100% {
+        background-color: transparent;
+        color: inherit;
+    }
+}
+
+/* 🎞️ Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+/* 🎨 VISTA PREVIA DEL DISEÑO */
+.preview-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.5s ease forwards;
+    backdrop-filter: blur(5px);
+}
+
+.preview-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px 40px;
+    max-width: 950px;
+    width: 90%;
+    animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.preview-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+}
+
+.preview-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.preview-item {
+    background: #f9fafb;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px;
+    width: 45%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.preview-item h3 {
+    margin-bottom: 10px;
+    color: #222;
+    font-weight: 700;
+}
+
+/* 🧢 Simulación del mockup */
+.mockup-area {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.mockup-img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    filter: brightness(0.95);
+    transition: transform 0.4s ease;
+}
+
+.mockup-overlay {
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 60%;
+    height: 70%;
+    pointer-events: none;
+}
+
+.mockup-area:hover .mockup-img {
+    transform: scale(1.03);
+}
+
+/* ❌ Botón de cierre */
+.close-preview {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.close-preview:hover {
+    color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+/* ✨ Animaciones suaves */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-out {
+    animation: fadeOut 0.4s ease forwards;
+}
+@keyframes fadeOut {
+    to { opacity: 0; transform: scale(0.9); }
+}
+
+/* 🌀 Efecto al mostrar cada lado */
+.animate-preview {
+    animation: bounceIn 0.6s ease;
+}
+@keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    60% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+}

@@ -116,6 +116,22 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categoria");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -277,7 +293,7 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Personalizacion", b =>
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -285,30 +301,8 @@ namespace AppPrint_and_Wear.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CamisaId")
+                    b.Property<int?>("CategoriasId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImagenEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PosicionEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TextoEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Personalizaciones");
-                });
-
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
-                {
-                    b.Property<int>("ProductoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
                     b.Property<string>("Descriccion")
                         .HasColumnType("nvarchar(max)");
@@ -319,10 +313,15 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<double>("Precio")
                         .HasColumnType("float");
 
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductoId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriasId");
 
                     b.ToTable("Productos");
                 });
@@ -408,11 +407,26 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+                {
+                    b.HasOne("AppPrint_and_Wear.Models.Categoria", "Categorias")
+                        .WithMany("Productos")
+                        .HasForeignKey("CategoriasId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Categorias");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Carrito_De_Compra", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("Envio");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>

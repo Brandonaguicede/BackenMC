@@ -36,5 +36,6 @@ namespace AppPrint_and_Wear.Data
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
+        public DbSet<AppPrint_and_Wear.Models.Categoria> Categoria { get; set; }
     }
 }

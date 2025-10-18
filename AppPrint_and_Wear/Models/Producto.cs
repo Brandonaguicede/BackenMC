@@ -10,6 +10,8 @@
 
         //relacion 
         public List<CartItem> CartItems { get; set; }
-        
+
+        public int Id { get; set; }
+        public Categoria Categorias { get; set; }
     }
 }

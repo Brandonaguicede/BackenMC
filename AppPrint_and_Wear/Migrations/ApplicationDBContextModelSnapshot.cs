@@ -116,6 +116,22 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -151,6 +167,36 @@ namespace AppPrint_and_Wear.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.ColorOpcion", b =>
+                {
+                    b.Property<int>("ColorOpcionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorOpcionId"));
+
+                    b.Property<string>("Hex")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenEspalda")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenFrente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ColorOpcionId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("ColorOpcion");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
@@ -277,32 +323,7 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Personalizacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CamisaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImagenEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PosicionEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TextoEstampado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Personalizaciones");
-                });
-
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
                 {
                     b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
@@ -310,19 +331,18 @@ namespace AppPrint_and_Wear.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
-                    b.Property<string>("Descriccion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Precio")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductoId");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Productos");
                 });
@@ -353,7 +373,7 @@ namespace AppPrint_and_Wear.Migrations
                         .HasForeignKey("Carrito_De_CompraId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AppPrint_and_Wear.Models.Producto", "Productos")
+                    b.HasOne("TuProyecto.Models.Producto", "Productos")
                         .WithMany("CartItems")
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -362,6 +382,14 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Carrito_De_Compra");
 
                     b.Navigation("Productos");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.ColorOpcion", b =>
+                {
+                    b.HasOne("TuProyecto.Models.Producto", null)
+                        .WithMany("Colores")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
@@ -408,11 +436,27 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
+                {
+                    b.HasOne("AppPrint_and_Wear.Models.Categoria", "Categoria")
+                        .WithMany("Productos")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Carrito_De_Compra", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("Envio");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>
@@ -432,9 +476,11 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Carrito_De_Compra");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
                 {
                     b.Navigation("CartItems");
+
+                    b.Navigation("Colores");
                 });
 #pragma warning restore 612, 618
         }

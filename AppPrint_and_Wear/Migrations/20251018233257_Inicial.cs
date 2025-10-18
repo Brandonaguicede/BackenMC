@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AppPrint_and_Wear.Migrations
 {
     /// <inheritdoc />
-    public partial class firt : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,19 @@ namespace AppPrint_and_Wear.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
                 {
@@ -51,35 +64,24 @@ namespace AppPrint_and_Wear.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Personalizaciones",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CamisaId = table.Column<int>(type: "int", nullable: false),
-                    TextoEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImagenEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PosicionEstampado = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Personalizaciones", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Productos",
                 columns: table => new
                 {
                     ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descriccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Precio = table.Column<double>(type: "float", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false)
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Productos", x => x.ProductoId);
+                    table.ForeignKey(
+                        name: "FK_Productos_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +105,28 @@ namespace AppPrint_and_Wear.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ColorOpcion",
+                columns: table => new
+                {
+                    ColorOpcionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Hex = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagenFrente = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagenEspalda = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ColorOpcion", x => x.ColorOpcionId);
+                    table.ForeignKey(
+                        name: "FK_ColorOpcion_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
+                        principalColumn: "ProductoId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -254,6 +278,11 @@ namespace AppPrint_and_Wear.Migrations
                 column: "ProductoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ColorOpcion_ProductoId",
+                table: "ColorOpcion",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DetalleFacturas_FacturaId",
                 table: "DetalleFacturas",
                 column: "FacturaId");
@@ -273,6 +302,11 @@ namespace AppPrint_and_Wear.Migrations
                 name: "IX_Metodo_De_Pagos_ClienteId",
                 table: "Metodo_De_Pagos",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Productos_CategoriaId",
+                table: "Productos",
+                column: "CategoriaId");
         }
 
         /// <inheritdoc />
@@ -285,19 +319,22 @@ namespace AppPrint_and_Wear.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
+                name: "ColorOpcion");
+
+            migrationBuilder.DropTable(
                 name: "DetalleFacturas");
 
             migrationBuilder.DropTable(
                 name: "Envios");
 
             migrationBuilder.DropTable(
-                name: "Personalizaciones");
-
-            migrationBuilder.DropTable(
                 name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Facturas");
+
+            migrationBuilder.DropTable(
+                name: "Categorias");
 
             migrationBuilder.DropTable(
                 name: "Carrito_De_Compras");

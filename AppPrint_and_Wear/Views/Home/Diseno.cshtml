@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "Diseñar Ahora";
+    Layout = "_LayoutDiseno";
+}
+
+<div class="main-content">
+
+    <!-- Panel izquierdo -->
+    <aside class="tools-panel">
+        <div class="section">
+            <div class="tool-button active" data-tool="text">T- Añadir texto</div>
+            <div class="tool-button" id="add-image-btn">Añadir imagen</div>
+            <input type="file" id="image-upload" accept="image/*" style="display:none;">
+
+            <div class="text-editor active" id="text-editor">
+                <input type="text" class="text-input" id="design-text" placeholder="Escribe tu texto aquí...">
+                <div class="font-controls">
+                    <select id="font-family">
+                        <option>Arial</option>
+                        <option>Times New Roman</option>
+                        <option>Courier New</option>
+                    </select>
+                    <input type="color" id="text-color" value="#000000">
+                </div>
+                <button class="tool-button" onclick="addTextToDesign()">Aplicar texto</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Editar Clipart</div>
+            <div class="tool-button">Rotar</div>
+            <button id="btnResetColor" class="reset-color-btn">
+                <i class="fa fa-refresh"></i> Borrar color
+            </button>
+        </div>
+
+        <div class="section">
+            <div class="checkbox-group">
+                <input type="checkbox" id="layers">
+                <label for="layers">Capas</label>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Panel central -->
+    <section class="preview-panel">
+        <div class="view-selector">
+            <button class="view-button active" id="front-btn" data-view="front">Frente</button>
+            <button class="view-button" id="back-btn" data-view="back">Espalda</button>
+        </div>
+
+        <div class="design-area-container">
+            <div class="design-area">
+                <div id="front-view" class="lawView active">
+                    <div class="product-design">
+                        <img id="shirt-front" class="modelImage" src="" alt="Camiseta Frente">
+                        <div class="design-area-overlay front">
+                            <div class="content-inner" id="front-content-inner">Área de diseño frontal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="back-view" class="lawView">
+                    <div class="product-design">
+                        <img id="shirt-back" class="modelImage" src="" alt="Camiseta Espalda">
+                        <div class="design-area-overlay back">
+                            <div class="content-inner" id="back-content-inner">Área de diseño trasera</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel derecho -->
+    <aside class="options-panel">
+        <div class="categorias-section">
+            <h3 class="h_portada">Selecciona una categoría:</h3>
+            <div id="categoriasContainer" class="categorias-container">
+                <!-- Aquí se cargarán las categorías automáticamente -->
+            </div>
+        </div>
+
+
+        <div class="section">
+            <div class="section-title">Color</div>
+            <div class="color-options" id="color-options"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Tallas</div>
+            <div class="size-options">
+                <div class="size-option active">S</div>
+                <div class="size-option">M</div>
+                <div class="size-option">L</div>
+                <div class="size-option">XL</div>
+                <div class="size-option">XXL</div>
+            </div>
+        </div>
+
+        <button class="add-to-cart">Añadir al carrito</button>
+
+        <div class="product-info">
+            <a href="#" id="product-info-btn">Info del producto</a>
+            <a href="#" id="size-guide-btn">Guía de tallas</a>
+        </div>
+
+        <!-- Modales (guía de tallas e info del producto) -->
+        <!-- ... los de tu código actual ... -->
+
+        <div class="change-product">
+            <button id="change-product-btn">Cambiar producto</button>
+        </div>
+    </aside>
+</div>
+
+<!-- Barra inferior -->
+<div class="bottom-tools">
+    <button class="tool-btn" id="btnZoom"><i class="fa fa-search-plus"></i> Zoom</button>
+    <button class="tool-btn" id="btnUndo"><i class="fa fa-undo"></i> Deshacer</button>
+    <button class="tool-btn" id="btnRedo"><i class="fa fa-repeat"></i> Rehacer</button>
+    <button class="tool-btn" id="btnPreview"><i class="fa fa-eye"></i> Previo</button>
+    <button class="tool-btn" id="btnSelectAll"><i class="fa fa-object-group"></i> Seleccionar todo</button>
+</div>
+
+@section Scripts {
+    <script>
+        // Inicialización
+        document.getElementById("add-image-btn").addEventListener("click", () => {
+            document.getElementById("image-upload").click();
+        });
+
+        document.getElementById("image-upload").addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) console.log("Imagen seleccionada:", file.name);
+        });
+
+        document.getElementById("product-info-btn").addEventListener("click", () => {
+            document.getElementById("modalInfo").style.display = "block";
+        });
+        document.getElementById("closeInfo").addEventListener("click", () => {
+            document.getElementById("modalInfo").style.display = "none";
+        });
+        window.addEventListener("click", (e) => {
+            if (e.target.id === "modalInfo") document.getElementById("modalInfo").style.display = "none";
+        });
+
+        // 🔹 Cargar categorías dinámicamente
+        document.addEventListener("DOMContentLoaded", async () => {
+            const contenedor = document.getElementById("categoriaContainer");
+            if (!contenedor) return;
+
+            try {
+                const response = await fetch("/Productos/ObtenerCategorias");
+                const categorias = await response.json();
+
+                contenedor.innerHTML = categorias.map(c => `
+                    <button class="tool-button categoria-btn" data-id="${c.categoriaId}">
+                        ${c.nombre}
+                    </button>
+                `).join("");
+
+                document.querySelectorAll(".categoria-btn").forEach(btn => {
+                    btn.addEventListener("click", e => {
+                        document.querySelectorAll(".categoria-btn").forEach(b => b.classList.remove("active"));
+                        e.target.classList.add("active");
+                        console.log("Categoría seleccionada:", e.target.dataset.id);
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error cargando categorías:", error);
+            }
+        });
+    </script>
+}

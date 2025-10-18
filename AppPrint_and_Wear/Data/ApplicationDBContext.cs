@@ -1,6 +1,7 @@
 ﻿using AppPrint_and_Wear.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using TuProyecto.Models;
 
 namespace AppPrint_and_Wear.Data
 {
@@ -11,8 +12,10 @@ namespace AppPrint_and_Wear.Data
         {
         }
 
-        public DbSet<Administrador> Administradores { get; set; }
+       public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
+       public DbSet<Categoria> Categorias { get; set; }
+
         public DbSet<Carrito_De_Compra> Carrito_De_Compras { get; set; }
         public DbSet<Envio> Envios { get; set; }
         public DbSet<Producto> Productos { get; set; }

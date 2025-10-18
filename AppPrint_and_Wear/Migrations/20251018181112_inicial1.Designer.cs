@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251015030515_Primera")]
-    partial class Primera
+    [Migration("20251018181112_inicial1")]
+    partial class inicial1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,22 @@ namespace AppPrint_and_Wear.Migrations
                     b.HasIndex("ProductoId");
 
                     b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categoria");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>
@@ -282,11 +298,14 @@ namespace AppPrint_and_Wear.Migrations
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
                 {
-                    b.Property<int>("ProductoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoriasId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descriccion")
                         .HasColumnType("nvarchar(max)");
@@ -297,10 +316,15 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<double>("Precio")
                         .HasColumnType("float");
 
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductoId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriasId");
 
                     b.ToTable("Productos");
                 });
@@ -386,11 +410,26 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+                {
+                    b.HasOne("AppPrint_and_Wear.Models.Categoria", "Categorias")
+                        .WithMany("Productos")
+                        .HasForeignKey("CategoriasId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Categorias");
+                });
+
             modelBuilder.Entity("AppPrint_and_Wear.Models.Carrito_De_Compra", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("Envio");
+                });
+
+            modelBuilder.Entity("AppPrint_and_Wear.Models.Categoria", b =>
+                {
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Cliente", b =>

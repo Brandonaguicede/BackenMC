@@ -1,4 +1,6 @@
-﻿namespace AppPrint_and_Wear.Models
+﻿using TuProyecto.Models;
+
+namespace AppPrint_and_Wear.Models
 {
     public class CartItem
     {

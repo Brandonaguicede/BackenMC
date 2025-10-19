@@ -17,6 +17,11 @@ namespace AppPrint_and_Wear.Controllers
         {
             return View();
         }
+        public IActionResult Diseno()
+        {
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {

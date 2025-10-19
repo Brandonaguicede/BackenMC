@@ -169,36 +169,6 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.ColorOpcion", b =>
-                {
-                    b.Property<int>("ColorOpcionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorOpcionId"));
-
-                    b.Property<string>("Hex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagenEspalda")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagenFrente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ColorOpcionId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("ColorOpcion");
-                });
-
             modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
                 {
                     b.Property<int>("DetalleFacturaId")
@@ -323,29 +293,21 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
-                    b.Property<int?>("CategoriasId")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Descriccion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriasId");
+                    b.HasKey("ProductoId");
 
                     b.HasIndex("CategoriaId");
 
@@ -379,7 +341,7 @@ namespace AppPrint_and_Wear.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TuProyecto.Models.Producto", "Productos")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -387,14 +349,6 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Carrito_De_Compra");
 
                     b.Navigation("Productos");
-                });
-
-            modelBuilder.Entity("AppPrint_and_Wear.Models.ColorOpcion", b =>
-                {
-                    b.HasOne("TuProyecto.Models.Producto", null)
-                        .WithMany("Colores")
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.DetalleFactura", b =>
@@ -479,13 +433,6 @@ namespace AppPrint_and_Wear.Migrations
             modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
                 {
                     b.Navigation("Carrito_De_Compra");
-                });
-
-            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
-                {
-                    b.Navigation("CartItems");
-
-                    b.Navigation("Colores");
                 });
 #pragma warning restore 612, 618
         }

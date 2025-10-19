@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppPrint_and_Wear.Data;
-using AppPrint_and_Wear.Models;
+using TuProyecto.Models;
 
 namespace AppPrint_and_Wear.Controllers
 {
@@ -22,7 +22,8 @@ namespace AppPrint_and_Wear.Controllers
         // GET: Productos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Productos.ToListAsync());
+            var applicationDBContext = _context.Productos.Include(p => p.Categoria);
+            return View(await applicationDBContext.ToListAsync());
         }
 
         // GET: Productos/Details/5
@@ -34,6 +35,7 @@ namespace AppPrint_and_Wear.Controllers
             }
 
             var producto = await _context.Productos
+                .Include(p => p.Categoria)
                 .FirstOrDefaultAsync(m => m.ProductoId == id);
             if (producto == null)
             {
@@ -46,6 +48,7 @@ namespace AppPrint_and_Wear.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace AppPrint_and_Wear.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductoId,Nombre,Descriccion,Precio,Stock")] Producto producto)
+        public async Task<IActionResult> Create([Bind("ProductoId,Precio,CategoriaId")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace AppPrint_and_Wear.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", producto.CategoriaId);
             return View(producto);
         }
 
@@ -78,6 +82,7 @@ namespace AppPrint_and_Wear.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", producto.CategoriaId);
             return View(producto);
         }
 
@@ -86,7 +91,7 @@ namespace AppPrint_and_Wear.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Nombre,Descriccion,Precio,Stock")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Precio,CategoriaId")] Producto producto)
         {
             if (id != producto.ProductoId)
             {
@@ -113,6 +118,7 @@ namespace AppPrint_and_Wear.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", producto.CategoriaId);
             return View(producto);
         }
 
@@ -125,6 +131,7 @@ namespace AppPrint_and_Wear.Controllers
             }
 
             var producto = await _context.Productos
+                .Include(p => p.Categoria)
                 .FirstOrDefaultAsync(m => m.ProductoId == id);
             if (producto == null)
             {
@@ -153,11 +160,5 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Productos.Any(e => e.ProductoId == id);
         }
-
-        public IActionResult Diseno()
-        {
-            return View();
-        }
-
     }
 }

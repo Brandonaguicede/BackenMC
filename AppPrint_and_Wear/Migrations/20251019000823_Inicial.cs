@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AppPrint_and_Wear.Migrations
 {
     /// <inheritdoc />
-    public partial class inicial1 : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,21 +67,17 @@ namespace AppPrint_and_Wear.Migrations
                 name: "Productos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductoId = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descriccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Precio = table.Column<double>(type: "float", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false),
-                    CategoriasId = table.Column<int>(type: "int", nullable: true)
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Productos", x => x.Id);
+                    table.PrimaryKey("PK_Productos", x => x.ProductoId);
                     table.ForeignKey(
-                        name: "FK_Productos_Categoria_CategoriasId",
-                        column: x => x.CategoriasId,
+                        name: "FK_Productos_Categoria_CategoriaId",
+                        column: x => x.CategoriaId,
                         principalTable: "Categoria",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -163,7 +159,7 @@ namespace AppPrint_and_Wear.Migrations
                         name: "FK_CartItems_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
-                        principalColumn: "Id",
+                        principalColumn: "ProductoId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -280,9 +276,9 @@ namespace AppPrint_and_Wear.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Productos_CategoriasId",
+                name: "IX_Productos_CategoriaId",
                 table: "Productos",
-                column: "CategoriasId");
+                column: "CategoriaId");
         }
 
         /// <inheritdoc />

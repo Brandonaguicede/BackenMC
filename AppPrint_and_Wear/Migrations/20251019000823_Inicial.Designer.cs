@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251018181112_inicial1")]
-    partial class inicial1
+    [Migration("20251019000823_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -296,35 +296,23 @@ namespace AppPrint_and_Wear.Migrations
                     b.ToTable("Metodo_De_Pagos");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
-                    b.Property<int?>("CategoriasId")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descriccion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("ProductoId");
 
-                    b.Property<double>("Precio")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriasId");
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Productos");
                 });
@@ -355,8 +343,8 @@ namespace AppPrint_and_Wear.Migrations
                         .HasForeignKey("Carrito_De_CompraId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AppPrint_and_Wear.Models.Producto", "Productos")
-                        .WithMany("CartItems")
+                    b.HasOne("TuProyecto.Models.Producto", "Productos")
+                        .WithMany()
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -410,14 +398,15 @@ namespace AppPrint_and_Wear.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
                 {
-                    b.HasOne("AppPrint_and_Wear.Models.Categoria", "Categorias")
+                    b.HasOne("AppPrint_and_Wear.Models.Categoria", "Categoria")
                         .WithMany("Productos")
-                        .HasForeignKey("CategoriasId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Categorias");
+                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("AppPrint_and_Wear.Models.Carrito_De_Compra", b =>
@@ -447,11 +436,6 @@ namespace AppPrint_and_Wear.Migrations
             modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
                 {
                     b.Navigation("Carrito_De_Compra");
-                });
-
-            modelBuilder.Entity("AppPrint_and_Wear.Models.Producto", b =>
-                {
-                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

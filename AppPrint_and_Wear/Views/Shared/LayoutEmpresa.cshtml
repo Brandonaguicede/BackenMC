@@ -4,16 +4,115 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AppPrint_and_Wear</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AppPrint_and_Wear.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true" />
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9; /* Soft light background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: #3a3a3a; /* Dark grey background for header */
+            color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+        }
+
+        .navbar-toggler-icon {
+            background-color: #D4AF37; /* Dorado */
+        }
+
+        .navbar-nav .nav-item {
+            margin-right: 20px;
+        }
+
+        /* Hover effect for nav links */
+        .navbar-nav .nav-link:hover {
+            color: #D4AF37 !important; /* Dorado */
+        }
+
+        /* Main content container */
+        .container {
+            margin-top: 30px;
+            flex-grow: 1;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #3a3a3a; /* Dark grey background for footer */
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer a {
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+            .footer a:hover {
+                color: #fff;
+                text-decoration: underline;
+            }
+
+        /* Custom button styling */
+        .btn-custom {
+            background-color: #D4AF37;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .btn-custom:hover {
+                background-color: #c89f2a;
+                transform: scale(1.05);
+            }
+
+        /* Navbar Toggler */
+        .navbar-toggler {
+            border: none;
+        }
+
+        /* Enhance spacing and clarity in nav menu */
+        .navbar-nav {
+            margin-top: 5px;
+        }
+
+            .navbar-nav .nav-item {
+                margin-right: 30px; /* More space between links */
+            }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="EmpresaHome" asp-action="Index">EmpresaHome</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,49 +122,47 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                            <a class="nav-link" asp-area="" asp-controller="Categorias" asp-action="Index">Categoria</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categorias" asp-action="Index">Categoria</a>
+                            <a class="nav-link" asp-area="" asp-controller="Carrito_De_Compra" asp-action="Index">Carrito</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Carrito_De_Compra" asp-action="Index">Carrito_De_Compra</a>
+                            <a class="nav-link" asp-area="" asp-controller="Administradores" asp-action="Index">Administrador</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Administradores" asp-action="Index">Administrador</a>
+                            <a class="nav-link" asp-area="" asp-controller="CartItems" asp-action="Index">CartItem</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CartItems" asp-action="Index">CartItem</a>
+                            <a class="nav-link" asp-area="" asp-controller="Envios" asp-action="Index">Envio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Envios" asp-action="Index">Envio</a>
+                            <a class="nav-link" asp-area="" asp-controller="Metodo_De_Pago" asp-action="Index">Metodo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Metodo_De_Pago" asp-action="Index">Metodo_De_Pago</a>
+                            <a class="nav-link" asp-area="" asp-controller="Productos" asp-action="Index">Producto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Producto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Cliente</a>
+                            <a class="nav-link" asp-area="" asp-controller="Clientes" asp-action="Index">Cliente</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer>
         <div class="container">
-            &copy; @DateTime.Now.Year - Administrador - <a asp-area="" asp-controller="EmpresaHome" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Administrador
         </div>
     </footer>
 

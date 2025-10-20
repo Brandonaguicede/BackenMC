@@ -1,3 +1,4 @@
+//tiene que servir ahora si
 document.addEventListener("DOMContentLoaded", function () {
     // ===================================
     // LÓGICA DEL FORMULARIO DE CONTACTO

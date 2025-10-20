@@ -16,6 +16,9 @@ namespace TuProyecto.Models
         public decimal Precio { get; set; }
 
 
+
+
+
         [Url]
         public string ImagenUrlFrende { get; set; }  // Link a la imagen del producto frente
 

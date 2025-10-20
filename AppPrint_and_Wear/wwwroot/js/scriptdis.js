@@ -5,6 +5,29 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log("🚀 Inicializando aplicación de diseño...");
 
+    // Agregar estilos necesarios para design-elements-layer
+    const style = document.createElement('style');
+    style.textContent = `
+        .design-elements-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 150;
+        }
+        
+        .design-elements-layer > * {
+            pointer-events: auto !important;
+        }
+        
+        .content-inner {
+            pointer-events: none !important;
+        }
+    `;
+  
+
     cargarCategorias();
     initializeViews();
     initializeSizeSelection();
@@ -16,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 //  CARGAR CATEGORÍAS DESDE LA BASE DE DATOS
 // ==========================================================
 
-let categoriasGlobal = []; // Guardar categorías para usarlas en "Cambiar producto"
+let categoriasGlobal = [];
+
 
 async function cargarCategorias() {
     const contenedor = document.getElementById("categoriasContainer");
@@ -36,7 +60,7 @@ async function cargarCategorias() {
         }
 
         const categorias = await response.json();
-        categoriasGlobal = categorias; // Guardar para modal
+        categoriasGlobal = categorias;
         console.log("✅ Categorías obtenidas:", categorias);
 
         if (!categorias || categorias.length === 0) {
@@ -48,14 +72,12 @@ async function cargarCategorias() {
             return;
         }
 
-        // Crear botones para cada categoría
         contenedor.innerHTML = categorias.map(c => `
             <button class="tool-button categoria-btn" data-id="${c.id}">
                 📁 ${c.nombre}
             </button>
         `).join("");
 
-        // Agregar eventos de clic
         document.querySelectorAll(".categoria-btn").forEach(btn => {
             btn.addEventListener("click", function () {
                 document.querySelectorAll(".categoria-btn").forEach(b =>
@@ -67,13 +89,9 @@ async function cargarCategorias() {
                 const categoriaNombre = this.textContent.trim();
 
                 console.log(`✅ Categoría seleccionada: ${categoriaNombre} (ID: ${categoriaId})`);
-
-                // Aquí puedes cargar productos de esa categoría
-                // cargarProductosPorCategoria(categoriaId);
             });
         });
 
-        // Inicializar botón "Cambiar producto" después de cargar categorías
         initializeCambiarProducto();
 
         console.log(`✅ ${categorias.length} categorías cargadas exitosamente`);
@@ -104,8 +122,6 @@ function mostrarModalCategorias() {
     modalBootstrap.show();
 }
 
-
-
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.style.cssText = `
@@ -124,7 +140,6 @@ function showNotification(message) {
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
 }
-
 
 // ==========================================================
 //  CAMBIO DE VISTAS (FRENTE/ESPALDA)
@@ -165,7 +180,6 @@ function initializeSizeSelection() {
 // ==========================================================
 
 function initializeTools() {
-    // Botones de herramientas
     document.querySelectorAll('.tool-button').forEach(button => {
         button.addEventListener('click', function () {
             if (this.getAttribute('data-tool')) {
@@ -183,7 +197,6 @@ function initializeTools() {
         });
     });
 
-    // Botón de añadir imagen
     const addImageBtn = document.getElementById('add-image-btn');
     if (addImageBtn) {
         addImageBtn.addEventListener('click', function () {
@@ -192,7 +205,6 @@ function initializeTools() {
         });
     }
 
-    // Carga de imágenes
     const imageUpload = document.getElementById('image-upload');
     if (imageUpload) {
         imageUpload.addEventListener('change', function (e) {
@@ -236,7 +248,7 @@ function initializeTools() {
                 wrapper.appendChild(img);
                 activeView.appendChild(wrapper);
 
-                makeDraggable(wrapper);
+                hacerArrastrableYEscalable(wrapper);
 
                 console.log('✅ Imagen cargada correctamente');
             };
@@ -250,10 +262,18 @@ function initializeTools() {
             e.target.value = '';
         });
     }
+
+    // Vincular el botón de añadir texto
+    const addTextBtn = document.getElementById('add-text-btn');
+    if (addTextBtn) {
+        addTextBtn.addEventListener('click', addTextToDesign);
+    }
 }
 
-// Función para añadir texto al diseño
-// Función para añadir texto al diseño
+// ==========================================================
+//  FUNCIÓN PARA AÑADIR TEXTO AL DISEÑO
+// ==========================================================
+
 function addTextToDesign() {
     const textInput = document.getElementById('design-text');
     const colorInput = document.getElementById('text-color');
@@ -264,51 +284,242 @@ function addTextToDesign() {
         return;
     }
 
-    const text = textInput.value;
+    const text = textInput.value.trim();
     const color = colorInput.value;
     const font = fontInput.value;
 
-    if (text.trim() !== '') {
-        const activeView = document.querySelector('.lawView.active');
-        if (activeView) {
-            const designArea = activeView.querySelector('.content-inner');
-            if (designArea) {
-                // Crear elemento de texto arrastrable
-                const textElement = document.createElement('div');
-                textElement.className = 'arrastrable-escalable';
-                textElement.style.position = 'absolute';
-                textElement.style.left = '50px';
-                textElement.style.top = '50px';
-                textElement.style.color = color;
-                textElement.style.fontFamily = font;
-                textElement.style.fontSize = '18px';
-                textElement.style.fontWeight = 'bold';
-                textElement.style.cursor = 'move';
-                textElement.style.zIndex = '100';
-                textElement.style.padding = '10px';
-                textElement.style.background = 'rgba(255,255,255,0.8)';
-                textElement.style.borderRadius = '5px';
-                textElement.textContent = text;
-                textElement.contentEditable = 'false';
-
-                designArea.appendChild(textElement);
-
-                // Limpiar el input de texto
-                textInput.value = '';
-
-                console.log('Texto añadido correctamente');
-            }
-        }
-    } else {
+    if (text === '') {
         alert('Por favor, escribe algún texto primero.');
+        return;
     }
+
+    const activeView = document.querySelector('.lawView.active .design-elements-layer');
+    if (!activeView) {
+        console.error('No se encontró el área de diseño activa');
+        return;
+    }
+
+    // Crear elemento de texto arrastrable
+    const textElement = document.createElement('div');
+    textElement.className = 'arrastrable-escalable texto-arrastrable';
+    textElement.style.cssText = `
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        color: ${color};
+        font-family: ${font};
+        font-size: 18px;
+        font-weight: bold;
+        cursor: move;
+        z-index: 200;
+        padding: 10px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 5px;
+        user-select: none;
+    `;
+    textElement.textContent = text;
+
+    activeView.appendChild(textElement);
+
+    // IMPORTANTE: Hacer el texto arrastrable y escalable
+    hacerArrastrableYEscalable(textElement);
+
+    // Limpiar input
+    textInput.value = '';
+
+    console.log('✅ Texto añadido correctamente');
 }
 
 // ==========================================================
-//  ARRASTRE DE ELEMENTOS
+//  MOVIMIENTO, ESCALADO Y ROTACIÓN DE ELEMENTOS
 // ==========================================================
 
+// ==========================================================
+//  MOVIMIENTO, ESCALADO, ROTACIÓN Y ELIMINACIÓN DE ELEMENTOS
+// ==========================================================
 
+function hacerArrastrableYEscalable(elemento) {
+    let isDragging = false;
+    let isResizing = false;
+    let isRotating = false;
+    let offsetX, offsetY, startX, startY, startWidth, startHeight;
+
+    elemento.style.position = "absolute";
+    elemento.style.cursor = "move";
+    elemento.style.userSelect = "none";
+    elemento.style.transition = "transform 0.1s ease";
+
+    // ======================================================
+    // 🔷 CONTROLES (botones en esquinas)
+    // ======================================================
+    const controlsContainer = document.createElement("div");
+    controlsContainer.style.cssText = `
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    `;
+
+    // 🔺 Rotar (arriba)
+    const rotateHandle = document.createElement("div");
+    rotateHandle.innerHTML = "↻";
+    rotateHandle.style.cssText = `
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 18px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        cursor: grab;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    `;
+
+    // 🔶 Redimensionar (abajo a la derecha)
+    const resizeHandle = document.createElement("div");
+    resizeHandle.innerHTML = "↔";
+    resizeHandle.style.cssText = `
+        position: absolute;
+        right: -12px;
+        bottom: -12px;
+        font-size: 14px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        cursor: se-resize;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    `;
+
+    // ❌ Eliminar (arriba derecha)
+    const deleteHandle = document.createElement("div");
+    deleteHandle.innerHTML = "🗑️";
+    deleteHandle.style.cssText = `
+        position: absolute;
+        top: -25px;
+        right: -25px;
+        font-size: 18px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    `;
+
+    controlsContainer.appendChild(rotateHandle);
+    controlsContainer.appendChild(resizeHandle);
+    controlsContainer.appendChild(deleteHandle);
+    elemento.appendChild(controlsContainer);
+
+    // ======================================================
+    // 🔹 MOVIMIENTO
+    // ======================================================
+    elemento.addEventListener("mousedown", (e) => {
+        if ([rotateHandle, resizeHandle, deleteHandle].includes(e.target)) return;
+        isDragging = true;
+        const rect = elemento.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        elemento.style.zIndex = 1000;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            const parent = elemento.parentElement.getBoundingClientRect();
+            let x = e.clientX - parent.left - offsetX;
+            let y = e.clientY - parent.top - offsetY;
+            x = Math.max(0, Math.min(x, parent.width - elemento.offsetWidth));
+            y = Math.max(0, Math.min(y, parent.height - elemento.offsetHeight));
+            elemento.style.left = x + "px";
+            elemento.style.top = y + "px";
+        }
+
+        if (isResizing) {
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            elemento.style.width = startWidth + dx + "px";
+            elemento.style.height = startHeight + dy + "px";
+        }
+
+        if (isRotating) {
+            const rect = elemento.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+            const deg = angle * (180 / Math.PI);
+            elemento.style.transform = `rotate(${deg}deg)`;
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        isResizing = false;
+        isRotating = false;
+    });
+
+    // ======================================================
+    // 🔸 REDIMENSIÓN
+    // ======================================================
+    resizeHandle.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = elemento.offsetWidth;
+        startHeight = elemento.offsetHeight;
+    });
+
+    // ======================================================
+    // 🔸 ROTACIÓN
+    // ======================================================
+    rotateHandle.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+        isRotating = true;
+    });
+
+    // ======================================================
+    // 🔸 ELIMINAR
+    // ======================================================
+    deleteHandle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (confirm("¿Eliminar este elemento del diseño?")) {
+            elemento.remove();
+            console.log("🗑️ Elemento eliminado");
+        }
+    });
+
+    // ======================================================
+    // 🔸 Mostrar/ocultar controles al pasar el mouse
+    // ======================================================
+    elemento.addEventListener("mouseenter", () => {
+        controlsContainer.style.display = "block";
+        elemento.style.outline = "1px dashed #555";
+    });
+
+    elemento.addEventListener("mouseleave", () => {
+        controlsContainer.style.display = "none";
+        elemento.style.outline = "none";
+    });
+
+    controlsContainer.style.display = "none"; // ocultar por defecto
+}
 
 
 // ==========================================================
@@ -330,21 +541,19 @@ function initializeBottomTools() {
         });
     }
 
-    // Deshacer y Rehacer (puedes implementar lógica aquí)
+    // Deshacer
     const undoBtn = document.getElementById("btnUndo");
-    const redoBtn = document.getElementById("btnRedo");
-
     if (undoBtn) {
         undoBtn.addEventListener("click", () => {
             console.log("🔙 Deshacer acción");
-            // Implementar lógica de deshacer
         });
     }
 
+    // Rehacer
+    const redoBtn = document.getElementById("btnRedo");
     if (redoBtn) {
         redoBtn.addEventListener("click", () => {
             console.log("🔜 Rehacer acción");
-            // Implementar lógica de rehacer
         });
     }
 
@@ -365,93 +574,63 @@ function initializeBottomTools() {
         });
     }
 }
-function addTextToDesign() {
-    const textInput = document.getElementById('design-text');
-    const colorInput = document.getElementById('text-color');
-    const fontInput = document.getElementById('font-family');
 
-    if (!textInput || !colorInput || !fontInput) {
-        console.error('Elementos de texto no encontrados');
-        return;
-    }
-
-    const text = textInput.value;
-    const color = colorInput.value;
-    const font = fontInput.value;
-
-    if (text.trim() === '') {
-        alert('Por favor, escribe algún texto primero.');
-        return;
-    }
-
-    const activeView = document.querySelector('.lawView.active');
-    if (!activeView) return;
-
-    const designArea = activeView.querySelector('.content-inner');
-    if (!designArea) return;
-
-    // Crear elemento de texto arrastrable y escalable
-    const textElement = document.createElement('div');
-    textElement.className = 'arrastrable-escalable';
-    textElement.style.position = 'absolute';
-    textElement.style.left = '50px';
-    textElement.style.top = '50px';
-    textElement.style.color = color;
-    textElement.style.fontFamily = font;
-    textElement.style.fontSize = '18px';
-    textElement.style.fontWeight = 'bold';
-    textElement.style.cursor = 'move';
-    textElement.style.zIndex = '100';
-    textElement.style.padding = '10px';
-    textElement.style.background = 'rgba(255,255,255,0.8)';
-    textElement.style.borderRadius = '5px';
-    textElement.textContent = text;
-    textElement.contentEditable = 'false';
-
-    // Agregar al área de diseño
-    designArea.appendChild(textElement);
-
-    // Hacer el texto arrastrable y escalable
-    makeDraggableAndResizable(textElement);
-
-    // Limpiar input
-    textInput.value = '';
-
-    console.log('Texto añadido correctamente');
-}
-
+// ==========================================================
+//  VISTA PREVIA
+// ==========================================================
 
 function mostrarVistaPrevia() {
-    const frontContent = document.getElementById('front-content-inner');
-    const backContent = document.getElementById('back-content-inner');
+    const frontView = document.getElementById('front-view');
+    const backView = document.getElementById('back-view');
 
-    if (!frontContent || !backContent) {
-        alert("Error: No se encontraron las áreas de diseño");
+    if (!frontView || !backView) {
+        alert("Error: no se encontraron las vistas del diseño.");
         return;
     }
 
+    // Clonar las vistas completas (camisa + contenido)
+    const frontClone = frontView.cloneNode(true);
+    const backClone = backView.cloneNode(true);
+
+    // Eliminar clases que puedan ocultar algo
+    frontClone.classList.remove("active");
+    backClone.classList.remove("active");
+
+    // Asegurar que las imágenes y los elementos se vean igual
+    [frontClone, backClone].forEach(clone => {
+        clone.style.pointerEvents = "none";
+        clone.style.transform = "scale(0.8)";
+        clone.style.transformOrigin = "top center";
+        clone.querySelectorAll(".arrastrable-escalable").forEach(el => {
+            el.style.border = "none";
+            el.style.cursor = "default";
+        });
+    });
+
+    // Crear modal
     const modal = document.createElement("div");
     modal.className = "preview-modal";
     modal.style.cssText = `
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.85);
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 2000;
-        animation: fadeIn 0.4s ease;
+        z-index: 3000;
+        animation: fadeIn 0.3s ease;
     `;
 
     modal.innerHTML = `
         <div style="
             background: white;
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 30px;
-            max-width: 900px;
+            max-width: 1000px;
             width: 90%;
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 0 25px rgba(0,0,0,0.2);
         ">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                 <h2 style="color: #2c3e50; font-size: 1.5rem;">Vista previa del diseño</h2>
@@ -462,34 +641,40 @@ function mostrarVistaPrevia() {
                     transition: color 0.3s;
                 ">&times;</span>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                <div>
-                    <h3 style="text-align: center; margin-bottom: 15px; color: #333;">Frente</h3>
-                    <div style="position: relative; background: #f9f9f9; border-radius: 10px; padding: 20px;">
-                        ${frontContent.innerHTML}
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div style="text-align:center;">
+                    <h3 style="margin-bottom: 15px; color: #333;">Frente</h3>
+                    <div class="preview-shirt" style="background:#f7f7f7; border-radius:12px; padding:15px; display:flex; justify-content:center;">
                     </div>
                 </div>
-                <div>
-                    <h3 style="text-align: center; margin-bottom: 15px; color: #333;">Espalda</h3>
-                    <div style="position: relative; background: #f9f9f9; border-radius: 10px; padding: 20px;">
-                        ${backContent.innerHTML}
+                <div style="text-align:center;">
+                    <h3 style="margin-bottom: 15px; color: #333;">Espalda</h3>
+                    <div class="preview-shirt" style="background:#f7f7f7; border-radius:12px; padding:15px; display:flex; justify-content:center;">
                     </div>
                 </div>
             </div>
         </div>
     `;
 
+    // Insertar clones en los contenedores del modal
+    const previewShirts = modal.querySelectorAll(".preview-shirt");
+    previewShirts[0].appendChild(frontClone);
+    previewShirts[1].appendChild(backClone);
+
     document.body.appendChild(modal);
 
+    // Cerrar el modal
     const closeBtn = modal.querySelector(".close-preview");
-    closeBtn.addEventListener("click", () => {
-        modal.remove();
-    });
-
+    closeBtn.addEventListener("click", () => modal.remove());
     modal.addEventListener("click", (e) => {
         if (e.target === modal) modal.remove();
     });
 }
+
+
+
+
 
 
 

@@ -13,9 +13,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Precio" class="control-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagenUrlFrende" class="control-label"></label>
+                <input asp-for="ImagenUrlFrende" class="form-control" />
+                <span asp-validation-for="ImagenUrlFrende" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagenUrlEspalda" class="control-label"></label>
+                <input asp-for="ImagenUrlEspalda" class="form-control" />
+                <span asp-validation-for="ImagenUrlEspalda" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label"></label>

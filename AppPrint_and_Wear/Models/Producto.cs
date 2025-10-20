@@ -1,20 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net.NetworkInformation;
-
-using AppPrint_and_Wear.Models;
-
+﻿using AppPrint_and_Wear.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace TuProyecto.Models
 {
- 
     public class Producto
     {
+       
         public int ProductoId { get; set; }
-        public decimal Precio { get; set; }
-       // public List<ColorOpcion> Colores { get; set; } 
-       // public List<CartItem> CartItems { get; set; }
 
-        public int CategoriaId { get; set; }      // clave foránea
-        public Categoria Categoria { get; set; }  // propiedad de navegación
+        [Required]
+        public string Descripcion { get; set; }  
+
+       
+        [Required]
+        public decimal Precio { get; set; }
+
+
+        [Url]
+        public string ImagenUrlFrende { get; set; }  // Link a la imagen del producto frente
+
+       [Url]
+        public string ImagenUrlEspalda { get; set; }  // Link a la imagen del producto espalda
+
+        // public List<CartItem> CartItems { get; set; }
+
+        // Relación con Categoría
+        public int CategoriaId { get; set; }
+        public Categoria Categoria { get; set; }
     }
 }

@@ -304,6 +304,16 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenUrlEspalda")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenUrlFrende")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 

@@ -57,7 +57,7 @@ namespace AppPrint_and_Wear.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductoId,Precio,CategoriaId")] Producto producto)
+        public async Task<IActionResult> Create([Bind("ProductoId,Descripcion,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace AppPrint_and_Wear.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Precio,CategoriaId")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Descripcion,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
         {
             if (id != producto.ProductoId)
             {
@@ -160,5 +160,53 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Productos.Any(e => e.ProductoId == id);
         }
+        [HttpGet]
+        [HttpGet]
+        public IActionResult ObtenerPorCategoria(int id)
+        {
+            var productos = _context.Productos
+                            .Where(p => p.CategoriaId == id)
+                            .Select(p => new {
+                                p.ProductoId,
+                                p.Descripcion,
+                                p.Precio,
+                                p.ImagenUrlFrende,
+                                p.ImagenUrlEspalda
+                            })
+                            .ToList();
+
+            return Json(productos);
+        }
+
+
+        [HttpGet]
+        public IActionResult Diseno(int? productoId)
+        {
+            if (productoId == null) return RedirectToAction("Index", "Home");
+
+            var producto = _context.Productos
+                .FirstOrDefault(p => p.ProductoId == productoId);
+
+            if (producto == null) return NotFound();
+
+            return View(producto);
+        }
+
+
+        [HttpGet]
+        public IActionResult Producto(int productoId)
+        {
+            var producto = _context.Productos
+                .Include(p => p.Categoria)
+                .FirstOrDefault(p => p.ProductoId == productoId);
+
+            if (producto == null)
+                return NotFound();
+
+            // 🔹 Redirige a la acción "Diseno" del controlador Home
+            return RedirectToAction("Diseno", "Home", new { productoId = producto.ProductoId });
+        }
+
+
     }
 }

@@ -153,5 +153,16 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Categorias.Any(e => e.Id == id);
         }
+
+        [HttpGet]
+        public IActionResult ObtenerCategorias()
+        {
+            var categorias = _context.Categoria
+                .Select(c => new { id = c.Id, nombre = c.Nombre })
+                .ToList();
+
+            return Json(categorias);
+        }
+
     }
 }

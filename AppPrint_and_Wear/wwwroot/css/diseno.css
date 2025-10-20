@@ -6,42 +6,46 @@
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #fff4e6 0%, #ffe9d9 100%);
     min-height: 100vh;
     padding: 20px;
 }
 
+/* ===============================
+   CONTENEDOR PRINCIPAL
+   =============================== */
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    background: white;
+    background: #ffffff;
     border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
     overflow: hidden;
 }
 
 .header {
-    background: #2c3e50;
-    color: white;
+    background: #ffe3cc;
+    color: #d36c2b;
     padding: 20px 30px;
     text-align: center;
+    border-bottom: 1px solid #ffd1a8;
 }
 
     .header h1 {
         font-size: 24px;
         font-weight: 600;
     }
-
 .main-content {
     display: flex;
     min-height: 700px;
 }
 
+
 /* Panel izquierdo - Herramientas */
 .tools-panel {
     width: 300px;
-    background: #f8f9fa;
-    border-right: 1px solid #e9ecef;
+    background: #ffffff;
+    border-right: 1px solid #ffe5d1;
     padding: 20px;
 }
 
@@ -52,56 +56,59 @@ body {
 .section-title {
     font-size: 14px;
     font-weight: 600;
-    color: #2c3e50;
+    color: #d36c2b;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
+
 .tool-button {
     width: 100%;
     padding: 12px 15px;
-    background: white;
-    border: 2px solid #e9ecef;
+    background: #ffffff;
+    border: 2px solid #ffe5d1;
     border-radius: 8px;
     margin-bottom: 8px;
     text-align: left;
     font-size: 14px;
     font-weight: 500;
-    color: #2c3e50;
+    color: #d36c2b;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+
     .tool-button:hover {
-        border-color: #3498db;
-        background: #f8f9ff;
+        border-color: #ffc79e;
+        background: #fff1e6;
     }
 
     .tool-button.active {
-        border-color: #3498db;
-        background: #3498db;
-        color: white;
+        border-color: #ffc79e;
+        background: #ffc79e;
+        color: #fff;
     }
 
 .input-group {
     margin-bottom: 15px;
 }
-
     .input-group label {
         display: block;
         font-size: 12px;
-        color: #6c757d;
+        color: #c36a3c;
         margin-bottom: 5px;
     }
 
     .input-group input {
         width: 100%;
         padding: 8px 12px;
-        border: 1px solid #ddd;
+        border: 1px solid #ffe5d1;
         border-radius: 5px;
         font-size: 14px;
+        background: #fff7f0;
     }
+
 
 .checkbox-group {
     display: flex;
@@ -115,14 +122,17 @@ body {
 
     .checkbox-group label {
         font-size: 14px;
-        color: #2c3e50;
+        color: #d36c2b;
     }
 
-/* Vista previa de la camiseta */
+
+/* ===============================
+   PANEL CENTRAL - VISTA PREVIA
+   =============================== */
 .preview-panel {
     flex: 1;
     padding: 20px;
-    background: #f8f9fa;
+    background: #fff7f0;
     display: flex;
     flex-direction: column;
 }
@@ -136,18 +146,19 @@ body {
 
 .view-button {
     padding: 10px 20px;
-    background: white;
-    border: 2px solid #e9ecef;
+    background: #ffffff;
+    border: 2px solid #ffe5d1;
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    color: #d36c2b;
 }
 
     .view-button.active {
-        background: #3498db;
-        color: white;
-        border-color: #3498db;
+        background: #ffc79e;
+        color: #fff;
+        border-color: #ffc79e;
     }
 
 .design-area-container {
@@ -155,18 +166,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     position: relative;
     overflow: hidden;
+    flex-direction: column;
 }
 
+/* Contenedor principal de diseño */
 .design-area {
     position: relative;
     width: 400px;
     height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
 }
+
 
 .lawView {
     position: absolute;
@@ -174,7 +192,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    display: none;
+    display: none; 
 }
 
     .lawView.active {
@@ -182,42 +200,114 @@ body {
     }
 
 .product-design {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
     width: 100%;
     height: 100%;
 }
 
+
+
+/* Imagen de la camiseta */
 .modelImage {
+    position: relative; /* Cambiado de absolute */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.arrastrable-escalable {
     position: absolute;
-    top: 0;
-    left: 0;
+    cursor: move;
+    pointer-events: auto !important; /* Permite el clic y el arrastre */
+    z-index: 200 !important; /* Ya lo tienes, es bueno para asegurar la visibilidad */
+}
+
+
+.imagen-arrastrable {
+    /* El tamaño ya se define en JS */
+}
+
+.imagen-disenio {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none;
 }
 
+
+/* Área de diseño */
 .design-area-overlay {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 310px;
+    border: 2px dashed #ffc79e;
+    border-radius: 8px;
+    background: rgba(255, 199, 158, 0.15);
+    z-index: 2;
+}
+
+
+
+
+
+#product-info-display {
+    text-align: center;
+    margin-top: 20px; /* Separación con la camisa */
+    font-size: 1.1rem;
+    color: #333;
+    z-index: 1; /* Asegura que no interfiera con elementos de diseño */
+}
+
+    #product-info-display h4 {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+
+
+
+
+
+/* Área punteada frontal y trasera */
+.design-area-overlay.front {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 2px dashed #3498db;
     border-radius: 8px;
     background: rgba(52, 152, 219, 0.1);
-    z-index: 200;
-    cursor: move;
+    z-index: 2;
 }
-
-    .design-area-overlay.front {
-        width: 222px;
-        height: 310px;
-        left: 89px;
-        top: 85px;
-    }
-
-    .design-area-overlay.back {
-        width: 188px;
-        height: 255px;
-        left: 106px;
-        top: 112px;
-    }
+.design-area-overlay.back {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.1);
+    z-index: 2;
+}
+/* Ajusta tamaño del cuadro punteado */
+.design-area-overlay.front {
+    width: 222px;
+    height: 310px;
+}
 
 .content-inner {
     width: 100%;
@@ -225,16 +315,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
+    color: #d36c2b;
     font-size: 14px;
     position: relative;
+    pointer-events: auto;
+    z-index: 10;
 }
 
-/* Panel derecho - Opciones */
+
+/* ===============================
+   PANEL DERECHO - OPCIONES
+   =============================== */
 .options-panel {
     width: 300px;
-    background: #f8f9fa;
-    border-left: 1px solid #e9ecef;
+    background: #ffffff;
+    border-left: 1px solid #ffe5d1;
     padding: 20px;
 }
 
@@ -253,14 +348,12 @@ body {
     border: 3px solid transparent;
     transition: all 0.3s ease;
 }
-
     .color-option:hover {
         transform: scale(1.1);
     }
 
     .color-option.active {
-        border-color: #2c3e50;
-        transform: scale(1.1);
+        border-color: #6b4c7a;
     }
 
 .size-options {
@@ -273,8 +366,8 @@ body {
 .size-option {
     padding: 12px 5px;
     text-align: center;
-    background: white;
-    border: 2px solid #e9ecef;
+    background: #ffffff;
+    border: 2px solid #ffe5d1;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
@@ -283,14 +376,15 @@ body {
 }
 
     .size-option:hover {
-        border-color: #3498db;
+        border-color: #ffc79e;
     }
 
     .size-option.active {
-        background: #3498db;
-        color: white;
-        border-color: #3498db;
+        background: #ffc79e;
+        color: #fff;
+        border-color: #ffc79e;
     }
+
 
 .size-arrow {
     text-align: center;
@@ -299,11 +393,13 @@ body {
     margin: 5px 0;
 }
 
+
+
 .add-to-cart {
     width: 100%;
     padding: 15px;
-    background: #e74c3c;
-    color: white;
+    background: #ffd1a8;
+    color: #d36c2b;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -314,24 +410,10 @@ body {
 }
 
     .add-to-cart:hover {
-        background: #c0392b;
+        background: #ffb880;
     }
 
-.product-info {
-    text-align: center;
-    margin-bottom: 15px;
-}
 
-    .product-info a {
-        color: #3498db;
-        text-decoration: none;
-        font-size: 14px;
-        margin: 0 10px;
-    }
-
-        .product-info a:hover {
-            text-decoration: underline;
-        }
 
 .change-product {
     text-align: center;
@@ -355,10 +437,75 @@ body {
             color: white;
         }
 
-/* Barra de herramientas inferior */
+
+
+.guarantee-box {
+    background: #fff8f2;
+    border: 2px solid #ffd9b3;
+    border-radius: 10px;
+    padding: 15px;
+    color: #a55a2d;
+    margin-top: 25px;
+}
+
+    .guarantee-box h4 {
+        color: #d36c2b;
+        margin-bottom: 8px;
+    }
+
+    .guarantee-box ul {
+        margin: 0;
+        padding-left: 18px;
+    }
+
+    .guarantee-box li {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+
+
+
+
+.categories-box {
+    background: #fff5ed;
+    border: 2px dashed #ffb380;
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: center;
+    margin: 25px 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(255, 148, 77, 0.15);
+}
+
+    .categories-box h4 {
+        color: #ff7a33;
+        margin-bottom: 6px;
+        font-weight: 700;
+    }
+
+    .categories-box p {
+        color: #8c5a2d;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .categories-box:hover {
+        background: #ffe6d0;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(255, 148, 77, 0.25);
+    }
+
+
+
+
+/* ===============================
+   BOTONES INFERIORES Y MODALES
+   =============================== */
 .bottom-tools {
-    background: white;
-    border-top: 1px solid #e9ecef;
+    background: #ffffff;
+    border-top: 1px solid #ffe5d1;
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
@@ -372,18 +519,22 @@ body {
 
 .tool-btn {
     padding: 8px 15px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    background: #fff7f0;
+    border: 1px solid #ffe5d1;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
     transition: all 0.3s ease;
 }
 
+
     .tool-btn:hover {
-        background: #f8f9fa;
-        border-color: #3498db;
+        background: #ffc79e;
+        color: #fff;
+        transform: translateY(-2px);
     }
+
 
 .saved-designs {
     background: #f8f9fa;
@@ -457,22 +608,10 @@ body {
     border-radius: 8px;
     background: rgba(52, 152, 219, 0.1);
     z-index: 100; /* Por encima de la camiseta */
-    pointer-events: none; /* IMPORTANTE: No captura eventos del mouse */
+    pointer-events: auto; /* IMPORTANTE: No captura eventos del mouse */
 }
 
-    .design-area-overlay.front {
-        width: 222px;
-        height: 310px;
-        left: 89px;
-        top: 85px;
-    }
-
-    .design-area-overlay.back {
-        width: 188px;
-        height: 255px;
-        left: 106px;
-        top: 112px;
-    }
+   
 
 /* El contenido interno SÍ debe capturar eventos */
 .content-inner {
@@ -512,26 +651,28 @@ body {
         border-color: #3498db;
     }
 
+
+/* Arrastrables */
 .arrastrable-escalable {
-    position: absolute !important;
-    z-index: 200 !important; /* Por encima del área de diseño */
+    position: absolute;
     cursor: move;
-    user-select: none;
+    z-index: 200;
     border: 1px solid transparent;
     transition: border-color 0.3s ease;
 }
 
-.arrastrable-escalable:hover {
-    border-color: #3498db;
-}
+    .arrastrable-escalable:hover {
+        border-color: #f8c3e2;
+    }
 .texto-arrastrable {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 244, 240, 0.9);
     padding: 8px 12px;
     border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     max-width: 200px;
     word-wrap: break-word;
 }
+
 .imagen-arrastrable {
     background: transparent;
     padding: 0;
@@ -543,6 +684,11 @@ body {
     cursor: default;
     user-select: none;
 }
+
+
+
+
+
 /* 🧼 BOTÓN "BORRAR COLOR" CON EFECTO FLUIDO */
 .reset-color-btn {
     background: linear-gradient(135deg, #e74c3c, #c0392b);
@@ -1016,3 +1162,51 @@ body {
     60% { transform: scale(1.05); opacity: 1; }
     100% { transform: scale(1); }
 }
+
+
+
+#product-info-display {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #fff7f0; /* Fondo suave */
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: inline-block;
+    width: fit-content;
+    max-width: 90%;
+    color: #333;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    #product-info-display:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    #product-info-display h4 {
+        font-size: 1.4rem; /* Más grande y destacado */
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #d36c2b; /* Color cálido */
+        letter-spacing: 0.5px;
+    }
+
+    #product-info-display p {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ff5722; /* Precio destacado */
+        margin: 0;
+        padding: 0;
+    }
+
+    #product-info-display span {
+        font-weight: 500;
+        color: #555;
+    }
+
+    /* Opcional: añade un pequeño ícono de moneda delante del precio */
+    #product-info-display p::before {
+        content: "💰 ";
+    }
+

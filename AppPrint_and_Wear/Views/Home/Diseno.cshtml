@@ -1,4 +1,6 @@
-﻿@{
+﻿@model TuProyecto.Models.Producto
+
+@{
     ViewData["Title"] = "Diseñar Ahora";
     Layout = "_LayoutDiseno";
 }
@@ -8,10 +10,8 @@
     <!-- Panel izquierdo -->
     <aside class="tools-panel">
         <div class="section">
-            <div class="tool-button active" data-tool="text">T- Añadir texto</div>
             <div class="tool-button" id="add-image-btn">Añadir imagen</div>
             <input type="file" id="image-upload" accept="image/*" style="display:none;">
-
             <div class="text-editor active" id="text-editor">
                 <input type="text" class="text-input" id="design-text" placeholder="Escribe tu texto aquí...">
                 <div class="font-controls">
@@ -25,12 +25,11 @@
                 <button class="tool-button" onclick="addTextToDesign()">Aplicar texto</button>
             </div>
         </div>
-
         <div class="section">
             <div class="section-title">Editar Clipart</div>
             <div class="tool-button">Rotar</div>
             <button id="btnResetColor" class="reset-color-btn">
-                <i class="fa fa-refresh"></i> Borrar color
+                <i class="fa fa-refresh"></i> Borrar diseño
             </button>
         </div>
 
@@ -53,124 +52,381 @@
             <div class="design-area">
                 <div id="front-view" class="lawView active">
                     <div class="product-design">
-                        <img id="shirt-front" class="modelImage" src="" alt="Camiseta Frente">
+                        <!-- Imagen frontal dinámica -->
+                        <img id="shirt-front" class="modelImage" src="@Model?.ImagenUrlFrende" alt="@Model?.Descripcion">
                         <div class="design-area-overlay front">
                             <div class="content-inner" id="front-content-inner">Área de diseño frontal</div>
+
                         </div>
                     </div>
                 </div>
-
                 <div id="back-view" class="lawView">
                     <div class="product-design">
-                        <img id="shirt-back" class="modelImage" src="" alt="Camiseta Espalda">
+                        <!-- Imagen trasera dinámica -->
+                        <img id="shirt-back" class="modelImage" src="@Model?.ImagenUrlEspalda" alt="@Model?.Descripcion">
                         <div class="design-area-overlay back">
                             <div class="content-inner" id="back-content-inner">Área de diseño trasera</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Información del producto -->
+            <div class="text-center mt-3" id="product-info-display">
+                
+                    @if (Model != null)
+                    {
+                        <h4>@Model.Descripcion</h4>
+                        <p>Precio: ₡@Model.Precio</p>
+                    }
+
+                else
+                {
+                    <p class="text-muted">Selecciona un producto para comenzar a diseñar.</p>
+                }
+            </div>
         </div>
     </section>
 
     <!-- Panel derecho -->
     <aside class="options-panel">
-        <div class="categorias-section">
-            <h3 class="h_portada">Selecciona una categoría:</h3>
-            <div id="categoriasContainer" class="categorias-container">
-                <!-- Aquí se cargarán las categorías automáticamente -->
-            </div>
-        </div>
-
-
-        <div class="section">
-            <div class="section-title">Color</div>
-            <div class="color-options" id="color-options"></div>
-        </div>
+       
 
         <div class="section">
             <div class="section-title">Tallas</div>
             <div class="size-options">
-                <div class="size-option active">S</div>
+                <div class="size-option active">XS</div>
+
+                <div class="size-option ">S</div>
                 <div class="size-option">M</div>
                 <div class="size-option">L</div>
                 <div class="size-option">XL</div>
                 <div class="size-option">XXL</div>
             </div>
         </div>
+        <div class="guarantee-box">
+            <h4>✅ Garantía & Envío</h4>
+            <ul>
+                <li>Envíos gratis en compras mayores a ₡25.000</li>
+                <li>Creado con materiales agradables con el medio ambiente</li>
+                <li>Atención al cliente 24/7</li>
+            </ul>
+        </div>
 
-        <button class="add-to-cart">Añadir al carrito</button>
+        <!-- 🧡 Cuadro de Categorías -->
+        <div class="categories-box" id="openCategorias">
+            <h4>🧵 Categorías</h4>
+            <p>Haz clic aquí para explorar las categorías disponibles</p>
+        </div>
+
+        <hr class="divider-pastel">
+
+        <button class="add-to-cart">🛒 Añadir al carrito</button>
 
         <div class="product-info">
             <a href="#" id="product-info-btn">Info del producto</a>
             <a href="#" id="size-guide-btn">Guía de tallas</a>
         </div>
-
-        <!-- Modales (guía de tallas e info del producto) -->
-        <!-- ... los de tu código actual ... -->
-
-        <div class="change-product">
-            <button id="change-product-btn">Cambiar producto</button>
-        </div>
     </aside>
 </div>
-
-<!-- Barra inferior -->
+<!-- Barra de herramientas inferior -->
 <div class="bottom-tools">
-    <button class="tool-btn" id="btnZoom"><i class="fa fa-search-plus"></i> Zoom</button>
-    <button class="tool-btn" id="btnUndo"><i class="fa fa-undo"></i> Deshacer</button>
-    <button class="tool-btn" id="btnRedo"><i class="fa fa-repeat"></i> Rehacer</button>
-    <button class="tool-btn" id="btnPreview"><i class="fa fa-eye"></i> Previo</button>
-    <button class="tool-btn" id="btnSelectAll"><i class="fa fa-object-group"></i> Seleccionar todo</button>
+    <div class="zoom-controls">
+        <button class="tool-btn" id="btnZoom"><i class="fa fa-search-plus"></i> Zoom</button>
+        <button class="tool-btn" id="btnUndo"><i class="fa fa-undo"></i> Deshacer</button>
+        <button class="tool-btn" id="btnRedo"><i class="fa fa-repeat"></i> Rehacer</button>
+        <button class="tool-btn" id="btnPreview"><i class="fa fa-eye"></i> Previo</button>
+        <button class="tool-btn" id="btnSelectAll"><i class="fa fa-object-group"></i> Seleccionar todo</button>
+    </div>
 </div>
+<!-- Modal de categorías y productos -->
+<div class="modal fade" id="modalCategorias" tabindex="-1" aria-labelledby="modalCategoriasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalCategoriasLabel" class="modal-title">🛍️ Selecciona una categoría</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="text-muted mb-2 text-center">Elige una categoría para ver los productos disponibles</h6>
+                <div id="categoriasContainer" class="mb-4"></div>
+                <hr>
+                <h6 class="text-muted mb-3 text-center">Productos disponibles</h6>
+                <div id="productosContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🧴 Modal de Información del Producto - Estilo Tienda -->
+<div id="modalInfo" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" id="closeInfo">&times;</span>
+
+        <div class="modal-header">
+            <h2>Información del Producto</h2>
+            <p class="subtitle">Calidad, diseño y personalización en cada prenda</p>
+        </div>
+
+        <div class="info-section">
+            <h3>👕 Descripción</h3>
+            <p>
+                Camiseta diseñada para quienes buscan <strong>comodidad y estilo personalizado</strong>.
+                Fabricada con materiales suaves, resistentes y pensada para acompañarte tanto en el día a día como en tus actividades deportivas o creativas.
+            </p>
+        </div>
+
+        <div class="info-section">
+            <h3>🧵 Material y confección</h3>
+            <p>
+                - 100% algodón peinado premium (190 g/m²)<br>
+                - Costuras reforzadas en cuello y mangas<br>
+                - Cuello redondo de doble capa para mayor durabilidad
+            </p>
+        </div>
+
+        <div class="info-section">
+            <h3>🎨 Personalización</h3>
+            <p>
+                Personaliza tu prenda con texto, imágenes o logotipos.
+                Cada diseño se imprime con tecnología <strong>DTF y vinil textil premium</strong>, garantizando colores vivos y resistencia al lavado.
+            </p>
+        </div>
+
+        <div class="info-section">
+            <h3>🌿 Responsabilidad</h3>
+            <p>
+                Comprometidos con el medio ambiente 🌎.
+                Utilizamos tintas ecológicas y materiales reciclables en el proceso de producción.
+            </p>
+        </div>
+
+        <div class="info-section">
+            <h3>🧼 Cuidados del producto</h3>
+            <ul>
+                <li>Lavar a máquina con agua fría (máx. 30 °C).</li>
+                <li>No usar blanqueadores.</li>
+                <li>Planchar del revés, evitando el área del diseño.</li>
+                <li>No secar a altas temperaturas.</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>📦 Detalles</h3>
+            <ul>
+                <li>Corte unisex “Regular Fit”.</li>
+                <li>Hecha con materiales nacionales.</li>
+                <li>Garantía de satisfacción y cambio sin costo en los primeros 7 días.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 📏 Modal Guía de tallas -->
+<div id="modalTallas" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" id="closeTallas">&times;</span>
+        <h2>Guía de Tallas</h2>
+        <table class="tabla-tallas">
+            <thead>
+                <tr>
+                    <th>Talla</th>
+                    <th>Pecho (cm)</th>
+                    <th>Largo (cm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>S</td>
+                    <td>94-99</td>
+                    <td>69</td>
+                </tr>
+                <tr>
+                    <td>M</td>
+                    <td>99-104</td>
+                    <td>71</td>
+                </tr>
+                <tr>
+                    <td>L</td>
+                    <td>104-109</td>
+                    <td>73</td>
+                </tr>
+                <tr>
+                    <td>XL</td>
+                    <td>109-117</td>
+                    <td>76</td>
+                </tr>
+                <tr>
+                    <td>XXL</td>
+                    <td>117-124</td>
+                    <td>78</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Cómo medir</h3>
+        <p>Mide tu pecho en la parte más ancha, justo debajo de las axilas.</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!--HAY QUE PASAR ESTE SCRIPT A JS Y AL CSS, LO DEJE AHI POR MIENTRAS-->
 
 @section Scripts {
     <script>
-        // Inicialización
-        document.getElementById("add-image-btn").addEventListener("click", () => {
-            document.getElementById("image-upload").click();
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const modalElement = document.getElementById('modalCategorias');
+            const categoriasContainer = document.getElementById('categoriasContainer');
+            const productosContainer = document.getElementById('productosContainer');
+            const modalBootstrap = new bootstrap.Modal(modalElement, { backdrop: 'static', keyboard: false });
 
-        document.getElementById("image-upload").addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) console.log("Imagen seleccionada:", file.name);
-        });
+            // Mostrar modal si no hay producto seleccionado
+            const urlParams = new URLSearchParams(window.location.search);
+            const productoId = urlParams.get('productoId');
+            if (!productoId) {
+                modalBootstrap.show();
+            } else {
+                console.log("🧩 Producto seleccionado:", productoId);
+            }
 
-        document.getElementById("product-info-btn").addEventListener("click", () => {
-            document.getElementById("modalInfo").style.display = "block";
-        });
-        document.getElementById("closeInfo").addEventListener("click", () => {
-            document.getElementById("modalInfo").style.display = "none";
-        });
-        window.addEventListener("click", (e) => {
-            if (e.target.id === "modalInfo") document.getElementById("modalInfo").style.display = "none";
-        });
+            // Función para convertir colores
+            function convertirColor(color) {
+                const colors = {
+                    "rojo": "red", "azul": "blue", "verde": "green", "amarillo": "yellow",
+                    "negro": "black", "blanco": "white", "morado": "purple", "naranja": "orange", "gris": "gray"
+                };
+                return colors[color?.toLowerCase()] || color;
+            }
 
-        // 🔹 Cargar categorías dinámicamente
-        document.addEventListener("DOMContentLoaded", async () => {
-            const contenedor = document.getElementById("categoriaContainer");
-            if (!contenedor) return;
+                // Cargar categorías
+        fetch('/Categorias/ObtenerCategorias')
+            .then(res => res.json())
+            .then(categorias => {
+                if (!categorias || categorias.length === 0) {
+                    categoriasContainer.innerHTML = `<p style="text-align:center; color:#777; margin:20px 0;">No hay categorías disponibles.</p>`;
+                    return;
+                }
 
-            try {
-                const response = await fetch("/Productos/ObtenerCategorias");
-                const categorias = await response.json();
+                // Mostrar categorías con estilo profesional
+                categoriasContainer.innerHTML = categorias.map(c => `
+                    <div class="categoria-card" data-id="${c.id}" style="
+                        cursor:pointer;
+                        margin: 8px;
+                        padding: 12px 20px;
+                        border-radius: 10px;
+                        background: #f5f5f5;
+                        border: 1px solid #ddd;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: 600;
+                        transition: all 0.2s ease;
+                    ">
+                        🧵 ${c.nombre}
+                    </div>
+                `).join('');
 
-                contenedor.innerHTML = categorias.map(c => `
-                    <button class="tool-button categoria-btn" data-id="${c.categoriaId}">
-                        ${c.nombre}
-                    </button>
-                `).join("");
-
-                document.querySelectorAll(".categoria-btn").forEach(btn => {
-                    btn.addEventListener("click", e => {
-                        document.querySelectorAll(".categoria-btn").forEach(b => b.classList.remove("active"));
-                        e.target.classList.add("active");
-                        console.log("Categoría seleccionada:", e.target.dataset.id);
+                // Hover efecto categorías
+                document.querySelectorAll('.categoria-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.background = '#ffe5b4';
+                        card.style.transform = 'scale(1.05)';
+                        card.style.borderColor = '#ff9800';
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.background = '#f5f5f5';
+                        card.style.transform = 'scale(1)';
+                        card.style.borderColor = '#ddd';
                     });
                 });
 
-            } catch (error) {
-                console.error("Error cargando categorías:", error);
-            }
+                // Click en categoría
+                document.querySelectorAll('.categoria-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        const categoriaId = this.dataset.id;
+
+                        fetch(`/Productos/ObtenerPorCategoria/${categoriaId}`)
+                            .then(res => res.json())
+                            .then(productos => {
+                                productosContainer.innerHTML = '';
+                                if (!productos || productos.length === 0) {
+                                    productosContainer.innerHTML = `<p style="text-align:center; color:#777; margin:20px 0;">No hay productos en esta categoría.</p>`;
+                                    return;
+                                }
+
+                                productos.forEach(p => {
+                                    const div = document.createElement('div');
+                                    div.className = 'producto-card';
+                                    div.style.cssText = `
+                                        margin: 10px;
+                                        border-radius: 10px;
+                                        padding: 15px;
+                                        display: inline-block;
+                                        width: 180px;
+                                        vertical-align: top;
+                                        text-align: center;
+                                        background: #fff;
+                                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                    `;
+
+                                    div.innerHTML = `
+                                        <img src="${p.imagenUrlFrende}" alt="${p.descripcion}" style="width:100%; height:150px; object-fit:contain; margin-bottom:8px;">
+                                        <p style="font-weight:bold; font-size:16px; margin-bottom:8px;">${p.descripcion}</p>
+                                        <p style="color:#ff5722; font-weight:600; margin-bottom:10px;">₡${p.precio}</p>
+                                        <button type="button" class="btn-aceptar" style="
+                                            background-color: #ff9800;
+                                            color: white;
+                                            border: none;
+                                            padding: 6px 12px;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            font-weight: 600;
+                                            transition: background 0.2s;
+                                        ">Aceptar</button>
+                                    `;
+
+                                    // Hover efecto producto
+                                    div.addEventListener('mouseenter', () => {
+                                        div.style.transform = 'translateY(-3px)';
+                                        div.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                                    });
+                                    div.addEventListener('mouseleave', () => {
+                                        div.style.transform = 'translateY(0)';
+                                        div.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                                    });
+
+                                    productosContainer.appendChild(div);
+
+                                    div.querySelector('.btn-aceptar').addEventListener('click', () => {
+                                        console.log("Producto seleccionado:", p);
+                                        window.location.href = `/Home/Diseno?productoId=${p.productoId}`;
+                                    });
+                                });
+                            })
+                            .catch(err => {
+                                productosContainer.innerHTML = `<p style="color:red; text-align:center;">Error cargando productos.</p>`;
+                                console.error(err);
+                            });
+                    });
+                });
+            })
+            .catch(err => {
+                categoriasContainer.innerHTML = `<p style="color:red; text-align:center;">Error cargando categorías</p>`;
+                console.error(err);
+            });
+
+        // Abrir modal correctamente al hacer click
+        const openCategorias = document.getElementById('openCategorias');
+        if (openCategorias && modalElement) {
+            const modalBootstrap = new bootstrap.Modal(modalElement, { backdrop: 'static', keyboard: false });
+            openCategorias.addEventListener('click', () => modalBootstrap.show());
+        }
+
+
         });
     </script>
 }

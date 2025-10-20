@@ -35,13 +35,15 @@ body {
         font-size: 24px;
         font-weight: 600;
     }
+
 .main-content {
     display: flex;
     min-height: 700px;
 }
 
-
-/* Panel izquierdo - Herramientas */
+/* ===============================
+   PANEL IZQUIERDO - HERRAMIENTAS
+   =============================== */
 .tools-panel {
     width: 300px;
     background: #ffffff;
@@ -62,7 +64,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-
 .tool-button {
     width: 100%;
     padding: 12px 15px;
@@ -78,7 +79,6 @@ body {
     transition: all 0.3s ease;
 }
 
-
     .tool-button:hover {
         border-color: #ffc79e;
         background: #fff1e6;
@@ -93,6 +93,7 @@ body {
 .input-group {
     margin-bottom: 15px;
 }
+
     .input-group label {
         display: block;
         font-size: 12px;
@@ -109,7 +110,6 @@ body {
         background: #fff7f0;
     }
 
-
 .checkbox-group {
     display: flex;
     align-items: center;
@@ -124,7 +124,6 @@ body {
         font-size: 14px;
         color: #d36c2b;
     }
-
 
 /* ===============================
    PANEL CENTRAL - VISTA PREVIA
@@ -153,6 +152,7 @@ body {
     font-size: 14px;
     font-weight: 500;
     color: #d36c2b;
+    transition: all 0.3s ease;
 }
 
     .view-button.active {
@@ -171,10 +171,8 @@ body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     position: relative;
     overflow: hidden;
-    flex-direction: column;
 }
 
-/* Contenedor principal de diseño */
 .design-area {
     position: relative;
     width: 400px;
@@ -185,14 +183,13 @@ body {
     background: #ffffff;
 }
 
-
 .lawView {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: none; 
+    display: none;
 }
 
     .lawView.active {
@@ -200,113 +197,40 @@ body {
     }
 
 .product-design {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
 }
-
-
 
 /* Imagen de la camiseta */
 .modelImage {
-    position: relative; /* Cambiado de absolute */
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    z-index: 1;
-}
-
-.arrastrable-escalable {
     position: absolute;
-    cursor: move;
-    pointer-events: auto !important; /* Permite el clic y el arrastre */
-    z-index: 200 !important; /* Ya lo tienes, es bueno para asegurar la visibilidad */
-}
-
-
-.imagen-arrastrable {
-    /* El tamaño ya se define en JS */
-}
-
-.imagen-disenio {
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
-    pointer-events: none;
+    pointer-events: none !important;
+    z-index: 1;
 }
 
-
-/* Área de diseño */
+/* Área de diseño punteada */
 .design-area-overlay {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;
-    height: 310px;
-    border: 2px dashed #ffc79e;
-    border-radius: 8px;
-    background: rgba(255, 199, 158, 0.15);
-    z-index: 2;
-}
-
-
-
-
-
-#product-info-display {
-    text-align: center;
-    margin-top: 20px; /* Separación con la camisa */
-    font-size: 1.1rem;
-    color: #333;
-    z-index: 1; /* Asegura que no interfiera con elementos de diseño */
-}
-
-    #product-info-display h4 {
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-
-
-
-
-
-/* Área punteada frontal y trasera */
-.design-area-overlay.front {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #3498db;
-    border-radius: 8px;
-    background: rgba(52, 152, 219, 0.1);
-    z-index: 2;
-}
-.design-area-overlay.back {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #3498db;
-    border-radius: 8px;
-    background: rgba(52, 152, 219, 0.1);
-    z-index: 2;
-}
-/* Ajusta tamaño del cuadro punteado */
-.design-area-overlay.front {
     width: 222px;
     height: 310px;
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.1);
+    pointer-events: none !important;
+    z-index: 100;
 }
 
 .content-inner {
@@ -315,13 +239,106 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #d36c2b;
+    color: #666;
     font-size: 14px;
     position: relative;
-    pointer-events: auto;
-    z-index: 10;
+    pointer-events: none !important;
+    user-select: none;
 }
 
+/* ===============================
+   CAPA DE ELEMENTOS EDITABLES
+   =============================== */
+.design-elements-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none !important;
+    z-index: 300;
+}
+
+    .design-elements-layer > * {
+        pointer-events: auto !important;
+    }
+
+/* Elementos arrastrables */
+.arrastrable-escalable {
+    position: absolute;
+    cursor: move !important;
+    pointer-events: auto !important;
+    user-select: none;
+    z-index: 200;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+    .arrastrable-escalable:hover {
+        border-color: #3498db;
+    }
+
+.texto-arrastrable {
+    background: rgba(255, 244, 240, 0.9);
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.imagen-arrastrable {
+    background: transparent;
+    padding: 0;
+}
+
+    .imagen-arrastrable img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+    }
+
+/* Manejadores de redimensión y rotación */
+.resize-handle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: rgba(52, 152, 219, 0.9);
+    border: 2px solid white;
+    border-radius: 50%;
+    bottom: -10px;
+    right: -10px;
+    cursor: se-resize !important;
+    pointer-events: auto !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+.rotate-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(231, 76, 60, 0.9);
+    border: 2px solid white;
+    border-radius: 50%;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: grab !important;
+    pointer-events: auto !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+    .rotate-handle:active {
+        cursor: grabbing !important;
+    }
+
+    .resize-handle:hover,
+    .rotate-handle:hover {
+        transform: scale(1.2);
+    }
 
 /* ===============================
    PANEL DERECHO - OPCIONES
@@ -332,29 +349,6 @@ body {
     border-left: 1px solid #ffe5d1;
     padding: 20px;
 }
-
-.color-options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.color-option {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.3s ease;
-}
-    .color-option:hover {
-        transform: scale(1.1);
-    }
-
-    .color-option.active {
-        border-color: #6b4c7a;
-    }
 
 .size-options {
     display: grid;
@@ -385,16 +379,6 @@ body {
         border-color: #ffc79e;
     }
 
-
-.size-arrow {
-    text-align: center;
-    font-size: 18px;
-    color: #3498db;
-    margin: 5px 0;
-}
-
-
-
 .add-to-cart {
     width: 100%;
     padding: 15px;
@@ -412,32 +396,6 @@ body {
     .add-to-cart:hover {
         background: #ffb880;
     }
-
-
-
-.change-product {
-    text-align: center;
-    margin-top: 20px;
-}
-
-    .change-product button {
-        background: none;
-        border: 2px solid #3498db;
-        color: #3498db;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-        .change-product button:hover {
-            background: #3498db;
-            color: white;
-        }
-
-
 
 .guarantee-box {
     background: #fff8f2;
@@ -462,10 +420,6 @@ body {
         font-size: 14px;
         margin-bottom: 5px;
     }
-
-
-
-
 
 .categories-box {
     background: #fff5ed;
@@ -497,11 +451,8 @@ body {
         box-shadow: 0 4px 10px rgba(255, 148, 77, 0.25);
     }
 
-
-
-
 /* ===============================
-   BOTONES INFERIORES Y MODALES
+   BOTONES INFERIORES
    =============================== */
 .bottom-tools {
     background: #ffffff;
@@ -512,7 +463,7 @@ body {
     align-items: center;
 }
 
-.zoom-controls, .edit-controls {
+.zoom-controls {
     display: flex;
     gap: 10px;
 }
@@ -528,28 +479,15 @@ body {
     transition: all 0.3s ease;
 }
 
-
     .tool-btn:hover {
-        background: #ffc79e;
+        background: #3498db;
         color: #fff;
         transform: translateY(-2px);
     }
 
-
-.saved-designs {
-    background: #f8f9fa;
-    border: 2px dashed #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-    .saved-designs p {
-        color: #6c757d;
-        font-size: 14px;
-    }
-
+/* ===============================
+   EDITOR DE TEXTO
+   =============================== */
 .text-editor {
     background: white;
     border: 1px solid #ddd;
@@ -574,122 +512,21 @@ body {
 
 .font-controls {
     display: flex;
-    gap: 10px;
+    gap: 10px;a
     margin-bottom: 10px;
 }
 
-    .font-controls select, .font-controls input {
+    .font-controls select,
+    .font-controls input {
         flex: 1;
         padding: 5px;
         border: 1px solid #ddd;
         border-radius: 3px;
     }
-.product-design {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
 
-/* La imagen de la camiseta debe estar detrás */
-.modelImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    z-index: 1; /* Detrás del área de diseño */
-}
-
-/* Área de diseño - solo el contenedor, no el contenido */
-.design-area-overlay {
-    position: absolute;
-    border: 2px dashed #3498db;
-    border-radius: 8px;
-    background: rgba(52, 152, 219, 0.1);
-    z-index: 100; /* Por encima de la camiseta */
-    pointer-events: auto; /* IMPORTANTE: No captura eventos del mouse */
-}
-
-   
-
-/* El contenido interno SÍ debe capturar eventos */
-.content-inner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 14px;
-    position: relative;
-    pointer-events: auto; /* Permite eventos en el área de contenido */
-    cursor: default;
-}
-
-.resizer-handle {
-    position: absolute !important;
-    width: 16px !important;
-    height: 16px !important;
-    background: #3498db !important;
-    border: 2px solid white !important;
-    border-radius: 2px !important;
-    right: -8px !important;
-    bottom: -8px !important;
-    cursor: se-resize !important;
-    z-index: 1000 !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-    pointer-events: auto !important;
-}
-.image-wrapper {
-    position: absolute !important;
-    border: 1px dashed transparent;
-    transition: border-color 0.3s ease;
-}
-
-    .image-wrapper:hover {
-        border-color: #3498db;
-    }
-
-
-/* Arrastrables */
-.arrastrable-escalable {
-    position: absolute;
-    cursor: move;
-    z-index: 200;
-    border: 1px solid transparent;
-    transition: border-color 0.3s ease;
-}
-
-    .arrastrable-escalable:hover {
-        border-color: #f8c3e2;
-    }
-.texto-arrastrable {
-    background: rgba(255, 244, 240, 0.9);
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    max-width: 200px;
-    word-wrap: break-word;
-}
-
-.imagen-arrastrable {
-    background: transparent;
-    padding: 0;
-    border-radius: 0;
-    box-shadow: none;
-}
-.content-inner > div:not(.arrastrable-escalable) {
-    pointer-events: none;
-    cursor: default;
-    user-select: none;
-}
-
-
-
-
-
-/* 🧼 BOTÓN "BORRAR COLOR" CON EFECTO FLUIDO */
+/* ===============================
+   BOTÓN BORRAR DISEÑO
+   =============================== */
 .reset-color-btn {
     background: linear-gradient(135deg, #e74c3c, #c0392b);
     border: none;
@@ -714,34 +551,8 @@ body {
         box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
     }
 
-    .reset-color-btn:active {
-        transform: scale(0.97);
-        filter: brightness(0.95);
-    }
-
-/* 💧 Efecto de onda cuando se limpia */
-@keyframes limpiarBoton {
-    0% {
-        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5);
-        transform: scale(1);
-    }
-
-    50% {
-        box-shadow: 0 0 25px 8px rgba(231, 76, 60, 0.4);
-        transform: scale(1.1);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
-        transform: scale(1);
-    }
-}
-
-.reset-color-btn.cleaning {
-    animation: limpiarBoton 0.6s ease-out;
-}
 /* ===============================
-   🧾 Modal Guía de Tallas
+   MODALES
    =============================== */
 .modal-overlay {
     position: fixed;
@@ -754,7 +565,6 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    opacity: 0;
     animation: modalFadeIn 0.4s ease forwards;
 }
 
@@ -766,8 +576,6 @@ body {
     max-width: 720px;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
     position: relative;
-    transform: translateY(20px);
-    opacity: 0;
     animation: modalPopIn 0.45s ease forwards;
     overflow-y: auto;
     max-height: 80vh;
@@ -818,23 +626,112 @@ body {
         font-weight: 600;
     }
 
-    .tabla-tallas tr:nth-child(even) {
-        background-color: #fafafa;
+.info-section {
+    margin-bottom: 18px;
+    border-left: 4px solid #3498db;
+    padding-left: 12px;
+}
+
+    .info-section h3 {
+        margin-bottom: 6px;
+        color: #2c3e50;
+        font-size: 15px;
+        font-weight: 600;
     }
 
-.modal-content h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin-top: 10px;
+    .info-section p,
+    .info-section ul {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+/* ===============================
+   VISTA PREVIA
+   =============================== */
+.preview-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.4s ease;
 }
 
-.modal-content p {
-    font-size: 14px;
+.preview-box {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.preview-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.preview-item {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.close-preview {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    cursor: pointer;
     color: #555;
-    line-height: 1.6;
+    transition: all 0.3s ease;
 }
 
-/* ✨ Animaciones suaves */
+    .close-preview:hover {
+        color: #e74c3c;
+        transform: rotate(90deg);
+    }
+
+/* ===============================
+   INFORMACIÓN DEL PRODUCTO
+   =============================== */
+#product-info-display {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #fff7f0;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: inline-block;
+    color: #333;
+}
+
+    #product-info-display h4 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #d36c2b;
+    }
+
+    #product-info-display p {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ff5722;
+    }
+
+        #product-info-display p::before {
+            content: "💰 ";
+        }
+
+/* ===============================
+   ANIMACIONES
+   =============================== */
 @keyframes modalFadeIn {
     from {
         opacity: 0;
@@ -856,163 +753,7 @@ body {
         transform: translateY(0) scale(1);
     }
 }
-/* 📘 Estilos extra para el modal de información */
-.info-section {
-    margin-bottom: 18px;
-    border-left: 4px solid #3498db;
-    padding-left: 12px;
-}
 
-    .info-section h3 {
-        margin-bottom: 6px;
-        color: #2c3e50;
-        font-size: 15px;
-        font-weight: 600;
-    }
-
-    .info-section p,
-    .info-section ul {
-        font-size: 14px;
-        color: #555;
-        line-height: 1.6;
-    }
-
-    .info-section ul {
-        margin-left: 18px;
-        list-style: disc;
-    }
-/* 🔄 Estilo para el elemento seleccionado */
-.selected-rotate {
-    outline: 2px dashed #3498db;
-    outline-offset: 3px;
-    animation: pulseOutline 1.5s infinite ease-in-out;
-}
-
-/* ✨ efecto de rotación activa */
-.rotating {
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
-}
-
-/* 🌀 Pulso del borde al seleccionar */
-@keyframes pulseOutline {
-    0% {
-        outline-color: rgba(52, 152, 219, 1);
-    }
-
-    50% {
-        outline-color: rgba(52, 152, 219, 0.3);
-    }
-
-    100% {
-        outline-color: rgba(52, 152, 219, 1);
-    }
-}
-/* 🌟 Efectos generales de botones inferiores */
-.tool-btn {
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    font-weight: 500;
-}
-
-    .tool-btn:hover {
-        background-color: #3498db;
-        color: white;
-        transform: translateY(-2px);
-    }
-
-/* 🔍 Zoom pulse effect */
-.zoom-pulse {
-    animation: zoomPulse 0.3s ease;
-}
-
-@keyframes zoomPulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.15);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* ✨ Botón hover */
-.btn-hover {
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
-}
-
-/* 🖼️ Vista previa modal */
-.preview-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    animation: fadeIn 0.4s ease;
-}
-
-.preview-box {
-    background: white;
-    border-radius: 14px;
-    padding: 25px;
-    max-width: 800px;
-    width: 90%;
-    animation: slideUp 0.4s ease;
-}
-
-    .preview-box h2 {
-        text-align: center;
-        margin-bottom: 15px;
-        color: #2c3e50;
-    }
-
-.preview-content {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-}
-
-.preview-item {
-    background: #f9fafb;
-    border-radius: 10px;
-    padding: 10px;
-    width: 45%;
-    text-align: center;
-    border: 1px solid #e0e0e0;
-}
-
-.close-preview {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #555;
-}
-
-/* ✨ Select All flash */
-.select-flash {
-    animation: selectFlash 0.3s ease;
-}
-
-@keyframes selectFlash {
-    0% {
-        background-color: #3498db;
-        color: white;
-    }
-
-    100% {
-        background-color: transparent;
-        color: inherit;
-    }
-}
-
-/* 🎞️ Animaciones */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1034,179 +775,3 @@ body {
         opacity: 1;
     }
 }
-/* 🎨 VISTA PREVIA DEL DISEÑO */
-.preview-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    animation: fadeIn 0.5s ease forwards;
-    backdrop-filter: blur(5px);
-}
-
-.preview-box {
-    background: #fff;
-    border-radius: 18px;
-    padding: 30px 40px;
-    max-width: 950px;
-    width: 90%;
-    animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
-    position: relative;
-}
-
-.preview-box h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #2c3e50;
-    font-size: 1.6rem;
-    letter-spacing: 0.5px;
-}
-
-.preview-content {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.preview-item {
-    background: #f9fafb;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 15px;
-    width: 45%;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-}
-
-.preview-item h3 {
-    margin-bottom: 10px;
-    color: #222;
-    font-weight: 700;
-}
-
-/* 🧢 Simulación del mockup */
-.mockup-area {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.mockup-img {
-    width: 100%;
-    display: block;
-    border-radius: 10px;
-    filter: brightness(0.95);
-    transition: transform 0.4s ease;
-}
-
-.mockup-overlay {
-    position: absolute;
-    top: 15%;
-    left: 20%;
-    width: 60%;
-    height: 70%;
-    pointer-events: none;
-}
-
-.mockup-area:hover .mockup-img {
-    transform: scale(1.03);
-}
-
-/* ❌ Botón de cierre */
-.close-preview {
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #7f8c8d;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-.close-preview:hover {
-    color: #e74c3c;
-    transform: rotate(90deg);
-}
-
-/* ✨ Animaciones suaves */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.fade-out {
-    animation: fadeOut 0.4s ease forwards;
-}
-@keyframes fadeOut {
-    to { opacity: 0; transform: scale(0.9); }
-}
-
-/* 🌀 Efecto al mostrar cada lado */
-.animate-preview {
-    animation: bounceIn 0.6s ease;
-}
-@keyframes bounceIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    60% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); }
-}
-
-
-
-#product-info-display {
-    text-align: center;
-    margin-top: 20px;
-    padding: 15px 20px;
-    background: #fff7f0; /* Fondo suave */
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    display: inline-block;
-    width: fit-content;
-    max-width: 90%;
-    color: #333;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-    #product-info-display:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-
-    #product-info-display h4 {
-        font-size: 1.4rem; /* Más grande y destacado */
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: #d36c2b; /* Color cálido */
-        letter-spacing: 0.5px;
-    }
-
-    #product-info-display p {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #ff5722; /* Precio destacado */
-        margin: 0;
-        padding: 0;
-    }
-
-    #product-info-display span {
-        font-weight: 500;
-        color: #555;
-    }
-
-    /* Opcional: añade un pequeño ícono de moneda delante del precio */
-    #product-info-display p::before {
-        content: "💰 ";
-    }
-

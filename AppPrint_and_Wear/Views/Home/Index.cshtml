@@ -21,230 +21,233 @@
     </div>
 </section>
 
-<section id="destacado">
-    <h2>Productos Destacados</h2>
+<section id="destacado" aria-labelledby="titulo-destacado">
+    <h2 id="titulo-destacado">Productos Destacados</h2>
 
-   <div class="carrusel-container" >
+    <div class="carrusel-container">
+        <!-- Botón Izquierdo -->
+        <button class="carrusel-btn left" aria-label="Anterior">&#10094;</button>
 
-            <button class="carrusel-btn left">&#10094;</button>
-
-            
-            <div class="carrusel">
-                <div class="carrusel-item"
-                     data-nombre="Camisa negra con estampado"
+        <!-- Carrusel de productos -->
+        <div class="carrusel">
+            <!-- === Producto 1 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camisa Verde con estampado"
                      data-precio="₡5000"
-                     data-detalles="Camisa negra de hombre de alta calidad, 100% algodón."
+                     data-detalles="Camisa negra de Verde de alta calidad, 100% algodón."
                      data-colores="#000000,#ffffff,#ff0000,#00bcd4"
                      data-tallas="S,M,L,XL,XXL">
-
-                    <img src="~/Imagenes/Producto1.png" alt="Camisa negra con estampado">
-                    <h3>Camisa negra con estampado</h3>
-                    <p>₡5000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="~/Imagenes/ChatGPT Image 19 oct 2025, 03_15_12 p.m..png" alt="Camisa Verde con estampado" loading="lazy">
+                <h3>Camisa negra con estampado <span class="variantes"></span></h3>
+                <p class="precio">₡5000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
-                     data-nombre="Camisa tipo Polo con logo "
+            <!-- === Producto 2 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camisa tipo Polo con logo"
                      data-precio="₡7500"
                      data-detalles="Camisa tipo Polo de hombre con logo bordado de calidad premium."
                      data-colores="#000000,#f9d71c,#7ac943"
                      data-tallas="S,M,L,XL">
-
-                    <img src="/Imagenes/Producto2.png" alt="Camisa tipo Polo con logo">
-                    <h3>Camisa tipo Polo con logo en una esquina</h3>
-                    <p>₡7500</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/ChatGPT Image 19 oct 2025, 02_16_22 p.m..png" alt="Camisa tipo Polo con logo" loading="lazy">
+                <h3>Camisa tipo Polo con logo</h3>
+                <p class="precio">₡7500</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
+            <!-- === Producto 3 === -->
+            <article class="carrusel-item"
                      data-nombre="Camisa negra/gris sublimada"
                      data-precio="₡10500"
                      data-detalles="Camisa negra/gris unisex sublimada, tela de alta resistencia."
                      data-colores="#222222,#cccccc"
                      data-tallas="M,L,XL,XXL">
-
-                    <img src="/Imagenes/Producto3.jpg" alt="Camisa negra/gris sublimada">
-                    <h3>Camisa negra/gris sublimada</h3>
-                    <p>₡10500</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto3.jpg" alt="Camisa negra/gris sublimada" loading="lazy">
+                <h3>Camisa negra/gris sublimada</h3>
+                <p class="precio">₡10500</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
-                <div class="carrusel-item"
-                     data-nombre="Camiseta negra manga larga estampado"
+            </article>
+
+            <!-- === Producto 4 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camiseta negra manga larga estampada"
                      data-precio="₡10000"
                      data-detalles="Camiseta negra manga larga unisex estampado por varios lados, suave y resistente."
                      data-colores="#000000,#555555,#ff4500"
                      data-tallas="M,L,XL">
-
-                    <img src="/Imagenes/Producto5.png" alt="Camiseta negra manga larga estampada">
-                    <h3>Camiseta negra manga larga estampada</h3>
-                    <p>₡10000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto5.png" alt="Camiseta negra manga larga estampada" loading="lazy">
+                <h3>Camiseta negra manga larga estampada</h3>
+                <p class="precio">₡10000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
-                <div class="carrusel-item"
+            </article>
+
+            <!-- === Producto 5 === -->
+            <article class="carrusel-item"
                      data-nombre="Camisa de niño estampado"
                      data-precio="₡4000"
                      data-detalles="Camisa de niño estampado personalizado, diseño infantil y cómodo."
                      data-colores="#f5f5dc,#ff6347,#4682b4"
                      data-tallas="S,M">
-
-                    <img src="/Imagenes/Producto4.png" alt="Camisa blanca estampada">
-                    <h3>Camiseta de niño estampado  personalizado</h3>
-                    <p>₡4000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto4.png" alt="Camisa de niño estampado personalizado" loading="lazy">
+                <h3>Camiseta de niño estampado personalizado</h3>
+                <p class="precio">₡4000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
+            <!-- === Producto 6 === -->
+            <article class="carrusel-item"
                      data-nombre="Camiseta negra doble estampado"
                      data-precio="₡6000"
                      data-detalles="Camiseta negra hombre doble estampado, cómoda y versátil."
                      data-colores="#000000,#222222,#ff6347"
                      data-tallas="M,L,XL,XXL">
-
-                    <img src="/Imagenes/Producto6.jpg" alt="Camiseta negra doble estampado">
-                    <h3>Camiseta negra doble estampado</h3>
-                    <p>₡6000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto6.jpg" alt="Camiseta negra doble estampado" loading="lazy">
+                <h3>Camiseta negra doble estampado</h3>
+                <p class="precio">₡6000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
+            <!-- === Producto 7 === -->
+            <article class="carrusel-item"
                      data-nombre="Camiseta blanca doble estampado"
                      data-precio="₡5000"
                      data-detalles="Camiseta blanca de mujer con doble estampado frontal y posterior."
                      data-colores="#ffffff,#ff0000,#00bcd4,#000000"
                      data-tallas="S,M,L,XL,XXL">
-
-                    <img src="/Imagenes/Producto8.jpg" alt="Camiseta blanca doble estampado">
-                    <h3>Camiseta blanca doble estampado</h3>
-                    <p>₡5000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto8.jpg" alt="Camiseta blanca doble estampado" loading="lazy">
+                <h3>Camiseta blanca doble estampado</h3>
+                <p class="precio">₡5000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
-                     data-nombre="Camiseta negra doble estampado"
+            <!-- === Producto 8 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camiseta negra doble estampado mujer"
                      data-precio="₡5000"
                      data-detalles="Camiseta negra de mujer doble estampado clásica, ideal para uso diario."
                      data-colores="#000000,#555555,#ff4500"
                      data-tallas="S,M,L,XL">
-
-                    <img src="/Imagenes/Producto9.jpg" alt="Camiseta negra doble estampado">
-                    <h3>Camiseta negra doble estampado</h3>
-                    <p>₡5000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto9.jpg" alt="Camiseta negra doble estampado mujer" loading="lazy">
+                <h3>Camiseta negra doble estampado</h3>
+                <p class="precio">₡5000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
-                <div class="carrusel-item"
-                     data-nombre="Camiseta blanca estampada"
+            </article>
+
+            <!-- === Producto 9 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camiseta blanca estampada estilo costarricense"
                      data-precio="₡7000"
                      data-detalles="Camiseta blanca unisex estampado estilo costarricense"
                      data-colores="#ff0000,#ffffff,#0000ff"
                      data-tallas="S,M,L,XL,XXL">
-
-                    <img src="/Imagenes/Producto7.jpg" alt="Camiseta blanca estampada">
-                    <h3>Camiseta blanca estampada estilo costarricense</h3>
-                    <p>₡7000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto7.jpg" alt="Camiseta blanca estampada estilo costarricense" loading="lazy">
+                <h3>Camiseta blanca estilo costarricense</h3>
+                <p class="precio">₡7000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
-                <div class="carrusel-item"
-                     data-nombre="Camiseta blanca doble estampado"
+            </article>
+
+            <!-- === Producto 10 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camiseta blanca doble estampado moderna"
                      data-precio="₡5500"
                      data-detalles="Camiseta negra unisex doble estampado, diseño elegante y cómodo."
                      data-colores="#ffffff,#00bcd4,#ff6347"
                      data-tallas="S,M,L,XL">
-
-                    <img src="/Imagenes/Producto10.jpg" alt="Camiseta negra doble estampado">
-                    <h3>Camiseta negra doble estampado</h3>
-                    <p>₡5500</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto10.jpg" alt="Camiseta negra doble estampado moderna" loading="lazy">
+                <h3>Camiseta negra doble estampado moderna</h3>
+                <p class="precio">₡5500</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
+            <!-- === Producto 11 === -->
+            <article class="carrusel-item"
                      data-nombre="Camiseta gris doble estampado"
                      data-precio="₡5000"
                      data-detalles="Camiseta blanca de mujer estampada, ideal para combinar con todo."
                      data-colores="#888888,#444444,#000000"
                      data-tallas="S,M,L,XL,XXL">
-
-                    <img src="/Imagenes/Producto11.jpg" alt="Camiseta blanca doble estampado">
-                    <h3>Camiseta blanca doble estampado</h3>
-                    <p>₡5000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto11.jpg" alt="Camiseta gris doble estampado" loading="lazy">
+                <h3>Camiseta gris doble estampado</h3>
+                <p class="precio">₡5000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
+            </article>
 
-                <div class="carrusel-item"
-                     data-nombre="Camiseta negra doble estampado"
+            <!-- === Producto 12 === -->
+            <article class="carrusel-item"
+                     data-nombre="Camiseta negra doble estampado premium"
                      data-precio="₡6000"
-                     data-detalles="Camiseta negra de hombre  doble estampado de calidad premium."
+                     data-detalles="Camiseta negra de hombre doble estampado de calidad premium."
                      data-colores="#000000,#555555,#ff6347"
                      data-tallas="S,M,L,XL,XXL">
-                    <img src="/Imagenes/Producto12.jpg" alt="Camiseta negra doble estampado">
-                    <h3>Camiseta negra doble estampado</h3>
-                    <p>₡6000</p>
-                    <div class="botones-producto">
-                        <a href="#" class="btn-comprar">Comprar</a>
-                        <a href="#" class="btn-detalles">Detalles</a>
-                    </div>
+                <img src="/Imagenes/Producto12.jpg" alt="Camiseta negra doble estampado premium" loading="lazy">
+                <h3>Camiseta negra doble estampado premium</h3>
+                <p class="precio">₡6000</p>
+                <div class="botones-producto">
+                    <a href="#" class="btn-comprar">Añadir al carrito</a>
+                    <a href="#" class="btn-detalles">Detalles</a>
                 </div>
-
-            </div>
-
-            <button class="carrusel-btn right">&#10095;</button>
+            </article>
         </div>
 
-        <div id="modal-detalles" class="modal">
-            <div class="modal-contenido">
-                <span class="cerrar">&times;</span>
-                <h3 id="modal-nombre"></h3>
-                <p>Precio: <span id="precio-monto"></span></p>
-                <p id="modal-info"></p>
+        <!-- Botón Derecho -->
+        <button class="carrusel-btn right" aria-label="Siguiente">&#10095;</button>
+    </div>
 
-                <div class="colores-disponibles">
-                    <span>Colores disponibles:</span>
-                    <div class="color-opciones" id="color-opciones"></div>
-                </div>
-                <div class="tallas-disponibles">
-                    <span>Tallas disponibles:</span>
-                    <div class="talla-opciones" id="talla-opciones"></div>
-                </div>
+    <!-- Modal Detalles -->
+    <div id="modal-detalles" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-nombre">
+        <div class="modal-contenido">
+            <span class="cerrar" aria-label="Cerrar ventana">&times;</span>
+            <h3 id="modal-nombre"></h3>
+            <p>Precio: <span id="precio-monto"></span></p>
+            <p id="modal-info"></p>
+
+            <div class="colores-disponibles">
+                <span>Colores disponibles:</span>
+                <div class="color-opciones" id="color-opciones"></div>
+            </div>
+
+            <div class="tallas-disponibles">
+                <span>Tallas disponibles:</span>
+                <div class="talla-opciones" id="talla-opciones"></div>
             </div>
         </div>
-
-
-
-
- 
+    </div>
 </section>
+
 
 <section id="testimonios">
     <h2>Testimonios</h2>

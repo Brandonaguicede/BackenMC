@@ -10,6 +10,7 @@ using TuProyecto.Models;
 
 namespace AppPrint_and_Wear.Controllers
 {
+
     public class ProductosController : Controller
     {
         private readonly ApplicationDBContext _context;

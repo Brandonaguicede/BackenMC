@@ -13,11 +13,7 @@ namespace TuProyecto.Models
 
        
         [Required]
-        public decimal Precio { get; set; }
-
-
-
-
+        public float Precio { get; set; }
 
         [Url]
         public string ImagenUrlFrende { get; set; }  // Link a la imagen del producto frente
@@ -25,7 +21,7 @@ namespace TuProyecto.Models
        [Url]
         public string ImagenUrlEspalda { get; set; }  // Link a la imagen del producto espalda
 
-        // public List<CartItem> CartItems { get; set; }
+        public List<CartItem> CartItems { get; set; }
 
         // Relación con Categoría
         public int CategoriaId { get; set; }

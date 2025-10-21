@@ -9,7 +9,7 @@ namespace AppPrint_and_Wear.Models
         public string Nombre { get; set; }
         // public string ImagenUrl { get; set; } // opcional, para mostrar una imagen en la interfaz
 
-        public ICollection<Producto> Productos { get; set; } = new List<Producto>();
+        public List<Producto> Productos { get; set; } = new List<Producto>();
     }
 
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251019220838_inicial")]
+    [Migration("20251020212340_inicial")]
     partial class inicial
     {
         /// <inheritdoc />
@@ -317,8 +317,8 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<string>("ImagenUrlFrende")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Precio")
+                        .HasColumnType("real");
 
                     b.HasKey("ProductoId");
 
@@ -354,7 +354,7 @@ namespace AppPrint_and_Wear.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TuProyecto.Models.Producto", "Productos")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -446,6 +446,11 @@ namespace AppPrint_and_Wear.Migrations
             modelBuilder.Entity("AppPrint_and_Wear.Models.Metodo_De_Pago", b =>
                 {
                     b.Navigation("Carrito_De_Compra");
+                });
+
+            modelBuilder.Entity("TuProyecto.Models.Producto", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

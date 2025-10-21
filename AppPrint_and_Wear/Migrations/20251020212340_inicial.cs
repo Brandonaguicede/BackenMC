@@ -70,7 +70,7 @@ namespace AppPrint_and_Wear.Migrations
                     ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Precio = table.Column<float>(type: "real", nullable: false),
                     ImagenUrlFrende = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagenUrlEspalda = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoriaId = table.Column<int>(type: "int", nullable: false)

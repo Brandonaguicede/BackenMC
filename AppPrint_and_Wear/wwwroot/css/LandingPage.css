@@ -482,139 +482,332 @@ section {
     }
 }
 
-/* ========== MODAL DETALLES PRODUCTO (ESTÉTICO Y MODERNO) ========== */
+/* === FUENTES === */
+/* Pega este link en tu <head>:
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+*/
+
+/* === SECCIÓN PRINCIPAL === */
+#destacado {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    background-color: #fff;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: #111;
+    line-height: 1.7;
+}
+
+/* === TÍTULO CENTRALIZADO Y ELEGANTE === */
+#titulo-destacado {
+    display: inline-block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
+    color: #111;
+    letter-spacing: 0.6px;
+    margin: 0 auto 70px auto;
+    text-transform: none;
+    position: relative;
+    text-align: center;
+    padding-bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    #titulo-destacado::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, #e6c73f, #bfa22d);
+        transform: translateX(-50%);
+        border-radius: 4px;
+    }
+
+/* === CARRUSEL GENERAL === */
+.carrusel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.carrusel {
+    display: flex;
+    gap: 50px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+    .carrusel::-webkit-scrollbar {
+        display: none;
+    }
+
+/* === PRODUCTO === */
+.carrusel-item {
+    flex: 0 0 340px;
+    text-align: left;
+    background: #fff;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+    .carrusel-item:hover {
+        transform: translateY(-3px);
+    }
+
+    /* === IMAGEN === */
+    .carrusel-item img {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        background-color: #f9f9f9;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .carrusel-item:hover img {
+        transform: scale(1.03);
+        opacity: 0.95;
+    }
+
+    /* === INFORMACIÓN === */
+    .carrusel-item h3 {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: #000;
+        letter-spacing: 0.3px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        line-height: 1.4;
+    }
+
+    .carrusel-item .precio {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #000;
+        letter-spacing: 0.2px;
+        margin-top: 2px;
+    }
+
+.variantes {
+    font-size: 0.8rem;
+    color: #777;
+    margin-left: 5px;
+}
+
+/* === BOTONES === */
+.botones-producto {
+    display: flex;
+    justify-content: left;
+    gap: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    margin-top: 12px;
+}
+
+.carrusel-item:hover .botones-producto {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* === BOTONES CUADRADOS (estilo minimalista Zara) === */
+.btn-comprar,
+.btn-detalles {
+    text-decoration: none;
+    border: 1px solid #000;
+    padding: 10px 22px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #fff;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 0; /* Cuadrado */
+    transition: all 0.3s ease;
+    min-width: 140px;
+    text-align: center;
+}
+
+/* === BOTÓN “AÑADIR AL CARRITO” === */
+.btn-comprar {
+    background: #111;
+    color: #fff;
+    border: 1px solid #111;
+}
+
+    .btn-comprar:hover {
+        background: linear-gradient(90deg, #e6c73f, #bfa22d);
+        color: #111;
+        transform: translateY(-2px);
+        border-color: #e6c73f;
+    }
+
+/* === BOTÓN “DETALLES” (mismo efecto dorado, cuadrado) === */
+.btn-detalles {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+    .btn-detalles:hover {
+        background: linear-gradient(90deg, #e6c73f, #bfa22d);
+        color: #111;
+        transform: translateY(-2px);
+        border-color: #e6c73f;
+    }
+/* === BOTONES CUADRADOS (estilo Zara) === */
+.btn-comprar,
+.btn-detalles {
+    text-decoration: none;
+    border: 1px solid #111;
+    padding: 10px 22px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #111; /* Fondo negro */
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 0; /* Cuadrado */
+    transition: all 0.3s ease;
+    min-width: 140px;
+    text-align: center;
+    cursor: pointer;
+}
+
+    /* === EFECTO HOVER DORADO (para ambos botones) === */
+    .btn-comprar:hover,
+    .btn-detalles:hover {
+        background: linear-gradient(90deg, #e6c73f, #bfa22d);
+        color: #111;
+        transform: translateY(-2px);
+        border-color: #e6c73f;
+    }
+
+
+/* === FLECHAS === */
+.carrusel-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 1.8rem;
+    padding: 10px 14px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+    .carrusel-btn:hover {
+        background: #000;
+        color: #fff;
+    }
+
+    .carrusel-btn.left {
+        left: 10px;
+    }
+
+    .carrusel-btn.right {
+        right: 10px;
+    }
+
+/* === MODAL DETALLES === */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(6px);
-    animation: fadeIn 0.3s ease forwards;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
 }
 
-/* Contenedor del modal */
 .modal-contenido {
-    position: relative;
     background: #fff;
-    color: #111;
-    margin: 5% auto;
     padding: 40px;
+    border-radius: 6px;
     width: 90%;
-    max-width: 520px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 500px;
+    position: relative;
+    text-align: left;
     animation: modalPop 0.35s ease-out;
-    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 /* Botón cerrar */
-.modal .cerrar {
+.cerrar {
     position: absolute;
-    top: 18px;
-    right: 20px;
-    font-size: 1.6rem;
-    color: #555;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    color: #000;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
 }
 
-    .modal .cerrar:hover {
-        color: #000;
-        transform: rotate(90deg);
+    .cerrar:hover {
+        opacity: 1;
     }
 
-/* Imagen del producto */
-.modal-imagen {
-    width: 100%;
-    max-height: 260px;
-    object-fit: contain;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    background: #f8f8f8;
-    padding: 10px;
-}
-
-/* Nombre del producto */
+/* === TEXTO DETALLES === */
 #modal-nombre {
-    font-size: 1.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-transform: none;
     margin-bottom: 5px;
     color: #000;
 }
 
-/* Precio */
 #precio-monto {
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
     color: #000;
     margin-bottom: 15px;
 }
 
-/* Descripción */
 #modal-info {
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     color: #444;
     margin-bottom: 25px;
 }
 
-/* Línea divisora */
-.modal-divider {
-    height: 1px;
-    background: #eee;
-    margin: 20px 0;
-}
-
-/* Subtítulos */
-.colores-disponibles,
-.tallas-disponibles {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: #000;
-}
-
-/* Opciones de color */
-.color-opciones {
+/* Opciones */
+.color-opciones, .talla-opciones {
     display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
     flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .color-circle {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    border: 2px solid transparent;
-    box-shadow: 0 0 0 1px #ccc inset;
-    cursor: pointer;
+    border: 1px solid #ccc;
     transition: all 0.25s ease;
 }
 
     .color-circle:hover {
-        transform: scale(1.1);
         border-color: #111;
     }
 
-/* Opciones de talla */
-.talla-opciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
 .talla-item {
     padding: 8px 14px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid #ccc;
     background: #fafafa;
     color: #111;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.25s ease;
 }
@@ -624,28 +817,37 @@ section {
         color: #fff;
     }
 
-/* Botón principal */
+/* Botón modal */
 .btn-modal-comprar {
     width: 100%;
-    background: linear-gradient(90deg, #111, #333);
+    background: #111;
     color: #fff;
     border: none;
-    border-radius: 8px;
     padding: 14px;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 500;
     text-transform: uppercase;
-    cursor: pointer;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     transition: all 0.3s ease;
 }
 
     .btn-modal-comprar:hover {
-        background: linear-gradient(90deg, #222, #000);
-        transform: scale(1.02);
+        background: #333;
     }
 
 /* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 @keyframes modalPop {
     from {
         opacity: 0;
@@ -658,29 +860,35 @@ section {
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+/* Responsive */
+@media (max-width: 992px) {
+    .carrusel-item {
+        flex: 0 0 280px;
     }
 
-    to {
-        opacity: 1;
+        .carrusel-item img {
+            height: 380px;
+        }
+}
+
+@media (max-width: 768px) {
+    #titulo-destacado {
+        font-size: 1.8rem;
+    }
+
+    .carrusel-btn {
+        display: none;
     }
 }
 
-/* Responsive */
-@media (max-width: 500px) {
-    .modal-contenido {
-        padding: 25px;
+@media (max-width: 480px) {
+    .carrusel-item {
+        flex: 0 0 90%;
     }
 
-    #modal-nombre {
-        font-size: 1.3rem;
-    }
-
-    .btn-modal-comprar {
-        font-size: 0.9rem;
-    }
+        .carrusel-item img {
+            height: 320px;
+        }
 }
 
 

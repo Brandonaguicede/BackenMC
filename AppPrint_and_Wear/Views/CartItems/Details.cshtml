@@ -2,42 +2,46 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Item del Carrito";
 }
 
-<h1>Detalles</h1>
+<h1>Detalles del Item del Carrito</h1>
 
 <div>
-    <h4>CartItem</h4>
+    <h4>Información del Item</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cantidad)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cantidad)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SubTotal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubTotal)
+        <dd class="col-sm-10" style="color: green;">
+            ₡@Model.SubTotal.ToString("N2")
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Carrito_De_Compra_Id)
+
+        <dt class="col-sm-2">
+            Carrito
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Carrito_De_Compra_Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Productos)
+
+        <dt class="col-sm-2">
+            Producto
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Productos.ProductoId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Productos.Descripcion)
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CartItemId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.CartItemId" class="btn btn-primary">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
 </div>

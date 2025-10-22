@@ -2,45 +2,50 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Item del Carrito";
 }
 
-<h1>Eliminar</h1>
+<h1>Eliminar Item del Carrito</h1>
 
-<h3>Esta seguro de querer eliminar?</h3>
+<h3>¿Está seguro de que desea eliminar este item?</h3>
+
 <div>
-    <h4>CartItem</h4>
+    <h4>Detalles del Item</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cantidad)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Cantidad)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SubTotal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubTotal)
+        <dd class="col-sm-10" style="color: green;">
+            ₡@Model.SubTotal.ToString("N2")
         </dd>
-        <dt class = "col-sm-2">
+
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Carrito_De_Compra_Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Carrito_De_Compra_Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Productos)
+
+        <dt class="col-sm-2">
+            Producto
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Productos.ProductoId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Productos.Descripcion)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="CartItemId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
     </form>
 </div>

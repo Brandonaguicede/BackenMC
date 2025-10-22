@@ -317,6 +317,9 @@ namespace AppPrint_and_Wear.Migrations
                     b.Property<float>("Precio")
                         .HasColumnType("real");
 
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductoId");
 
                     b.HasIndex("CategoriaId");

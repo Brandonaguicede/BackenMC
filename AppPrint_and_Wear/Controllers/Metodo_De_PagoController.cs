@@ -48,7 +48,7 @@ namespace AppPrint_and_Wear.Controllers
         // GET: Metodo_De_Pago/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "ClienteId", "ClienteId");
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "ClienteId", "Nombre");
             return View();
         }
 

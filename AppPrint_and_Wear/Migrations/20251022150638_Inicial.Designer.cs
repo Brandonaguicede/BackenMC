@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251020212340_inicial")]
-    partial class inicial
+    [Migration("20251022150638_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,6 +319,9 @@ namespace AppPrint_and_Wear.Migrations
 
                     b.Property<float>("Precio")
                         .HasColumnType("real");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
 
                     b.HasKey("ProductoId");
 

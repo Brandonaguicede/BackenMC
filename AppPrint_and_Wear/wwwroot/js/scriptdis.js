@@ -1,35 +1,10 @@
-﻿//tiene que servir ahora si
-
-// ==========================================================
+﻿// ==========================================================
 //  INICIALIZACIÓN PRINCIPAL
 // ==========================================================
-
 document.addEventListener('DOMContentLoaded', function () {
     console.log("🚀 Inicializando aplicación de diseño...");
 
-    // Agregar estilos necesarios para design-elements-layer
-    const style = document.createElement('style');
-    style.textContent = `
-        .design-elements-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 150;
-        }
-        
-        .design-elements-layer > * {
-            pointer-events: auto !important;
-        }
-        
-        .content-inner {
-            pointer-events: none !important;
-        }
-    `;
-  
-
+    // Llama a las funciones principales que preparan la interfaz
     cargarCategorias();
     initializeViews();
     initializeSizeSelection();
@@ -40,13 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==========================================================
 //  CARGAR CATEGORÍAS DESDE LA BASE DE DATOS
 // ==========================================================
-
+// Variable global para almacenar las categorías obtenidas del servidor
 let categoriasGlobal = [];
 
 
+
+// =======================================================================
+// Función principal que obtiene las categorías y las muestra en pantalla
+// =======================================================================
 async function cargarCategorias() {
+
+    // Busca el contenedor HTML donde se mostrarán las categorías
     const contenedor = document.getElementById("categoriasContainer");
 
+    // Si no se encuentra el contenedor, se muestra un error en la consola
     if (!contenedor) {
         console.error("❌ No se encontró el contenedor de categorías");
         return;
@@ -55,16 +37,23 @@ async function cargarCategorias() {
     console.log("📦 Cargando categorías desde el servidor...");
 
     try {
+        // Realiza una solicitud HTTP GET al backend para obtener las categorías
         const response = await fetch("/Categorias/ObtenerCategorias");
 
+        // Si la respuesta del servidor no es correcta lanza un error
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
 
+        // Convierte la respuesta JSON en un array de objetos js
         const categorias = await response.json();
+
+        // Guarda las categorías globalmente para poder reutilizarlas
         categoriasGlobal = categorias;
         console.log("✅ Categorías obtenidas:", categorias);
 
+
+        // Si no hay categorías disponibles, muestra un mensaje en el contenedor
         if (!categorias || categorias.length === 0) {
             contenedor.innerHTML = `
                 <p style="color: #999; text-align: center; padding: 15px; font-size: 14px;">
@@ -74,31 +63,44 @@ async function cargarCategorias() {
             return;
         }
 
+
+        // Crea los botones HTML de cada categoría usando .map()
         contenedor.innerHTML = categorias.map(c => `
             <button class="tool-button categoria-btn" data-id="${c.id}">
                 📁 ${c.nombre}
             </button>
         `).join("");
 
+        // Agrega un evento de clic a cada botón generado
         document.querySelectorAll(".categoria-btn").forEach(btn => {
             btn.addEventListener("click", function () {
+
+                // Quita la clase "active" de todos los botones
                 document.querySelectorAll(".categoria-btn").forEach(b =>
                     b.classList.remove("active")
                 );
+
+                // Marca este botón como activo
                 this.classList.add("active");
 
+                // Obtiene el ID y nombre de la categoría seleccionada
                 const categoriaId = this.dataset.id;
                 const categoriaNombre = this.textContent.trim();
 
+
+                // Muestra qué categoría se seleccionó
                 console.log(`✅ Categoría seleccionada: ${categoriaNombre} (ID: ${categoriaId})`);
             });
         });
 
+        // Llama a otra función que cambia el producto o recarga los productos según la categoría
         initializeCambiarProducto();
 
         console.log(`✅ ${categorias.length} categorías cargadas exitosamente`);
 
     } catch (error) {
+
+        // se muestra el mensaje de error 
         console.error("❌ Error cargando categorías:", error);
         contenedor.innerHTML = `
             <div style="color: #e74c3c; padding: 15px; text-align: center; font-size: 14px;">
@@ -109,44 +111,62 @@ async function cargarCategorias() {
     }
 }
 
+
+// ==========================================================
+//  Funsión para cambiar de categoría
+// ==========================================================
 function initializeCambiarProducto() {
+
+    // Busca el botón que permite cambiar de producto (por su ID)
     const changeProductBtn = document.getElementById('change-product-btn');
     if (!changeProductBtn) return;
 
+
+    // Si el botón sí existe, le asigna un evento al hacer clic
+    // Al presionar, se mostrará el modal de categorías
     changeProductBtn.addEventListener('click', mostrarModalCategorias);
 }
 
+
+
+// ==========================================================
+//  Funsion de mostrar categorias 
+// ==========================================================
 function mostrarModalCategorias() {
+
+    // Busca el modal de categorías en el documento
     const modalElement = document.getElementById('modalCategorias');
     if (!modalElement) return;
 
-    const modalBootstrap = new bootstrap.Modal(modalElement, { backdrop: 'static', keyboard: false });
+    // Crea una instancia de Bootstrap Modal con ciertas configuraciones:
+    //  backdrop: 'static' que evita que el usuario cierre el modal haciendo clic fuera
+    //  keyboard: false que evita que se cierre presionando la tecla ESC
+    const modalBootstrap = new bootstrap.Modal(modalElement, {
+        backdrop: 'static',
+        keyboard: false
+    });
+
+    //muestra el mpodal
     modalBootstrap.show();
 }
 
 function showNotification(message) {
+
+    // Crea dinámicamente un nuevo elemento <div> que servirá como notificación
     const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #2ecc71;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        z-index: 10000;
-        animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
-    `;
+    notification.className = 'notification';
     notification.textContent = message;
     document.body.appendChild(notification);
+
+    // Después de 3 segundos (3000 milisegundos), elimina la notificación del DOM
     setTimeout(() => notification.remove(), 3000);
 }
+
+
 
 // ==========================================================
 //  CAMBIO DE VISTAS (FRENTE/ESPALDA)
 // ==========================================================
-
 function initializeViews() {
     document.querySelectorAll('.view-button').forEach(button => {
         button.addEventListener('click', function () {
@@ -154,7 +174,11 @@ function initializeViews() {
             document.querySelectorAll('.lawView').forEach(view => view.classList.remove('active'));
 
             this.classList.add('active');
+
+            // Obtiene el valor de data-view (por ejemplo 'front' o 'back')
             const view = this.getAttribute('data-view');
+
+            // Busca el elemento de la vista correspondiente usando el ID
             const viewElement = document.getElementById(view + '-view');
             if (viewElement) {
                 viewElement.classList.add('active');
@@ -163,24 +187,29 @@ function initializeViews() {
     });
 }
 
+
+
 // ==========================================================
 //  SELECCIÓN DE TALLAS
 // ==========================================================
-
 function initializeSizeSelection() {
+    // Selecciona todas las opciones de talla
     document.querySelectorAll('.size-option').forEach(option => {
         option.addEventListener('click', function () {
             document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+
+            // Activa la opción que se presionó
             this.classList.add('active');
             console.log('Talla seleccionada:', this.textContent);
         });
     });
 }
 
+
+
 // ==========================================================
 //  HERRAMIENTAS (TEXTO E IMÁGENES)
 // ==========================================================
-
 function initializeTools() {
     document.querySelectorAll('.tool-button').forEach(button => {
         button.addEventListener('click', function () {
@@ -190,6 +219,8 @@ function initializeTools() {
 
                 document.querySelectorAll('.text-editor').forEach(editor => editor.classList.remove('active'));
 
+
+                // Obtiene la herramienta seleccionada
                 const tool = this.getAttribute('data-tool');
                 if (tool === 'text') {
                     const textEditor = document.getElementById('text-editor');
@@ -199,20 +230,26 @@ function initializeTools() {
         });
     });
 
+    // BOTÓN PARA AÑADIR IMAGEN
     const addImageBtn = document.getElementById('add-image-btn');
     if (addImageBtn) {
         addImageBtn.addEventListener('click', function () {
+
+            // Simula un clic en el input tipo "file" para subir imagen
             const imageUpload = document.getElementById('image-upload');
             if (imageUpload) imageUpload.click();
         });
     }
 
+    // INPUT DE SUBIDA DE IMAGEN
     const imageUpload = document.getElementById('image-upload');
     if (imageUpload) {
         imageUpload.addEventListener('change', function (e) {
-            const file = e.target.files[0];
+            const file = e.target.files[0]; // toma el primer archivo seleccionado
             if (!file) return;
 
+
+            // Verifica que sea un archivo de imagen
             if (!file.type.startsWith('image/')) {
                 alert('Por favor, selecciona un archivo de imagen válido.');
                 return;
@@ -220,12 +257,15 @@ function initializeTools() {
 
             const reader = new FileReader();
             reader.onload = function (event) {
+
+                // Obtiene la vista activa donde se insertará la imagen
                 const activeView = document.querySelector('.lawView.active .content-inner');
                 if (!activeView) {
                     console.error('No se encontró el área de diseño activa');
                     return;
                 }
 
+                // Crea un contenedor para la imagen, que será arrastrable y escalable
                 const wrapper = document.createElement('div');
                 wrapper.className = 'arrastrable-escalable imagen-arrastrable';
                 wrapper.style.cssText = `
@@ -238,6 +278,7 @@ function initializeTools() {
                     cursor: move;
                 `;
 
+                // Crea el elemento <img> con la imagen cargada
                 const img = document.createElement('img');
                 img.src = event.target.result;
                 img.style.cssText = `
@@ -247,9 +288,11 @@ function initializeTools() {
                     pointer-events: none;
                 `;
 
+                // Añade la imagen al contenedor y este al área activa
                 wrapper.appendChild(img);
                 activeView.appendChild(wrapper);
 
+                // Hace que el contenedor sea arrastrable y escalable
                 hacerArrastrableYEscalable(wrapper);
 
                 console.log('✅ Imagen cargada correctamente');
@@ -265,18 +308,23 @@ function initializeTools() {
         });
     }
 
-    // Vincular el botón de añadir texto
+    // BOTÓN PARA AÑADIR TEXTO
     const addTextBtn = document.getElementById('add-text-btn');
     if (addTextBtn) {
+
+        // Llama a la función addTextToDesign() que agrega texto al diseño
         addTextBtn.addEventListener('click', addTextToDesign);
     }
 }
 
+
+
 // ==========================================================
 //  FUNCIÓN PARA AÑADIR TEXTO AL DISEÑO
 // ==========================================================
-
 function addTextToDesign() {
+
+    // Obtener referencias a los inputs de texto, color y fuente
     const textInput = document.getElementById('design-text');
     const colorInput = document.getElementById('text-color');
     const fontInput = document.getElementById('font-family');
@@ -286,64 +334,68 @@ function addTextToDesign() {
         return;
     }
 
-    const text = textInput.value.trim();
-    const color = colorInput.value;
-    const font = fontInput.value;
+    // Obtener valores ingresados por el usuario
+    const text = textInput.value.trim(); //texto
+    const color = colorInput.value; //color
+    const font = fontInput.value; //fuente
 
     if (text === '') {
         alert('Por favor, escribe algún texto primero.');
         return;
     }
 
+    // Seleccionar la capa activa del diseño donde se agregará el texto
     const activeView = document.querySelector('.lawView.active .design-elements-layer');
     if (!activeView) {
         console.error('No se encontró el área de diseño activa');
         return;
     }
 
-    // Crear elemento de texto arrastrable
+    // Crear un nuevo div que contendrá el texto y será arrastrable/escalable
     const textElement = document.createElement('div');
     textElement.className = 'arrastrable-escalable texto-arrastrable';
-    textElement.style.cssText = `
-        position: absolute;
-        left: 50px;
-        top: 50px;
-        color: ${color};
-        font-family: ${font};
-        font-size: 18px;
-        font-weight: bold;
-        cursor: move;
-        z-index: 200;
-        padding: 10px;
-        background: rgba(255,255,255,0.8);
-        border-radius: 5px;
-        user-select: none;
-    `;
-    textElement.textContent = text;
 
+    // Aplicar estilos al div de texto
+    textElement.style.cssText = `
+      position: absolute;
+      left: 50px;          /* posición inicial desde la izquierda */
+      top: 50px;           /* posición inicial desde arriba */
+      color: ${color};     /* color seleccionado */
+      font-family: ${font};/* fuente seleccionada */
+      font-size: 18px;     /* tamaño de fuente */
+      font-weight: bold;   /* negrita */
+      cursor: move;        /* cursor de arrastrar */
+      z-index: 200;        /* capa sobre otros elementos */
+      padding: 10px;       /* espacio interno */
+      background: transparent; /* fondo 100% transparente */
+      border-radius: 5px;  /* bordes redondeados */
+      user-select: none;   /* no permitir selección del texto al arrastrar */
+  `;
+
+    textElement.textContent = text; // asignar el contenido del texto
+
+    // Añadir el texto al área activa del diseño
     activeView.appendChild(textElement);
 
-    // IMPORTANTE: Hacer el texto arrastrable y escalable
+    // Hacer que el texto sea arrastrable, escalable y rotatable
     hacerArrastrableYEscalable(textElement);
 
-    // Limpiar input
+    // Limpiar el input de texto después de añadirlo
     textInput.value = '';
 
     console.log('✅ Texto añadido correctamente');
 }
 
-// ==========================================================
-//  MOVIMIENTO, ESCALADO Y ROTACIÓN DE ELEMENTOS
-// ==========================================================
+
+
 
 // ==========================================================
 //  MOVIMIENTO, ESCALADO, ROTACIÓN Y ELIMINACIÓN DE ELEMENTOS
 // ==========================================================
-
 function hacerArrastrableYEscalable(elemento) {
-    let isDragging = false;
-    let isResizing = false;
-    let isRotating = false;
+    let isDragging = false;   // indica si el elemento se está moviendo
+    let isResizing = false;   // indica si el elemento se está redimensionando
+    let isRotating = false;   // indica si el elemento se está rotando
     let offsetX, offsetY, startX, startY, startWidth, startHeight;
 
     elemento.style.position = "absolute";
@@ -351,9 +403,7 @@ function hacerArrastrableYEscalable(elemento) {
     elemento.style.userSelect = "none";
     elemento.style.transition = "transform 0.1s ease";
 
-    // ======================================================
-    // 🔷 CONTROLES (botones en esquinas)
-    // ======================================================
+    // ===== Contenedor de controles (rotar, redimensionar, eliminar) =====
     const controlsContainer = document.createElement("div");
     controlsContainer.style.cssText = `
         position: absolute;
@@ -361,9 +411,9 @@ function hacerArrastrableYEscalable(elemento) {
         pointer-events: none;
     `;
 
-    // 🔺 Rotar (arriba)
+    // ===== Botón de rotación (arriba)
     const rotateHandle = document.createElement("div");
-    rotateHandle.innerHTML = "↻";
+    rotateHandle.innerHTML = "↻"; // símbolo de rotación
     rotateHandle.style.cssText = `
         position: absolute;
         top: -25px;
@@ -383,9 +433,9 @@ function hacerArrastrableYEscalable(elemento) {
         box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     `;
 
-    // 🔶 Redimensionar (abajo a la derecha)
+    // ===== Botón de redimensionar (abajo derecha)
     const resizeHandle = document.createElement("div");
-    resizeHandle.innerHTML = "↔";
+    resizeHandle.innerHTML = "↔"; // símbolo de cambio de tamaño
     resizeHandle.style.cssText = `
         position: absolute;
         right: -12px;
@@ -404,9 +454,9 @@ function hacerArrastrableYEscalable(elemento) {
         box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     `;
 
-    // ❌ Eliminar (arriba derecha)
+    // ===== Botón de eliminar (arriba derecha) 
     const deleteHandle = document.createElement("div");
-    deleteHandle.innerHTML = "🗑️";
+    deleteHandle.innerHTML = "🗑️"; // simbolo de eliminar
     deleteHandle.style.cssText = `
         position: absolute;
         top: -25px;
@@ -425,24 +475,27 @@ function hacerArrastrableYEscalable(elemento) {
         box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     `;
 
+    // ===== Añadir controles al contenedor y al elemento
     controlsContainer.appendChild(rotateHandle);
     controlsContainer.appendChild(resizeHandle);
     controlsContainer.appendChild(deleteHandle);
     elemento.appendChild(controlsContainer);
 
-    // ======================================================
-    // 🔹 MOVIMIENTO
-    // ======================================================
+    //MOVIMIENTO
     elemento.addEventListener("mousedown", (e) => {
         if ([rotateHandle, resizeHandle, deleteHandle].includes(e.target)) return;
         isDragging = true;
         const rect = elemento.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        elemento.style.zIndex = 1000;
+        offsetX = e.clientX - rect.left; // calcular desplazamiento X
+        offsetY = e.clientY - rect.top;  // calcular desplazamiento Y
+        elemento.style.zIndex = 1000;    // traer al frente
     });
 
+
+    // ===== Movimiento, redimensionado y rotación mientras se mueve el mouse 
     document.addEventListener("mousemove", (e) => {
+
+        // Movimiento
         if (isDragging) {
             const parent = elemento.parentElement.getBoundingClientRect();
             let x = e.clientX - parent.left - offsetX;
@@ -453,6 +506,7 @@ function hacerArrastrableYEscalable(elemento) {
             elemento.style.top = y + "px";
         }
 
+        // Redimensionamiento
         if (isResizing) {
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
@@ -460,13 +514,14 @@ function hacerArrastrableYEscalable(elemento) {
             elemento.style.height = startHeight + dy + "px";
         }
 
+        // Rotación
         if (isRotating) {
             const rect = elemento.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
-            const deg = angle * (180 / Math.PI);
-            elemento.style.transform = `rotate(${deg}deg)`;
+            const angle = Math.atan2(e.clientY - cy, e.clientX - cx); // ángulo en radianes
+            const deg = angle * (180 / Math.PI); // convertir a grados
+            elemento.style.transform = `rotate(${deg}deg)`; // aplicar rotación
         }
     });
 
@@ -476,11 +531,9 @@ function hacerArrastrableYEscalable(elemento) {
         isRotating = false;
     });
 
-    // ======================================================
-    // 🔸 REDIMENSIÓN
-    // ======================================================
+    // ===== Redimensionar 
     resizeHandle.addEventListener("mousedown", (e) => {
-        e.stopPropagation();
+        e.stopPropagation();  // evitar que arrastre
         isResizing = true;
         startX = e.clientX;
         startY = e.clientY;
@@ -488,17 +541,13 @@ function hacerArrastrableYEscalable(elemento) {
         startHeight = elemento.offsetHeight;
     });
 
-    // ======================================================
-    // 🔸 ROTACIÓN
-    // ======================================================
+    // ===== Rotación
     rotateHandle.addEventListener("mousedown", (e) => {
         e.stopPropagation();
         isRotating = true;
     });
 
-    // ======================================================
-    // 🔸 ELIMINAR
-    // ======================================================
+    // ===== Eliminar 
     deleteHandle.addEventListener("click", (e) => {
         e.stopPropagation();
         if (confirm("¿Eliminar este elemento del diseño?")) {
@@ -507,9 +556,7 @@ function hacerArrastrableYEscalable(elemento) {
         }
     });
 
-    // ======================================================
-    // 🔸 Mostrar/ocultar controles al pasar el mouse
-    // ======================================================
+    // ===== Mostrar/ocultar controles al pasar el mouse 
     elemento.addEventListener("mouseenter", () => {
         controlsContainer.style.display = "block";
         elemento.style.outline = "1px dashed #555";
@@ -524,20 +571,21 @@ function hacerArrastrableYEscalable(elemento) {
 }
 
 
+
+
 // ==========================================================
 //  BOTONES INFERIORES (ZOOM, DESHACER, ETC.)
 // ==========================================================
-
 function initializeBottomTools() {
     // Zoom
-    let zoomLevel = 1;
-    const zoomBtn = document.getElementById("btnZoom");
+    let zoomLevel = 1;  // nivel inicial de zoom
+    const zoomBtn = document.getElementById("btnZoom"); // botón de zoom
     const designArea = document.querySelector(".design-area");
 
     if (zoomBtn && designArea) {
         zoomBtn.addEventListener("click", () => {
-            zoomLevel += 0.2;
-            if (zoomLevel > 1.6) zoomLevel = 1;
+            zoomLevel += 0.2; // aumentar zoom
+            if (zoomLevel > 1.6) zoomLevel = 1;// reiniciar si pasa de 160%
             designArea.style.transform = `scale(${zoomLevel})`;
             designArea.style.transition = "transform 0.4s ease";
         });
@@ -577,10 +625,11 @@ function initializeBottomTools() {
     }
 }
 
+
+
 // ==========================================================
 //  VISTA PREVIA
 // ==========================================================
-
 function mostrarVistaPrevia() {
     const frontView = document.getElementById('front-view');
     const backView = document.getElementById('back-view');
@@ -612,16 +661,6 @@ function mostrarVistaPrevia() {
     // Crear modal
     const modal = document.createElement("div");
     modal.className = "preview-modal";
-    modal.style.cssText = `
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 3000;
-        animation: fadeIn 0.3s ease;
-    `;
 
     modal.innerHTML = `
         <div style="
@@ -676,9 +715,103 @@ function mostrarVistaPrevia() {
 
 
 
+// ==========================================================
+//  MODAL DE CATEGORÍAS Y PRODUCTOS
+// ==========================================================
+document.addEventListener('DOMContentLoaded', function () {
+    const modalElement = document.getElementById('modalCategorias');
+    const categoriasContainer = document.getElementById('categoriasContainer'); // contenedor de categorías
+    const productosContainer = document.getElementById('productosContainer');// contenedor de productos
 
+    if (!modalElement) return;
 
+    const modalBootstrap = new bootstrap.Modal(modalElement, { backdrop: 'static', keyboard: false });
 
+    // Mostrar modal si no hay producto seleccionado
+    const urlParams = new URLSearchParams(window.location.search);
+    const productoId = urlParams.get('productoId');
+    if (!productoId) {
+        modalBootstrap.show();
+    } else {
+        console.log("🧩 Producto seleccionado:", productoId);
+    }
+
+    // Cargar categorías
+    fetch('/Categorias/ObtenerCategorias')
+        .then(res => res.json())
+        .then(categorias => {
+            if (!categorias || categorias.length === 0) {
+                categoriasContainer.innerHTML = `<p style="text-align:center; color:#777; margin:20px 0;">No hay categorías disponibles.</p>`;
+                return;
+            }
+
+            // Mostrar categorías
+            categoriasContainer.innerHTML = categorias.map(c => `
+                <div class="categoria-card" data-id="${c.id}">
+                    🧵 ${c.nombre}
+                </div>
+            `).join('');
+
+            // Click en categoría
+            document.querySelectorAll('.categoria-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    const categoriaId = this.dataset.id;
+
+                    fetch(`/Productos/ObtenerPorCategoria/${categoriaId}`)
+                        .then(res => res.json())
+                        .then(productos => {
+                            productosContainer.innerHTML = '';
+                            if (!productos || productos.length === 0) {
+                                productosContainer.innerHTML = `<p style="text-align:center; color:#777; margin:20px 0;">No hay productos en esta categoría.</p>`;
+                                return;
+                            }
+
+                            // Mostrar productos con control de stock
+                            productos.forEach(p => {
+                                const div = document.createElement('div');
+                                div.className = 'producto-card';
+
+                                const sinStock = p.stock <= 0;
+                                const stockText = sinStock ? "Sin stock" : `Stock: ${p.stock}`;
+                                const botonDeshabilitado = sinStock ? "disabled" : "";
+
+                                div.innerHTML = `
+                                    <img src="${p.imagenUrlFrende}" alt="${p.descripcion}">
+                                    <p style="font-weight:bold; font-size:16px; margin-bottom:8px;">${p.descripcion}</p>
+                                    <p style="color:#ff5722; font-weight:600; margin-bottom:5px;">₡${p.precio}</p>
+                                    <p style="color:${sinStock ? '#c00' : '#4caf50'}; font-weight:600; margin-bottom:10px;">${stockText}</p>
+                                    <button type="button" class="btn-aceptar" ${botonDeshabilitado}>${sinStock ? 'No disponible' : 'Aceptar'}</button>
+                                `;
+
+                                productosContainer.appendChild(div);
+
+                                // Solo permitir clic si hay stock
+                                if (!sinStock) {
+                                    div.querySelector('.btn-aceptar').addEventListener('click', () => {
+                                        console.log("Producto seleccionado:", p);
+                                        window.location.href = `/Home/Diseno?productoId=${p.productoId}`;
+                                    });
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            productosContainer.innerHTML = `<p style="color:red; text-align:center;">Error cargando productos.</p>`;
+                            console.error(err);
+                        });
+                });
+            });
+        })
+        .catch(err => {
+            categoriasContainer.innerHTML = `<p style="color:red; text-align:center;">Error cargando categorías</p>`;
+            console.error(err);
+        });
+
+    // Abrir modal manualmente
+    const openCategorias = document.getElementById('openCategorias');
+    if (openCategorias && modalElement) {
+        openCategorias.addEventListener('click', () => modalBootstrap.show());
+    }
+});
 
 // Hacer disponible globalmente
-window.addTextToDesign = addTextToDesign;
+window.addTextToDesign = addTextToDesign

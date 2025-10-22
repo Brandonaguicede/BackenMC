@@ -29,18 +29,13 @@ namespace AppPrint_and_Wear.Controllers
         // GET: CartItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var cartItem = await _context.CartItems
                 .Include(c => c.Productos)
                 .FirstOrDefaultAsync(m => m.CartItemId == id);
-            if (cartItem == null)
-            {
-                return NotFound();
-            }
+
+            if (cartItem == null) return NotFound();
 
             return View(cartItem);
         }
@@ -48,55 +43,94 @@ namespace AppPrint_and_Wear.Controllers
         // GET: CartItems/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "ProductoId");
+            // Mostrar solo productos con stock > 0
+            var productosDisponibles = _context.Productos
+                .Where(p => p.Stock > 0)
+                .ToList();
+
+            ViewData["ProductoId"] = new SelectList(productosDisponibles, "ProductoId", "Descripcion");
             return View();
         }
 
         // POST: CartItems/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CartItemId,Cantidad,SubTotal,Carrito_De_Compra_Id,ProductoId")] CartItem cartItem)
+        public async Task<IActionResult> Create([Bind("CartItemId,Cantidad,Carrito_De_Compra_Id,ProductoId")] CartItem cartItem)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(cartItem);
+
+            var producto = await _context.Productos.FindAsync(cartItem.ProductoId);
+            if (producto == null)
             {
-                _context.Add(cartItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Producto no encontrado.");
+                return View(cartItem);
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "ProductoId", cartItem.ProductoId);
-            return View(cartItem);
+
+            if (producto.Stock <= 0)
+            {
+                ModelState.AddModelError("", "No hay stock disponible para este producto.");
+                return View(cartItem);
+            }
+
+            if (cartItem.Cantidad > producto.Stock)
+            {
+                ModelState.AddModelError("", $"No hay suficiente stock. Stock disponible: {producto.Stock}");
+                return View(cartItem);
+            }
+
+            // Calcular subtotal automáticamente antes de guardar
+            cartItem.SubTotal = cartItem.Cantidad * producto.Precio;
+
+            _context.Add(cartItem);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: CartItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var cartItem = await _context.CartItems.FindAsync(id);
-            if (cartItem == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "ProductoId", cartItem.ProductoId);
+            if (cartItem == null) return NotFound();
+
+            // Mostrar solo productos con stock > 0
+            var productosDisponibles = _context.Productos
+                .Where(p => p.Stock > 0)
+                .ToList();
+
+            ViewData["ProductoId"] = new SelectList(productosDisponibles, "ProductoId", "Descripcion", cartItem.ProductoId);
             return View(cartItem);
         }
 
         // POST: CartItems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CartItemId,Cantidad,SubTotal,Carrito_De_Compra_Id,ProductoId")] CartItem cartItem)
+        public async Task<IActionResult> Edit(int id, [Bind("CartItemId,Cantidad,Carrito_De_Compra_Id,ProductoId")] CartItem cartItem)
         {
-            if (id != cartItem.CartItemId)
+            if (id != cartItem.CartItemId) return NotFound();
+
+            var producto = await _context.Productos.FindAsync(cartItem.ProductoId);
+            if (producto == null)
             {
-                return NotFound();
+                ModelState.AddModelError("", "Producto no encontrado.");
+                return View(cartItem);
             }
+
+            if (producto.Stock <= 0)
+            {
+                ModelState.AddModelError("", "No hay stock disponible para este producto.");
+                return View(cartItem);
+            }
+
+            if (cartItem.Cantidad > producto.Stock)
+            {
+                ModelState.AddModelError("", $"No hay suficiente stock. Stock disponible: {producto.Stock}");
+                return View(cartItem);
+            }
+
+            // Calcular subtotal automáticamente antes de actualizar
+            cartItem.SubTotal = cartItem.Cantidad * producto.Precio;
 
             if (ModelState.IsValid)
             {
@@ -107,36 +141,25 @@ namespace AppPrint_and_Wear.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CartItemExists(cartItem.CartItemId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!CartItemExists(cartItem.CartItemId)) return NotFound();
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "ProductoId", cartItem.ProductoId);
+
             return View(cartItem);
         }
 
         // GET: CartItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var cartItem = await _context.CartItems
                 .Include(c => c.Productos)
                 .FirstOrDefaultAsync(m => m.CartItemId == id);
-            if (cartItem == null)
-            {
-                return NotFound();
-            }
+
+            if (cartItem == null) return NotFound();
 
             return View(cartItem);
         }
@@ -150,9 +173,8 @@ namespace AppPrint_and_Wear.Controllers
             if (cartItem != null)
             {
                 _context.CartItems.Remove(cartItem);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

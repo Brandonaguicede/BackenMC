@@ -6,12 +6,18 @@ namespace AppPrint_and_Wear.Models
     {
         public int CartItemId { get; set; }
         public int Cantidad { get; set; }
-        public double SubTotal { get; set; }
 
-        //relaciones
-        public int Carrito_De_Compra_Id { get; set; } //llave foranea
-        public Carrito_De_Compra Carrito_De_Compra { get; set; } 
+        // Relación con el carrito
+        public int Carrito_De_Compra_Id { get; set; }
+        public Carrito_De_Compra Carrito_De_Compra { get; set; }
+
+        // Relación con el producto
         public int ProductoId { get; set; }
         public Producto Productos { get; set; }
+
+        // Subtotal calculado automáticamente
+        public double SubTotal { get; set; }
+
     }
+
 }

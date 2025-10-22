@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AppPrint_and_Wear.Migrations
 {
     /// <inheritdoc />
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,6 +70,7 @@ namespace AppPrint_and_Wear.Migrations
                     ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
                     Precio = table.Column<float>(type: "real", nullable: false),
                     ImagenUrlFrende = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagenUrlEspalda = table.Column<string>(type: "nvarchar(max)", nullable: true),

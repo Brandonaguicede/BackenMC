@@ -11,6 +11,8 @@ namespace TuProyecto.Models
         [Required]
         public string Descripcion { get; set; }  
 
+        public int Stock {  get; set; }
+
        
         [Required]
         public float Precio { get; set; }

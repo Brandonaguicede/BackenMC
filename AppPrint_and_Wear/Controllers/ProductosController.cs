@@ -10,7 +10,6 @@ using TuProyecto.Models;
 
 namespace AppPrint_and_Wear.Controllers
 {
-
     public class ProductosController : Controller
     {
         private readonly ApplicationDBContext _context;
@@ -49,16 +48,14 @@ namespace AppPrint_and_Wear.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre");
             return View();
         }
 
         // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductoId,Descripcion,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
+        public async Task<IActionResult> Create([Bind("ProductoId,Descripcion,Stock,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -88,11 +85,9 @@ namespace AppPrint_and_Wear.Controllers
         }
 
         // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Descripcion,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Descripcion,Stock,Precio,ImagenUrlFrende,ImagenUrlEspalda,CategoriaId")] Producto producto)
         {
             if (id != producto.ProductoId)
             {
@@ -161,7 +156,7 @@ namespace AppPrint_and_Wear.Controllers
         {
             return _context.Productos.Any(e => e.ProductoId == id);
         }
-        [HttpGet]
+
         [HttpGet]
         public IActionResult ObtenerPorCategoria(int id)
         {
@@ -170,6 +165,7 @@ namespace AppPrint_and_Wear.Controllers
                             .Select(p => new {
                                 p.ProductoId,
                                 p.Descripcion,
+                                p.Stock,
                                 p.Precio,
                                 p.ImagenUrlFrende,
                                 p.ImagenUrlEspalda
@@ -178,7 +174,6 @@ namespace AppPrint_and_Wear.Controllers
 
             return Json(productos);
         }
-
 
         [HttpGet]
         public IActionResult Diseno(int? productoId)
@@ -193,7 +188,6 @@ namespace AppPrint_and_Wear.Controllers
             return View(producto);
         }
 
-
         [HttpGet]
         public IActionResult Producto(int productoId)
         {
@@ -207,7 +201,5 @@ namespace AppPrint_and_Wear.Controllers
             // 🔹 Redirige a la acción "Diseno" del controlador Home
             return RedirectToAction("Diseno", "Home", new { productoId = producto.ProductoId });
         }
-
-
     }
 }

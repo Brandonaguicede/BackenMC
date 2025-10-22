@@ -2,48 +2,54 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Producto";
 }
 
-<h1>Detalles</h1>
+<h1>Detalles del Producto</h1>
 
-<div>
-    <h4>Producto</h4>
+<div class="card shadow-sm p-4">
+    <h4 class="text-primary">Información del producto</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
+        <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Descripcion)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Descripcion)</dd>
+
+        <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Stock)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Stock)</dd>
+
+        <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Precio)</dt>
+        <dd class="col-sm-9 text-success">₡@Model.Precio.ToString("N2")</dd>
+
+        <dt class="col-sm-3 fw-bold">Imagen (Frente)</dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.ImagenUrlFrende))
+            {
+                <img src="@Model.ImagenUrlFrende" alt="Imagen frente" class="img-thumbnail" style="max-width: 200px;" />
+            }
+            else
+            {
+                <span class="text-muted">Sin imagen</span>
+            }
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
+
+        <dt class="col-sm-3 fw-bold">Imagen (Espalda)</dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.ImagenUrlEspalda))
+            {
+                <img src="@Model.ImagenUrlEspalda" alt="Imagen espalda" class="img-thumbnail" style="max-width: 200px;" />
+            }
+            else
+            {
+                <span class="text-muted">Sin imagen</span>
+            }
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagenUrlFrende)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagenUrlFrende)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagenUrlEspalda)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagenUrlEspalda)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria.Id)
-        </dd>
+
+        <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.Categoria)</dt>
+        <dd class="col-sm-9">@Model.Categoria?.Nombre</dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.ProductoId" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
 </div>

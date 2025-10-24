@@ -911,3 +911,40 @@ body {
     .btn-volver-inicio i {
         font-size: 20px;
     }
+/* === BOTÓN VOLVER AL INICIO === */
+.btn-volver-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d36c2b, #ff914d);
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(211, 108, 43, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-volver-inicio.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .btn-volver-inicio:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 10px 22px rgba(211, 108, 43, 0.5);
+        background: linear-gradient(145deg, #e3782f, #ff9a56);
+    }
+
+    .btn-volver-inicio i {
+        font-size: 20px;
+    }

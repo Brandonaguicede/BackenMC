@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppPrint_and_Wear.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251022150638_Inicial")]
-    partial class Inicial
+    [Migration("20251023154718_nombre")]
+    partial class nombre
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

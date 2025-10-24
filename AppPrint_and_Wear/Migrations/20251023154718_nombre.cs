@@ -70,6 +70,7 @@ namespace AppPrint_and_Wear.Migrations
                     ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
                     Precio = table.Column<float>(type: "real", nullable: false),
                     ImagenUrlFrende = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagenUrlEspalda = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -144,10 +145,10 @@ namespace AppPrint_and_Wear.Migrations
                     CartItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
-                    SubTotal = table.Column<double>(type: "float", nullable: false),
                     Carrito_De_Compra_Id = table.Column<int>(type: "int", nullable: false),
                     Carrito_De_CompraId = table.Column<int>(type: "int", nullable: true),
-                    ProductoId = table.Column<int>(type: "int", nullable: false)
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    SubTotal = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

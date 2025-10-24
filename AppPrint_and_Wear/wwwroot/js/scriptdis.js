@@ -813,5 +813,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// === BOTÓN VOLVER AL INICIO ===
+const btnInicio = document.getElementById("btnInicio");
+
+// Acción: volver a la página principal
+btnInicio.addEventListener("click", () => {
+    window.location.href = "/Home/Index";
+});
+
+// Ocultar al pasar el mouse por los paneles laterales
+const leftPanel = document.querySelector(".tools-panel");
+const rightPanel = document.querySelector(".options-panel");
+
+[leftPanel, rightPanel].forEach(panel => {
+    if (!panel) return;
+    panel.addEventListener("mouseenter", () => btnInicio.classList.remove("visible"));
+    panel.addEventListener("mouseleave", () => btnInicio.classList.add("visible"));
+});
+
+
 // Hacer disponible globalmente
 window.addTextToDesign = addTextToDesign
